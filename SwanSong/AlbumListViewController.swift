@@ -70,6 +70,9 @@ class AlbumListViewController: UIViewController, UITableViewDelegate {
         }
     }
 
+    @IBAction func changeView(_ sender: Any) {
+        print("hi")
+    }
 }
 
 extension AlbumListViewController: UITableViewDataSource {
@@ -95,7 +98,7 @@ extension AlbumListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: AlbumTableViewCell = albumListView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! AlbumTableViewCell
+        let cell: AlbumTableViewCell = albumListView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! AlbumTableViewCell
         cell.albumTitle?.text = albumGroups[indexPath.section].albums[indexPath.row].albumTitle!
         cell.albumArtwork?.image = albumGroups[indexPath.section].albums[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
         return cell

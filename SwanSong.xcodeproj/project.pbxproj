@@ -17,6 +17,7 @@
 		918ED5E52397257600FB85A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 918ED5E32397257600FB85A9 /* LaunchScreen.storyboard */; };
 		91A55937249934120030A68F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A55936249934120030A68F /* AudioPlayer.swift */; };
 		91E164F924A0C05B005B51AD /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E164F824A0C05B005B51AD /* PlaylistViewController.swift */; };
+		91EE846B24B36D7500122BA6 /* AlbumCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE846A24B36D7500122BA6 /* AlbumCollectionViewController.swift */; };
 		91F24864249FD302006884B6 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F24863249FD302006884B6 /* UserInterface.swift */; };
 		91F2F33C23998209008291E9 /* PlaylistListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F2F33B23998209008291E9 /* PlaylistListViewController.swift */; };
 /* End PBXBuildFile section */
@@ -35,6 +36,7 @@
 		918ED5ED23972C1B00FB85A9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		91A55936249934120030A68F /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		91E164F824A0C05B005B51AD /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
+		91EE846A24B36D7500122BA6 /* AlbumCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCollectionViewController.swift; sourceTree = "<group>"; };
 		91F24863249FD302006884B6 /* UserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		91F2F33B23998209008291E9 /* PlaylistListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +77,7 @@
 				9151038323987E4600B20515 /* Extensions.swift */,
 				91F24863249FD302006884B6 /* UserInterface.swift */,
 				918ED5DC2397257500FB85A9 /* AlbumListViewController.swift */,
+				91EE846A24B36D7500122BA6 /* AlbumCollectionViewController.swift */,
 				9151037F2398034200B20515 /* AlbumViewController.swift */,
 				91F2F33B23998209008291E9 /* PlaylistListViewController.swift */,
 				91E164F824A0C05B005B51AD /* PlaylistViewController.swift */,
@@ -166,6 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91EE846B24B36D7500122BA6 /* AlbumCollectionViewController.swift in Sources */,
 				91F24864249FD302006884B6 /* UserInterface.swift in Sources */,
 				91F2F33C23998209008291E9 /* PlaylistListViewController.swift in Sources */,
 				915103802398034200B20515 /* AlbumViewController.swift in Sources */,
