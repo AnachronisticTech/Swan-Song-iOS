@@ -1,5 +1,5 @@
 //
-//  AlbumCollectionViewController.swift
+//  AlbumLibraryViewController.swift
 //  SwanSong
 //
 //  Created by Daniel Marriner on 06/07/2020.
@@ -9,14 +9,22 @@
 import UIKit
 import MediaPlayer
 
-class AlbumCollectionViewController: UIViewController, UICollectionViewDelegate {
+class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UICollectionViewDelegate {
     
+    @IBOutlet weak var albumListView: UITableView!
     @IBOutlet weak var albumCollectionView: UICollectionView!
     var albumLibrary: [MPMediaItemCollection] = []
     var selected: (Int, Int) = (-1, -1)
     
     private let itemsPerRow = 2
-    private let sectionInsets = UIEdgeInsets(top: 30, left: 15, bottom: 30, right: 15)
+    private let sectionInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+    
+    var isCollectionViewVisible = false {
+        willSet {
+            newValue ? view.sendSubviewToBack(albumListView) : view.bringSubviewToFront(albumListView)
+            UserDefaults.standard.set(newValue, forKey: "albumLibraryIsCollectionViewVisible")
+        }
+    }
 
     struct Group: Comparable {
         internal init(initial: Character, albums: [MPMediaItem]) {
@@ -57,14 +65,24 @@ class AlbumCollectionViewController: UIViewController, UICollectionViewDelegate 
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
+        /// Load albums from library
+        albumLibrary = MPMediaQuery.albums().collections ?? []
+        
+        /// Set list view data
+        albumListView.delegate = self
+        albumListView.dataSource = self
+        albumListView.tableFooterView = UIView()
+        albumListView.reloadData()
+        
+        /// Set collection view data
         albumCollectionView.delegate = self
         albumCollectionView.dataSource = self
-//        albumCollectionView.tableFooterView = UIView()
-        albumLibrary = MPMediaQuery.albums().collections ?? []
         let layout = albumCollectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
-        
         albumCollectionView.reloadData()
+        
+        /// Set view to list or collection based on last selection
+        isCollectionViewVisible = UserDefaults.standard.value(forKey: "albumLibraryIsCollectionViewVisible") as? Bool ?? false
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -74,10 +92,52 @@ class AlbumCollectionViewController: UIViewController, UICollectionViewDelegate 
             destinationViewController.albumID = albumID
         }
     }
-
+    
+    @IBAction func changeView(_ sender: Any) {
+        isCollectionViewVisible = !isCollectionViewVisible
+    }
 }
 
-extension AlbumCollectionViewController: UICollectionViewDataSource {
+extension AlbumLibraryViewController: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return albumGroups.count
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return String(albumGroups[section].initial)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return albumGroups[section].albums.count
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return albumGroups.map { String($0.initial) }
+    }
+    
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return index
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: AlbumTableViewCell = albumListView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! AlbumTableViewCell
+        cell.albumTitle?.text = albumGroups[indexPath.section].albums[indexPath.row].albumTitle ?? ""
+        cell.albumArtist?.text = albumGroups[indexPath.section].albums[indexPath.row].albumArtist ?? ""
+        cell.albumArtwork?.image = albumGroups[indexPath.section].albums[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selected.0 = indexPath.section
+        selected.1 = indexPath.row
+        performSegue(withIdentifier: "ToAlbum", sender: self)
+        albumListView.deselectRow(at: indexPath, animated: true)
+    }
+    
+}
+
+extension AlbumLibraryViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return albumGroups.count
@@ -129,7 +189,7 @@ extension AlbumCollectionViewController: UICollectionViewDataSource {
     
 }
 
-extension AlbumCollectionViewController: UICollectionViewDelegateFlowLayout {
+extension AlbumLibraryViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding = sectionInsets.left * CGFloat(itemsPerRow + 1)
@@ -148,3 +208,4 @@ extension AlbumCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
     
 }
+
