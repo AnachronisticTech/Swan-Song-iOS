@@ -111,34 +111,21 @@ class PlayerViewController: UIViewController {
     
     /// Set track details and user interface elements
     private func setViewContents(for item: MPMediaItem) {
-        if let nowPlaying = nowPlaying { // Controller knows what track is playing
-            if item != nowPlaying {      // Track has changed
-                // Update artwork and labels
-                artwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
-                bigArtwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
-                trackTitle.text = item.title
-                trackInfo.text = "\(item.albumArtist ?? "") - \(item.albumTitle ?? "")"
-            }
-            
-            // Update times and scrubber
-            if isMovingScrubber {
-                let time = TimeInterval(scrubber.value) * item.playbackDuration
-                currentTime.text = Formatter.string(from: time)
-                remainingTime.text = Formatter.string(from: item.playbackDuration - time)
-            } else {
-                currentTime.text = Formatter.string(from: Player.currentTime)
-                remainingTime.text = Formatter.string(from: item.playbackDuration - Player.currentTime)
-                scrubber.setValue(Float(Player.currentTime / item.playbackDuration), animated: false)
-            }
-        } else {                         // Controller doesn't know what track is playing
-            // Record currently playing track
-            nowPlaying = item
-            
-            // Update artwork and labels
-            artwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
-            bigArtwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
-            trackTitle.text = item.title
-            trackInfo.text = "\(item.albumArtist ?? "") - \(item.albumTitle ?? "")"
+        // Update artwork and labels
+        artwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
+        bigArtwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
+        trackTitle.text = item.title
+        trackInfo.text = "\(item.albumArtist ?? "") - \(item.albumTitle ?? "")"
+
+        // Update times and scrubber
+        if isMovingScrubber {
+            let time = TimeInterval(scrubber.value) * item.playbackDuration
+            currentTime.text = Formatter.string(from: time)
+            remainingTime.text = Formatter.string(from: item.playbackDuration - time)
+        } else {
+            currentTime.text = Formatter.string(from: Player.currentTime)
+            remainingTime.text = Formatter.string(from: item.playbackDuration - Player.currentTime)
+            scrubber.setValue(Float(Player.currentTime / item.playbackDuration), animated: false)
         }
     }
     

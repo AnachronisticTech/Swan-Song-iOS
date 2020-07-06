@@ -11,12 +11,12 @@
 		9151038423987E4600B20515 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9151038323987E4600B20515 /* Extensions.swift */; };
 		91510386239887D600B20515 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91510385239887D600B20515 /* PlayerViewController.swift */; };
 		918ED5DB2397257500FB85A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918ED5DA2397257500FB85A9 /* AppDelegate.swift */; };
-		918ED5DD2397257500FB85A9 /* AlbumListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918ED5DC2397257500FB85A9 /* AlbumListViewController.swift */; };
 		918ED5E02397257500FB85A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 918ED5DE2397257500FB85A9 /* Main.storyboard */; };
 		918ED5E22397257600FB85A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 918ED5E12397257600FB85A9 /* Assets.xcassets */; };
 		918ED5E52397257600FB85A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 918ED5E32397257600FB85A9 /* LaunchScreen.storyboard */; };
 		91A55937249934120030A68F /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A55936249934120030A68F /* AudioPlayer.swift */; };
 		91E164F924A0C05B005B51AD /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E164F824A0C05B005B51AD /* PlaylistViewController.swift */; };
+		91EE846D24B398AF00122BA6 /* AlbumLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */; };
 		91F24864249FD302006884B6 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F24863249FD302006884B6 /* UserInterface.swift */; };
 		91F2F33C23998209008291E9 /* PlaylistListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F2F33B23998209008291E9 /* PlaylistListViewController.swift */; };
 /* End PBXBuildFile section */
@@ -27,7 +27,6 @@
 		91510385239887D600B20515 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		918ED5D72397257500FB85A9 /* SwanSong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwanSong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		918ED5DA2397257500FB85A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		918ED5DC2397257500FB85A9 /* AlbumListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListViewController.swift; sourceTree = "<group>"; };
 		918ED5DF2397257500FB85A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		918ED5E12397257600FB85A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		918ED5E42397257600FB85A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -35,6 +34,7 @@
 		918ED5ED23972C1B00FB85A9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		91A55936249934120030A68F /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		91E164F824A0C05B005B51AD /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
+		91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryViewController.swift; sourceTree = "<group>"; };
 		91F24863249FD302006884B6 /* UserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		91F2F33B23998209008291E9 /* PlaylistListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,7 +74,7 @@
 				91A55936249934120030A68F /* AudioPlayer.swift */,
 				9151038323987E4600B20515 /* Extensions.swift */,
 				91F24863249FD302006884B6 /* UserInterface.swift */,
-				918ED5DC2397257500FB85A9 /* AlbumListViewController.swift */,
+				91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */,
 				9151037F2398034200B20515 /* AlbumViewController.swift */,
 				91F2F33B23998209008291E9 /* PlaylistListViewController.swift */,
 				91E164F824A0C05B005B51AD /* PlaylistViewController.swift */,
@@ -172,7 +172,7 @@
 				9151038423987E4600B20515 /* Extensions.swift in Sources */,
 				91A55937249934120030A68F /* AudioPlayer.swift in Sources */,
 				91E164F924A0C05B005B51AD /* PlaylistViewController.swift in Sources */,
-				918ED5DD2397257500FB85A9 /* AlbumListViewController.swift in Sources */,
+				91EE846D24B398AF00122BA6 /* AlbumLibraryViewController.swift in Sources */,
 				91510386239887D600B20515 /* PlayerViewController.swift in Sources */,
 				918ED5DB2397257500FB85A9 /* AppDelegate.swift in Sources */,
 			);

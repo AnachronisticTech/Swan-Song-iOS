@@ -14,6 +14,16 @@ class AlbumTableViewCell: UITableViewCell {
     @IBOutlet weak var albumArtist: UILabel!
 }
 
+class AlbumCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var albumTitle: UILabel!
+    @IBOutlet weak var albumArtwork: UIImageView!
+    @IBOutlet weak var albumArtist: UILabel!
+}
+
+class AlbumCollectionViewHeader: UICollectionReusableView {
+    @IBOutlet weak var headerTitle: UILabel!
+}
+
 class SongTableViewCell: UITableViewCell {
     @IBOutlet weak var trackNumber: UILabel!
     @IBOutlet weak var trackTitle: UILabel!
