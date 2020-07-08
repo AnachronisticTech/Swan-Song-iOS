@@ -52,9 +52,9 @@ extension PlaylistListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: AlbumTableViewCell = playlistListView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! AlbumTableViewCell
-        cell.albumTitle?.text = (playlistLibrary[indexPath.row].value(forProperty: MPMediaPlaylistPropertyName) as! String)
-        cell.albumArtwork?.image = playlistLibrary[indexPath.row].items.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+        let cell: ArtDetailTableViewCell = playlistListView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
+        cell.title?.text = (playlistLibrary[indexPath.row].value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        cell.artwork?.image = playlistLibrary[indexPath.row].items.first?.artwork?.image(at: CGSize(width: 80, height: 80))
         return cell
     }
 

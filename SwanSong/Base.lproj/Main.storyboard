@@ -27,14 +27,14 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="album" id="67k-vq-Kk0" customClass="AlbumCollectionViewCell" customModule="SwanSong" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="album" id="67k-vq-Kk0" customClass="ArtDetailCollectionViewCell" customModule="SwanSong" customModuleProvider="target">
                                         <rect key="frame" x="57" y="28" width="300" height="366"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="9Dx-Xc-tnl">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="366"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1AV-Ru-HTT" customClass="LargeArtwork" customModule="SwanSong" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1AV-Ru-HTT" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="1AV-Ru-HTT" secondAttribute="height" multiplier="1:1" id="Qjp-oS-WJV"/>
@@ -79,13 +79,13 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="300" height="366"/>
                                         <connections>
-                                            <outlet property="albumArtist" destination="Bzm-sp-3VD" id="IaJ-jf-um8"/>
-                                            <outlet property="albumArtwork" destination="1AV-Ru-HTT" id="tku-um-TKP"/>
-                                            <outlet property="albumTitle" destination="t1S-oD-R5H" id="7K1-di-Ibn"/>
+                                            <outlet property="artwork" destination="1AV-Ru-HTT" id="tku-um-TKP"/>
+                                            <outlet property="detail" destination="Bzm-sp-3VD" id="IaJ-jf-um8"/>
+                                            <outlet property="title" destination="t1S-oD-R5H" id="7K1-di-Ibn"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="header" id="6NP-QY-dX9" customClass="AlbumCollectionViewHeader" customModule="SwanSong" customModuleProvider="target">
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="header" id="6NP-QY-dX9" customClass="CollectionViewHeader" customModule="SwanSong" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="28"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
@@ -106,7 +106,7 @@
                                         <constraint firstItem="bvk-2a-V9Q" firstAttribute="centerY" secondItem="6NP-QY-dX9" secondAttribute="centerY" id="t9j-tW-ADO"/>
                                     </constraints>
                                     <connections>
-                                        <outlet property="headerTitle" destination="bvk-2a-V9Q" id="K5x-JO-hcG"/>
+                                        <outlet property="title" destination="bvk-2a-V9Q" id="K5x-JO-hcG"/>
                                     </connections>
                                 </collectionReusableView>
                             </collectionView>
@@ -114,14 +114,14 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="album" rowHeight="90" id="Weq-xJ-Drs" customClass="AlbumTableViewCell" customModule="SwanSong" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="album" rowHeight="90" id="Weq-xJ-Drs" customClass="ArtDetailTableViewCell" customModule="SwanSong" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Weq-xJ-Drs" id="38u-I7-bm4">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zeb-Ag-rqc" customClass="LargeArtwork" customModule="SwanSong" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zeb-Ag-rqc" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                                                     <rect key="frame" x="15" y="5" width="75" height="75"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="75" id="Eff-ly-DL9"/>
@@ -160,9 +160,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="albumArtist" destination="BoP-pD-irq" id="uSh-ek-5cx"/>
-                                            <outlet property="albumArtwork" destination="zeb-Ag-rqc" id="Raw-2E-3Yq"/>
-                                            <outlet property="albumTitle" destination="Qbx-oe-BYW" id="7RW-DU-JmL"/>
+                                            <outlet property="artwork" destination="zeb-Ag-rqc" id="Raw-2E-3Yq"/>
+                                            <outlet property="detail" destination="BoP-pD-irq" id="uSh-ek-5cx"/>
+                                            <outlet property="title" destination="Qbx-oe-BYW" id="7RW-DU-JmL"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -186,9 +186,9 @@
                     </tabBarItem>
                     <navigationItem key="navigationItem" title="Albums" id="I8T-V7-IQd">
                         <barButtonItem key="backBarButtonItem" title=" " id="yka-B5-KdO"/>
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="more" id="0Qs-XI-ppg">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="grid" id="0Qs-XI-ppg">
                             <connections>
-                                <action selector="changeView:" destination="BYZ-38-t0r" id="fRX-aU-4X9"/>
+                                <action selector="swapView:" destination="BYZ-38-t0r" id="trb-qz-Er8"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="vkY-Tb-uS4">
@@ -200,8 +200,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="albumCollectionView" destination="lcJ-dQ-spR" id="gc3-57-tcf"/>
-                        <outlet property="albumListView" destination="xPB-sH-VIu" id="cVT-X4-WvD"/>
+                        <outlet property="collectionView" destination="lcJ-dQ-spR" id="gc3-57-tcf"/>
+                        <outlet property="listView" destination="xPB-sH-VIu" id="cVT-X4-WvD"/>
+                        <outlet property="swapViewButton" destination="0Qs-XI-ppg" id="Tw2-Cd-FPc"/>
                         <segue destination="aPb-SA-dgo" kind="show" identifier="ToAlbum" id="fSq-x4-fKi"/>
                     </connections>
                 </viewController>
@@ -213,7 +214,7 @@
         <scene sceneID="6cz-Cb-dTP">
             <objects>
                 <navigationController title="Playlist" id="xtx-2B-0on" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Playlists" image="playlists" id="im4-f0-K10">
+                    <tabBarItem key="tabBarItem" tag="1" title="Playlists" image="playlists" id="im4-f0-K10">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DkA-xw-qhF">
@@ -240,14 +241,14 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="90" id="IWy-3T-dsn" customClass="AlbumTableViewCell" customModule="SwanSong" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="playlist" rowHeight="90" id="IWy-3T-dsn" customClass="ArtDetailTableViewCell" customModule="SwanSong" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IWy-3T-dsn" id="fhi-dz-V2H">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7CS-h2-Kya" customClass="LargeArtwork" customModule="SwanSong" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7CS-h2-Kya" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                                                     <rect key="frame" x="15" y="5" width="75" height="75"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="75" id="a9t-rJ-Qax"/>
@@ -277,8 +278,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="albumArtwork" destination="7CS-h2-Kya" id="HIj-j1-8NM"/>
-                                            <outlet property="albumTitle" destination="QhT-6x-d4R" id="PBL-ga-yU3"/>
+                                            <outlet property="artwork" destination="7CS-h2-Kya" id="HIj-j1-8NM"/>
+                                            <outlet property="title" destination="QhT-6x-d4R" id="PBL-ga-yU3"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -311,6 +312,165 @@
             </objects>
             <point key="canvasLocation" x="2868" y="1582"/>
         </scene>
+        <!--Artists-->
+        <scene sceneID="iUy-T3-8nk">
+            <objects>
+                <tableViewController id="jVe-G8-RUr" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="LbS-5y-Qi6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="QhP-DM-Ij0">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QhP-DM-Ij0" id="epB-ZW-wMe">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="jVe-G8-RUr" id="Glp-hf-tLt"/>
+                            <outlet property="delegate" destination="jVe-G8-RUr" id="Fnf-kQ-BgS"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Artists" id="GYC-jh-jbm"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YWI-mD-Mu6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2868" y="2308"/>
+        </scene>
+        <!--Songs-->
+        <scene sceneID="CHu-DE-Xse">
+            <objects>
+                <tableViewController id="SEB-86-qwS" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="FMw-xi-TR6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="4If-RV-F1f">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4If-RV-F1f" id="HGf-Ed-NBD">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="SEB-86-qwS" id="MhD-nR-nSy"/>
+                            <outlet property="delegate" destination="SEB-86-qwS" id="w6p-nH-Zmk"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Songs" id="g0b-aZ-1qX"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6nB-w4-nDi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2868" y="3011"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="H8Y-Wf-KVu">
+            <objects>
+                <tableViewController id="LAy-Hb-QRn" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5cn-rw-MHR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="1ca-7v-PPF">
+                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1ca-7v-PPF" id="ARA-c6-WsW">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="LAy-Hb-QRn" id="ax4-Nt-kLW"/>
+                            <outlet property="delegate" destination="LAy-Hb-QRn" id="lXN-d6-ePn"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="j5J-uL-xXu"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tVX-Zm-NO8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2868" y="4409"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="c8M-fY-GIe">
+            <objects>
+                <navigationController id="hyM-uz-rh5" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="5" title="Settings" image="gear" id="ENo-Zd-Cyo"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XNP-E9-zyO">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="LAy-Hb-QRn" kind="relationship" relationship="rootViewController" id="JjX-jo-5cO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fpK-LT-hML" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2000" y="4409"/>
+        </scene>
+        <!--Genres-->
+        <scene sceneID="lt2-ij-wcj">
+            <objects>
+                <navigationController id="aAZ-7z-KvJ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="4" title="Genres" image="genres" id="HkY-RJ-hxk"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xST-7a-ybj">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="SHP-Lf-nTL" kind="relationship" relationship="rootViewController" id="rYp-iu-v8Y"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1wH-XE-Rm3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2000" y="3692"/>
+        </scene>
+        <!--Songs-->
+        <scene sceneID="8b0-hz-zsq">
+            <objects>
+                <navigationController id="eR9-d5-eW1" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="3" title="Songs" image="songs" id="dek-Mg-FkC">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KhR-CN-jEn">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="SEB-86-qwS" kind="relationship" relationship="rootViewController" id="6ng-AN-DMH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ta-Ij-QQs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2000" y="3011"/>
+        </scene>
+        <!--Artists-->
+        <scene sceneID="BZn-6X-aYg">
+            <objects>
+                <navigationController id="pqr-Ua-cwN" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="2" title="Artists" image="artists" id="dKY-Ym-u7R">
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mlx-na-wI9">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="jVe-G8-RUr" kind="relationship" relationship="rootViewController" id="GyJ-at-JbI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TnL-fB-xVA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2000" y="2309"/>
+        </scene>
         <!--Playlist View Controller-->
         <scene sceneID="U0H-Ca-AM7">
             <objects>
@@ -323,14 +483,14 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="album" id="PZF-0K-c5L" customClass="AlbumTableViewCell" customModule="SwanSong" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="album" id="PZF-0K-c5L" customClass="ArtDetailTableViewCell" customModule="SwanSong" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="120.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PZF-0K-c5L" id="bUu-Xb-tt7">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="120.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mt9-J6-vDj" customClass="LargeArtwork" customModule="SwanSong" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mt9-J6-vDj" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                                                     <rect key="frame" x="15" y="10" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="100" id="LHF-AQ-56W"/>
@@ -370,12 +530,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="albumArtist" destination="EC6-yg-dAy" id="TYb-tD-Vkn"/>
-                                            <outlet property="albumArtwork" destination="mt9-J6-vDj" id="kbV-GM-Mvq"/>
-                                            <outlet property="albumTitle" destination="caE-RT-dsq" id="Ank-d7-peh"/>
+                                            <outlet property="artwork" destination="mt9-J6-vDj" id="kbV-GM-Mvq"/>
+                                            <outlet property="detail" destination="EC6-yg-dAy" id="TYb-tD-Vkn"/>
+                                            <outlet property="title" destination="caE-RT-dsq" id="Ank-d7-peh"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="track" rowHeight="60" id="QdX-V2-WrF" customClass="PlaylistSongTableViewCell" customModule="SwanSong" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="track" rowHeight="60" id="QdX-V2-WrF" customClass="ArtDetailTableViewCell" customModule="SwanSong" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="148.5" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QdX-V2-WrF" id="p70-sV-p9y">
@@ -394,7 +554,7 @@
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DQ9-3s-Zok" customClass="LargeArtwork" customModule="SwanSong" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DQ9-3s-Zok" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                                                     <rect key="frame" x="20" y="5" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="DQ9-3s-Zok" secondAttribute="height" multiplier="1:1" id="8Y7-Gw-qI3"/>
@@ -422,9 +582,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="albumArtwork" destination="DQ9-3s-Zok" id="M2v-dH-eKU"/>
-                                            <outlet property="trackDuration" destination="OTb-j4-6Cs" id="zDQ-Fg-xCk"/>
-                                            <outlet property="trackTitle" destination="bse-lw-8O3" id="RZp-La-ly0"/>
+                                            <outlet property="artwork" destination="DQ9-3s-Zok" id="zAa-Dk-FRD"/>
+                                            <outlet property="detail" destination="OTb-j4-6Cs" id="NpF-Ld-ibG"/>
+                                            <outlet property="title" destination="bse-lw-8O3" id="0pP-CK-dtT"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="footer" rowHeight="60" id="NqY-eB-UQz" customClass="FooterTableViewCell" customModule="SwanSong" customModuleProvider="target">
@@ -496,14 +656,14 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="album" id="JqA-2e-dPo" customClass="AlbumTableViewCell" customModule="SwanSong" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="album" id="JqA-2e-dPo" customClass="ArtDetailTableViewCell" customModule="SwanSong" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="120.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JqA-2e-dPo" id="XkA-sz-frV">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="120.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qh6-w5-9ns" customClass="LargeArtwork" customModule="SwanSong" customModuleProvider="target">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qh6-w5-9ns" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                                                     <rect key="frame" x="15" y="10" width="100" height="100"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="100" id="Cza-jU-rBu"/>
@@ -543,12 +703,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="albumArtist" destination="LhT-RT-EAt" id="bIZ-JS-0j4"/>
-                                            <outlet property="albumArtwork" destination="qh6-w5-9ns" id="0Qi-P2-WeL"/>
-                                            <outlet property="albumTitle" destination="zWw-ov-RiM" id="wpg-RB-9Fc"/>
+                                            <outlet property="artwork" destination="qh6-w5-9ns" id="0Qi-P2-WeL"/>
+                                            <outlet property="detail" destination="LhT-RT-EAt" id="bIZ-JS-0j4"/>
+                                            <outlet property="title" destination="zWw-ov-RiM" id="wpg-RB-9Fc"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="track" rowHeight="60" id="nK6-Wl-ag8" customClass="SongTableViewCell" customModule="SwanSong" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="track" rowHeight="60" id="nK6-Wl-ag8" customClass="NumberDetailTableViewCell" customModule="SwanSong" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="148.5" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nK6-Wl-ag8" id="UX1-JA-09b">
@@ -592,9 +752,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="trackDuration" destination="pbd-Aj-MHO" id="5iY-rG-HOp"/>
-                                            <outlet property="trackNumber" destination="kFm-xC-f1x" id="Xwv-6M-3QF"/>
-                                            <outlet property="trackTitle" destination="7If-IQ-NrV" id="boo-CF-M2W"/>
+                                            <outlet property="detail" destination="pbd-Aj-MHO" id="5iY-rG-HOp"/>
+                                            <outlet property="number" destination="kFm-xC-f1x" id="Xwv-6M-3QF"/>
+                                            <outlet property="title" destination="7If-IQ-NrV" id="boo-CF-M2W"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="footer" rowHeight="60" id="u7E-3W-dkK" customClass="FooterTableViewCell" customModule="SwanSong" customModuleProvider="target">
@@ -689,7 +849,7 @@
                                 </view>
                                 <blurEffect style="regular"/>
                             </visualEffectView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WXQ-w5-BBx" customClass="LargeArtwork" customModule="SwanSong" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WXQ-w5-BBx" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                                 <rect key="frame" x="15" y="15" width="384" height="384"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="WXQ-w5-BBx" secondAttribute="height" multiplier="1:1" id="NpR-RJ-3U6"/>
@@ -935,7 +1095,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="0J9-JR-bHJ">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="EMt-J1-pHc" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="EMt-J1-pHc" customClass="TabBarController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="MXD-hx-3a3">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -945,25 +1105,230 @@
                     <connections>
                         <segue destination="gBu-Ee-8bb" kind="relationship" relationship="viewControllers" id="oZM-5e-Gxy"/>
                         <segue destination="xtx-2B-0on" kind="relationship" relationship="viewControllers" id="QnR-wE-C8O"/>
+                        <segue destination="pqr-Ua-cwN" kind="relationship" relationship="viewControllers" id="RBZ-En-Vp9"/>
+                        <segue destination="eR9-d5-eW1" kind="relationship" relationship="viewControllers" id="OQO-to-JqR"/>
+                        <segue destination="aAZ-7z-KvJ" kind="relationship" relationship="viewControllers" id="xPl-CQ-eYA"/>
+                        <segue destination="hyM-uz-rh5" kind="relationship" relationship="viewControllers" id="fhZ-tE-nsX"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YuV-ug-RJh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1229" y="854"/>
+            <point key="canvasLocation" x="703" y="4409"/>
+        </scene>
+        <!--Genres-->
+        <scene sceneID="SV5-yk-cMb">
+            <objects>
+                <viewController id="SHP-Lf-nTL" customClass="GenreLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yN2-DZ-a8B">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="W4p-qL-3yP">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="c0d-gk-7hw">
+                                    <size key="itemSize" width="300" height="366"/>
+                                    <size key="headerReferenceSize" width="50" height="28"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="genre" id="Uq2-Zi-BeD" customClass="ArtDetailCollectionViewCell" customModule="SwanSong" customModuleProvider="target">
+                                        <rect key="frame" x="57" y="28" width="300" height="366"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fcj-2g-Hic">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="366"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9vn-bw-8kx" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="9vn-bw-8kx" secondAttribute="height" multiplier="1:1" id="KFo-Rf-ZjK"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="10"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DC7-hT-rLt">
+                                                    <rect key="frame" x="8" y="308" width="284" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="czZ-2p-QXa"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6G-zS-3BM">
+                                                    <rect key="frame" x="8" y="329" width="284" height="37"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="sGU-SQ-bph"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="b6G-zS-3BM" firstAttribute="top" secondItem="DC7-hT-rLt" secondAttribute="bottom" id="3O8-gr-yHM"/>
+                                                <constraint firstItem="9vn-bw-8kx" firstAttribute="top" secondItem="fcj-2g-Hic" secondAttribute="top" id="MTB-Nf-uM1"/>
+                                                <constraint firstItem="9vn-bw-8kx" firstAttribute="leading" secondItem="fcj-2g-Hic" secondAttribute="leading" id="WD4-my-sRh"/>
+                                                <constraint firstAttribute="trailing" secondItem="DC7-hT-rLt" secondAttribute="trailing" constant="8" id="WTQ-Ah-r86"/>
+                                                <constraint firstItem="DC7-hT-rLt" firstAttribute="leading" secondItem="fcj-2g-Hic" secondAttribute="leading" constant="8" id="Y9z-DV-CQP"/>
+                                                <constraint firstAttribute="trailing" secondItem="b6G-zS-3BM" secondAttribute="trailing" constant="8" id="aJQ-US-I6T"/>
+                                                <constraint firstAttribute="bottom" secondItem="b6G-zS-3BM" secondAttribute="bottom" id="nom-cp-cLZ"/>
+                                                <constraint firstItem="b6G-zS-3BM" firstAttribute="leading" secondItem="fcj-2g-Hic" secondAttribute="leading" constant="8" id="us6-X0-QBN"/>
+                                                <constraint firstItem="DC7-hT-rLt" firstAttribute="top" secondItem="9vn-bw-8kx" secondAttribute="bottom" constant="8" id="xpx-L1-ZU4"/>
+                                                <constraint firstAttribute="trailing" secondItem="9vn-bw-8kx" secondAttribute="trailing" id="yZJ-Cg-gOF"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="300" height="366"/>
+                                        <connections>
+                                            <outlet property="artwork" destination="9vn-bw-8kx" id="vma-cm-0nd"/>
+                                            <outlet property="detail" destination="b6G-zS-3BM" id="bzI-6w-bmb"/>
+                                            <outlet property="title" destination="DC7-hT-rLt" id="QJ5-FA-54N"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="header" id="zF4-Nu-ctz" customClass="CollectionViewHeader" customModule="SwanSong" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="28"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ica-dS-nZT">
+                                            <rect key="frame" x="15" y="3.5" width="384" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="qDi-rA-AyR"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstItem="Ica-dS-nZT" firstAttribute="leading" secondItem="zF4-Nu-ctz" secondAttribute="leading" constant="15" id="Jef-K4-N9w"/>
+                                        <constraint firstAttribute="trailing" secondItem="Ica-dS-nZT" secondAttribute="trailing" constant="15" id="OQt-Lk-5Nb"/>
+                                        <constraint firstItem="Ica-dS-nZT" firstAttribute="centerY" secondItem="zF4-Nu-ctz" secondAttribute="centerY" id="OfZ-TN-prH"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="title" destination="Ica-dS-nZT" id="wnJ-ah-laP"/>
+                                    </connections>
+                                </collectionReusableView>
+                            </collectionView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Tlu-bR-tgd">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="genre" rowHeight="90" id="kG6-b3-L0t" customClass="ArtDetailTableViewCell" customModule="SwanSong" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="90"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kG6-b3-L0t" id="JDV-lj-mAe">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4CY-S7-DVX" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
+                                                    <rect key="frame" x="15" y="5" width="75" height="75"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="4CY-S7-DVX" secondAttribute="height" multiplier="1:1" id="TTY-hG-uMo"/>
+                                                        <constraint firstAttribute="height" constant="75" id="dNd-vP-dNa"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nib-ib-pp7" userLabel="Album Title">
+                                                    <rect key="frame" x="100" y="11" width="294" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aa0-wJ-H0o">
+                                                    <rect key="frame" x="100" y="35.5" width="294" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="4CY-S7-DVX" secondAttribute="bottom" constant="5" id="0Ej-N5-Kbb"/>
+                                                <constraint firstItem="Nib-ib-pp7" firstAttribute="top" secondItem="JDV-lj-mAe" secondAttribute="topMargin" id="0Fz-MI-Y74"/>
+                                                <constraint firstItem="Nib-ib-pp7" firstAttribute="trailing" secondItem="JDV-lj-mAe" secondAttribute="trailingMargin" id="6bE-Da-1Yf"/>
+                                                <constraint firstItem="4CY-S7-DVX" firstAttribute="leading" secondItem="JDV-lj-mAe" secondAttribute="leading" constant="15" id="UAV-D9-otf"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="aa0-wJ-H0o" secondAttribute="trailing" id="aXJ-Hw-V4C"/>
+                                                <constraint firstItem="Nib-ib-pp7" firstAttribute="leading" secondItem="4CY-S7-DVX" secondAttribute="trailing" constant="10" id="edG-GJ-BqW"/>
+                                                <constraint firstItem="4CY-S7-DVX" firstAttribute="top" secondItem="JDV-lj-mAe" secondAttribute="top" constant="5" id="kHD-UV-UCg"/>
+                                                <constraint firstItem="aa0-wJ-H0o" firstAttribute="top" secondItem="Nib-ib-pp7" secondAttribute="bottom" constant="4" id="n8I-ss-Ca5"/>
+                                                <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="aa0-wJ-H0o" secondAttribute="bottom" id="n8p-m1-lXU"/>
+                                                <constraint firstItem="aa0-wJ-H0o" firstAttribute="leading" secondItem="4CY-S7-DVX" secondAttribute="trailing" constant="10" id="qX4-CP-pbM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="artwork" destination="4CY-S7-DVX" id="UJs-0t-7Rf"/>
+                                            <outlet property="detail" destination="aa0-wJ-H0o" id="Uy9-SC-O96"/>
+                                            <outlet property="title" destination="Nib-ib-pp7" id="gpa-D3-BO7"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="W4p-qL-3yP" firstAttribute="trailing" secondItem="VMj-ag-UMl" secondAttribute="trailing" id="2Dv-R5-VOy"/>
+                            <constraint firstItem="VMj-ag-UMl" firstAttribute="bottom" secondItem="W4p-qL-3yP" secondAttribute="bottom" id="7TI-di-tTy"/>
+                            <constraint firstItem="Tlu-bR-tgd" firstAttribute="top" secondItem="VMj-ag-UMl" secondAttribute="top" id="86N-6C-Nqx"/>
+                            <constraint firstItem="Tlu-bR-tgd" firstAttribute="trailing" secondItem="VMj-ag-UMl" secondAttribute="trailing" id="EZA-Wn-9nw"/>
+                            <constraint firstItem="Tlu-bR-tgd" firstAttribute="leading" secondItem="VMj-ag-UMl" secondAttribute="leading" id="RqB-4r-ivA"/>
+                            <constraint firstItem="W4p-qL-3yP" firstAttribute="leading" secondItem="VMj-ag-UMl" secondAttribute="leading" id="T0Y-Kt-pp8"/>
+                            <constraint firstItem="VMj-ag-UMl" firstAttribute="bottom" secondItem="Tlu-bR-tgd" secondAttribute="bottom" id="Tf3-Su-foh"/>
+                            <constraint firstItem="W4p-qL-3yP" firstAttribute="top" secondItem="VMj-ag-UMl" secondAttribute="top" id="Vkt-cU-HwJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="VMj-ag-UMl"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Genres" id="DTq-QP-rKZ">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Mli-bB-flV"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="grid" id="rEd-SW-PG4">
+                            <connections>
+                                <action selector="swapView:" destination="SHP-Lf-nTL" id="taK-hR-Faj"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="QJE-Rp-6Gn">
+                            <connections>
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="QJE-Rp-6Gn" id="eD2-Zh-j2h">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="W4p-qL-3yP" id="Uja-QQ-eQs"/>
+                        <outlet property="listView" destination="Tlu-bR-tgd" id="PfZ-Rm-Gru"/>
+                        <outlet property="swapViewButton" destination="rEd-SW-PG4" id="65f-yp-sA0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ggn-Z0-vND" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2867" y="3692"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="dWD-6d-1A7"/>
+        <segue reference="eD2-Zh-j2h"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>
         <image name="albums_fill" width="33.5" height="33.5"/>
+        <image name="artists" width="33.5" height="33.5"/>
         <image name="backward_fill" width="33.5" height="33.5"/>
         <image name="forward_fill" width="33.5" height="33.5"/>
-        <image name="more" width="33.5" height="33.5"/>
+        <image name="gear" width="33.5" height="33.5"/>
+        <image name="genres" width="33.5" height="33.5"/>
+        <image name="grid" width="33.5" height="33.5"/>
         <image name="play_fill" width="33.5" height="33.5"/>
         <image name="playlists" width="33.5" height="33.5"/>
         <image name="repeat" width="33.5" height="33.5"/>
         <image name="shuffle" width="33.5" height="33.5"/>
+        <image name="songs" width="33.5" height="33.5"/>
     </resources>
 </document>

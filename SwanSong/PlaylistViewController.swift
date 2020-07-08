@@ -41,10 +41,10 @@ extension PlaylistViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell: AlbumTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! AlbumTableViewCell
-            cell.albumTitle?.text = playlistTitle
-            cell.albumArtist.text = ""
-            cell.albumArtwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+            let cell: ArtDetailTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
+            cell.title?.text = playlistTitle
+            cell.detail.text = ""
+            cell.artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell
@@ -55,11 +55,11 @@ extension PlaylistViewController: UITableViewDataSource {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell
         default:
-            let cell: PlaylistSongTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! PlaylistSongTableViewCell
-            cell.trackTitle?.text = tracks[indexPath.row - 1].title!
-            cell.albumArtwork?.image = tracks[indexPath.row - 1].artwork?.image(at: CGSize(width: 50, height: 50))
+            let cell: ArtDetailTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
+            cell.title?.text = tracks[indexPath.row - 1].title!
+            cell.artwork?.image = tracks[indexPath.row - 1].artwork?.image(at: CGSize(width: 50, height: 50))
             let time = Formatter.string(from: tracks[indexPath.row - 1].playbackDuration)
-            cell.trackDuration?.text = time
+            cell.detail?.text = time
             return cell
         }
     }

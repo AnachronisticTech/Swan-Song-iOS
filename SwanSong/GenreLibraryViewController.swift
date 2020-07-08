@@ -1,15 +1,15 @@
 //
-//  AlbumLibraryViewController.swift
+//  GenreLibraryViewController.swift
 //  SwanSong
 //
-//  Created by Daniel Marriner on 06/07/2020.
+//  Created by Daniel Marriner on 08/07/2020.
 //  Copyright © 2020 Daniel Marriner. All rights reserved.
 //
 
 import UIKit
 import MediaPlayer
 
-class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UICollectionViewDelegate {
+class GenreLibraryViewController: UIViewController, UITableViewDelegate, UICollectionViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -23,24 +23,21 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
     var isCollectionViewVisible = false {
         willSet {
             newValue ? view.sendSubviewToBack(listView) : view.bringSubviewToFront(listView)
-            UserDefaults.standard.set(newValue, forKey: "albumLibraryIsCollectionViewVisible")
+            UserDefaults.standard.set(newValue, forKey: "genreLibraryIsCollectionViewVisible")
             swapViewButton.image = UIImage(named: newValue ? "list" : "grid")
         }
     }
-
-    var groups: [Group] {
-        var tmp: [Group] = []
+    
+    var groups: [String : [Group]] {
+        var tmp = [String : [Group]]()
         library.forEach { item in
-            let firstLetter = String(item.items[0].albumTitle!.first!)
-            if var copy = tmp.first(where: { $0.name == firstLetter }) {
-                tmp.removeAll(where: { $0 == copy })
-                copy.items.append(item.items[0])
-                tmp.append(copy)
-            } else {
-                tmp.append(Group(firstLetter, [item.items[0]]))
+            let genre = item.items[0].genre ?? "Unknown Genre"
+            let initial = String(genre.first!)
+            if tmp[initial] == nil {
+                tmp[initial] = []
             }
+            tmp[initial]?.append(Group(genre, item.items))
         }
-        tmp.sort(by: <)
         return tmp
     }
     
@@ -49,8 +46,8 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        /// Load albums from library
-        library = MPMediaQuery.albums().collections ?? []
+        /// Load genres from library
+        library = MPMediaQuery.genres().collections ?? []
         
         /// Set list view data
         listView.delegate = self
@@ -66,14 +63,14 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         collectionView.reloadData()
         
         /// Set view to list or collection based on last selection
-        isCollectionViewVisible = UserDefaults.standard.value(forKey: "albumLibraryIsCollectionViewVisible") as? Bool ?? false
+        isCollectionViewVisible = UserDefaults.standard.value(forKey: "genreLibraryIsCollectionViewVisible") as? Bool ?? false
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToAlbum" {
-            let destinationViewController = segue.destination as! AlbumViewController
-            let albumID = groups[selected.0].items[selected.1].albumPersistentID
-            destinationViewController.albumID = albumID
+        if segue.identifier == "ToGenre" {
+//            let destinationViewController = segue.destination as! AlbumViewController
+//            let albumID = groups[selected.0].albums[selected.1].albumPersistentID
+//            destinationViewController.albumID = albumID
         }
     }
     
@@ -82,22 +79,23 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
     }
 }
 
-extension AlbumLibraryViewController: UITableViewDataSource {
+extension GenreLibraryViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return groups.count
+        return groups.values.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return String(groups[section].name)
+        return groups.keys.sorted(by: <)[section]
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups[section].items.count
+        let key = groups.keys.sorted(by: <)[section]
+        return groups[key]?.count ?? 0
     }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return groups.map { String($0.name) }
+        return Array(Set(groups.keys)).sorted(by: <)
     }
     
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
@@ -105,26 +103,28 @@ extension AlbumLibraryViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
-        cell.title?.text = groups[indexPath.section].items[indexPath.row].albumTitle ?? ""
-        cell.detail?.text = groups[indexPath.section].items[indexPath.row].albumArtist ?? ""
-        cell.artwork?.image = groups[indexPath.section].items[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
+        let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "genre", for: indexPath) as! ArtDetailTableViewCell
+        let key = Array(Set(groups.keys)).sorted(by: <)[indexPath.section]
+        let group = groups[key]![indexPath.row]
+        cell.title.text = group.name
+        cell.detail?.text = "\(group.items.count) songs"
+//        cell.artwork?.image = groups[indexPath.section].albums[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selected.0 = indexPath.section
         selected.1 = indexPath.row
-        performSegue(withIdentifier: "ToAlbum", sender: self)
+//        performSegue(withIdentifier: "ToGenre", sender: self)
         listView.deselectRow(at: indexPath, animated: true)
     }
     
 }
 
-extension AlbumLibraryViewController: UICollectionViewDataSource {
+extension GenreLibraryViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return groups.count
+        return groups.values.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -136,7 +136,7 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
                 for: indexPath) as? CollectionViewHeader
                 else { fatalError("Invalid view type") }
             
-            header.title.text = String(groups[indexPath.section].name)
+            header.title.text = groups.keys.sorted(by: <)[indexPath.section]
             return header
         default:
             assert(false, "Invalid element kind")
@@ -144,11 +144,12 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return groups[section].items.count
+        let key = groups.keys.sorted(by: <)[section]
+        return groups[key]?.count ?? 0
     }
     
     func indexTitles(for collectionView: UICollectionView) -> [String]? {
-        return groups.map { String($0.name) }
+        return Array(Set(groups.keys)).sorted(by: <)
     }
     
     /// sectionForSectionIndexTitle (for alphabet scrubber)
@@ -157,23 +158,25 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
 //    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "album", for: indexPath) as! ArtDetailCollectionViewCell
-        cell.title?.text = groups[indexPath.section].items[indexPath.row].albumTitle ?? ""
-        cell.detail?.text = groups[indexPath.section].items[indexPath.row].albumArtist ?? ""
-        cell.artwork?.image = groups[indexPath.section].items[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
+        let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre", for: indexPath) as! ArtDetailCollectionViewCell
+        let key = Array(Set(groups.keys)).sorted(by: <)[indexPath.section]
+        let group = groups[key]![indexPath.row]
+        cell.title.text = group.name
+        cell.detail?.text = "\(group.items.count) songs"
+//        cell.artwork?.image = groups[indexPath.section].albums[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selected.0 = indexPath.section
         selected.1 = indexPath.row
-        performSegue(withIdentifier: "ToAlbum", sender: self)
+//        performSegue(withIdentifier: "ToGenre", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
 }
 
-extension AlbumLibraryViewController: UICollectionViewDelegateFlowLayout {
+extension GenreLibraryViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding = sectionInsets.left * CGFloat(itemsPerRow + 1)
@@ -192,4 +195,5 @@ extension AlbumLibraryViewController: UICollectionViewDelegateFlowLayout {
     }
     
 }
+
 

@@ -40,10 +40,10 @@ extension AlbumViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell: AlbumTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! AlbumTableViewCell
-            cell.albumTitle?.text = tracks.first?.albumTitle ?? ""
-            cell.albumArtist?.text = tracks.first?.albumArtist ?? ""
-            cell.albumArtwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+            let cell: ArtDetailTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
+            cell.title?.text = tracks.first?.albumTitle ?? ""
+            cell.detail?.text = tracks.first?.albumArtist ?? ""
+            cell.artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell
@@ -54,11 +54,11 @@ extension AlbumViewController: UITableViewDataSource {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell
         default:
-            let cell: SongTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! SongTableViewCell
-            cell.trackTitle?.text = tracks[indexPath.row - 1].title!
-            cell.trackNumber?.text = String(tracks[indexPath.row - 1].albumTrackNumber)
+            let cell: NumberDetailTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! NumberDetailTableViewCell
+            cell.title?.text = tracks[indexPath.row - 1].title!
+            cell.number?.text = String(tracks[indexPath.row - 1].albumTrackNumber)
             let time = Formatter.string(from: tracks[indexPath.row - 1].playbackDuration)
-            cell.trackDuration?.text = time
+            cell.detail?.text = time
             return cell
         }
     }
