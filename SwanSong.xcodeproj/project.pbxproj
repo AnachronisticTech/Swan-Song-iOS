@@ -10,6 +10,7 @@
 		912B1E9024B5CC09004BF44D /* GenreLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912B1E8F24B5CC09004BF44D /* GenreLibraryViewController.swift */; };
 		912B1E9224B5CD64004BF44D /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912B1E9124B5CD64004BF44D /* Group.swift */; };
 		912B1E9424B5D7C8004BF44D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912B1E9324B5D7C8004BF44D /* TabBarController.swift */; };
+		912B1E9624B604F0004BF44D /* GenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912B1E9524B604F0004BF44D /* GenreViewController.swift */; };
 		915103802398034200B20515 /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9151037F2398034200B20515 /* AlbumViewController.swift */; };
 		9151038423987E4600B20515 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9151038323987E4600B20515 /* Extensions.swift */; };
 		91510386239887D600B20515 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91510385239887D600B20515 /* PlayerViewController.swift */; };
@@ -28,6 +29,7 @@
 		912B1E8F24B5CC09004BF44D /* GenreLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreLibraryViewController.swift; sourceTree = "<group>"; };
 		912B1E9124B5CD64004BF44D /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		912B1E9324B5D7C8004BF44D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		912B1E9524B604F0004BF44D /* GenreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreViewController.swift; sourceTree = "<group>"; };
 		9151037F2398034200B20515 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		9151038323987E4600B20515 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		91510385239887D600B20515 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				91F2F33B23998209008291E9 /* PlaylistListViewController.swift */,
 				91E164F824A0C05B005B51AD /* PlaylistViewController.swift */,
 				912B1E8F24B5CC09004BF44D /* GenreLibraryViewController.swift */,
+				912B1E9524B604F0004BF44D /* GenreViewController.swift */,
 				91510385239887D600B20515 /* PlayerViewController.swift */,
 				918ED5DE2397257500FB85A9 /* Main.storyboard */,
 				918ED5E12397257600FB85A9 /* Assets.xcassets */,
@@ -185,6 +188,7 @@
 				91EE846D24B398AF00122BA6 /* AlbumLibraryViewController.swift in Sources */,
 				91510386239887D600B20515 /* PlayerViewController.swift in Sources */,
 				912B1E9424B5D7C8004BF44D /* TabBarController.swift in Sources */,
+				912B1E9624B604F0004BF44D /* GenreViewController.swift in Sources */,
 				912B1E9024B5CC09004BF44D /* GenreLibraryViewController.swift in Sources */,
 				918ED5DB2397257500FB85A9 /* AppDelegate.swift in Sources */,
 			);

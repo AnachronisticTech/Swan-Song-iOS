@@ -15,7 +15,8 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var swapViewButton: UIBarButtonItem!
     var library: [MPMediaItemCollection] = []
-    var selected: (Int, Int) = (-1, -1)
+    var groups = [String : [Group]]()
+    var selected: String = ""
     
     private let itemsPerRow = 2
     private let sectionInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
@@ -28,19 +29,6 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         }
     }
     
-    var groups: [String : [Group]] {
-        var tmp = [String : [Group]]()
-        library.forEach { item in
-            let genre = item.items[0].genre ?? "Unknown Genre"
-            let initial = String(genre.first!)
-            if tmp[initial] == nil {
-                tmp[initial] = []
-            }
-            tmp[initial]?.append(Group(genre, item.items))
-        }
-        return tmp
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,6 +36,14 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         
         /// Load genres from library
         library = MPMediaQuery.genres().collections ?? []
+        library.forEach { item in
+            let genre = item.items[0].genre ?? "Unknown Genre"
+            let initial = String(genre.first!)
+            if groups[initial] == nil {
+                groups[initial] = []
+            }
+            groups[initial]?.append(Group(genre, item.items))
+        }
         
         /// Set list view data
         listView.delegate = self
@@ -68,9 +64,9 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToGenre" {
-//            let destinationViewController = segue.destination as! AlbumViewController
-//            let albumID = groups[selected.0].albums[selected.1].albumPersistentID
-//            destinationViewController.albumID = albumID
+            let destinationViewController = segue.destination as! GenreViewController
+            guard let genre = library.filter({ $0.items[0].genre == selected }).first else { return }
+            destinationViewController.genreID = genre.persistentID
         }
     }
     
@@ -113,9 +109,11 @@ extension GenreLibraryViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selected.0 = indexPath.section
-        selected.1 = indexPath.row
-//        performSegue(withIdentifier: "ToGenre", sender: self)
+//        selected.0 = indexPath.section
+//        selected.1 = indexPath.row
+        guard let row = tableView.cellForRow(at: indexPath) as? ArtDetailTableViewCell, let text = row.title.text else { return }
+        selected = text
+        performSegue(withIdentifier: "ToGenre", sender: self)
         listView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -168,9 +166,11 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selected.0 = indexPath.section
-        selected.1 = indexPath.row
-//        performSegue(withIdentifier: "ToGenre", sender: self)
+//        selected.0 = indexPath.section
+//        selected.1 = indexPath.row
+        guard let item = collectionView.cellForItem(at: indexPath) as? ArtDetailCollectionViewCell, let text = item.title.text else { return }
+        selected = text
+        performSegue(withIdentifier: "ToGenre", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     

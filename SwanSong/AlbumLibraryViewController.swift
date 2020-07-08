@@ -15,6 +15,7 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var swapViewButton: UIBarButtonItem!
     var library: [MPMediaItemCollection] = []
+    var groups = [Group]()
     var selected: (Int, Int) = (-1, -1)
     
     private let itemsPerRow = 2
@@ -27,22 +28,6 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
             swapViewButton.image = UIImage(named: newValue ? "list" : "grid")
         }
     }
-
-    var groups: [Group] {
-        var tmp: [Group] = []
-        library.forEach { item in
-            let firstLetter = String(item.items[0].albumTitle!.first!)
-            if var copy = tmp.first(where: { $0.name == firstLetter }) {
-                tmp.removeAll(where: { $0 == copy })
-                copy.items.append(item.items[0])
-                tmp.append(copy)
-            } else {
-                tmp.append(Group(firstLetter, [item.items[0]]))
-            }
-        }
-        tmp.sort(by: <)
-        return tmp
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +36,17 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         
         /// Load albums from library
         library = MPMediaQuery.albums().collections ?? []
+        library.forEach { item in
+            let firstLetter = String(item.items[0].albumTitle!.first!)
+            if var copy = groups.first(where: { $0.name == firstLetter }) {
+                groups.removeAll(where: { $0 == copy })
+                copy.items.append(item.items[0])
+                groups.append(copy)
+            } else {
+                groups.append(Group(firstLetter, [item.items[0]]))
+            }
+        }
+        groups.sort(by: <)
         
         /// Set list view data
         listView.delegate = self
