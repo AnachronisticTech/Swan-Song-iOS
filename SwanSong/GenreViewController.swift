@@ -45,6 +45,7 @@ class GenreViewController: UIViewController, UITableViewDelegate {
         
         listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "album")
+        listView.register(UINib(nibName: "NumberDetailTableCell", bundle: nil), forCellReuseIdentifier: "track")
     }
     
 }

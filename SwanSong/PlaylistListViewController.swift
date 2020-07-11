@@ -29,7 +29,8 @@ class PlaylistListViewController: UIViewController, UITableViewDelegate {
         }
         
         listView.reloadData()
-        listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "playlist")
+        listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist")
+        listView.register(UINib(nibName: "MultiArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist_multi")
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -53,11 +54,30 @@ extension PlaylistListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
-        cell.title?.text = (library[indexPath.row].value(forProperty: MPMediaPlaylistPropertyName) as! String)
-        cell.detail.text = ""
-        cell.artwork?.image = library[indexPath.row].items.first?.artwork?.image(at: CGSize(width: 80, height: 80))
-        return cell
+        let playlist = library[indexPath.row]
+        var art = [MPMediaItem]()
+        for track in playlist.items {
+            if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
+                art.append(track)
+            }
+            if art.count >= 4 { break }
+        }
+        if art.count == 4 {
+            let cell: MultiArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
+            cell.title?.text = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+            cell.detail.text = "\(playlist.items.count) track\(playlist.items.count == 1 ? "" : "s")"
+            cell.artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80))
+            return cell
+        } else {
+            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
+            cell.title?.text = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+            cell.detail.text = "\(playlist.items.count) track\(playlist.items.count == 1 ? "" : "s")"
+            cell.artwork?.image = playlist.items.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -60,8 +60,14 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         collectionView.dataSource = self
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
+        layout?.headerReferenceSize = CGSize(width: 0, height: 28)
         collectionView.reloadData()
         collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "album")
+        collectionView.register(
+            UINib(nibName: "CollectionViewHeader", bundle: nil),
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "header"
+        )
         
         /// Set view to list or collection based on last selection
         isCollectionViewVisible = UserDefaults.standard.value(forKey: "albumLibraryIsCollectionViewVisible") as? Bool ?? false

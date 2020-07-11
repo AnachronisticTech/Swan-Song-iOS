@@ -15,7 +15,7 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var swapViewButton: UIBarButtonItem!
     var library: [MPMediaItemCollection] = []
-    var details = [(String, Int, [MPMediaItemArtwork])]()
+    var details = [(String, Int, [MPMediaItem])]()
     var selected: String = ""
     
     private let itemsPerRow = 2
@@ -38,10 +38,10 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         library = MPMediaQuery.genres().collections ?? []
         library.forEach { genre in
             let title = genre.items.first?.genre ?? ""
-            var art = [MPMediaItemArtwork]()
-                for track in genre.items {
-                if let artwork = track.artwork, !art.contains(artwork) {
-                    art.append(artwork)
+            var art = [MPMediaItem]()
+            for track in genre.items.sorted(by: { $0.albumTitle! < $1.albumTitle! }) { // Sorting is slow
+                if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
+                    art.append(track)
                 }
                 if art.count >= 4 { break }
             }
@@ -54,14 +54,22 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         listView.tableFooterView = UIView()
         listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre")
+        listView.register(UINib(nibName: "MultiArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre_multi")
         
         /// Set collection view data
         collectionView.delegate = self
         collectionView.dataSource = self
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
+        layout?.headerReferenceSize = CGSize(width: 0, height: 28)
         collectionView.reloadData()
         collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre")
+        collectionView.register(UINib(nibName: "MultiArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre_multi")
+        collectionView.register(
+            UINib(nibName: "CollectionViewHeader", bundle: nil),
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "header"
+        )
         
         /// Set view to list or collection based on last selection
         isCollectionViewVisible = UserDefaults.standard.value(forKey: "genreLibraryIsCollectionViewVisible") as? Bool ?? false
@@ -110,16 +118,16 @@ extension GenreLibraryViewController: UITableViewDataSource {
             let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "genre", for: indexPath) as! ArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
-            cell.artwork?.image = data.2.first?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             return cell
         } else {
             let cell: MultiArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
-            cell.artwork1?.image = data.2[0].image(at: CGSize(width: 80, height: 80))
-            cell.artwork2?.image = data.2[1].image(at: CGSize(width: 80, height: 80))
-            cell.artwork3?.image = data.2[2].image(at: CGSize(width: 80, height: 80))
-            cell.artwork4?.image = data.2[3].image(at: CGSize(width: 80, height: 80))
+            cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork2?.image = data.2[1].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork3?.image = data.2[2].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork4?.image = data.2[3].artwork?.image(at: CGSize(width: 80, height: 80))
             return cell
         }
     }
@@ -172,15 +180,26 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[indexPath.section].first!
         let data = details.filter({ $0.0.first! == key })[indexPath.row]
-        let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre", for: indexPath) as! ArtDetailCollectionViewCell
-        cell.title.text = data.0
-        cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
-        cell.artwork?.image = data.2.first?.image(at: CGSize(width: 80, height: 80))
-        return cell
+        if data.2.count < 4 {
+            let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre", for: indexPath) as! ArtDetailCollectionViewCell
+            cell.title.text = data.0
+            cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
+            cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+            return cell
+        } else {
+            let cell: MultiArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailCollectionViewCell
+            cell.title.text = data.0
+            cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
+            cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork2?.image = data.2[1].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork3?.image = data.2[2].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork4?.image = data.2[3].artwork?.image(at: CGSize(width: 80, height: 80))
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let item = collectionView.cellForItem(at: indexPath) as? ArtDetailCollectionViewCell, let text = item.title.text else { return }
+        guard let item = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell, let text = item.title.text else { return }
         selected = text
         performSegue(withIdentifier: "ToGenre", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
