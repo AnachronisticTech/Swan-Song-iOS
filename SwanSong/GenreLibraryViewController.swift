@@ -9,25 +9,11 @@
 import UIKit
 import MediaPlayer
 
-class GenreLibraryViewController: UIViewController, UITableViewDelegate, UICollectionViewDelegate {
+class GenreLibraryViewController: SwappableViewController {
     
-    @IBOutlet weak var listView: UITableView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var swapViewButton: UIBarButtonItem!
     var library: [MPMediaItemCollection] = []
     var details = [(String, Int, [MPMediaItem])]()
     var selected: String = ""
-    
-    private let itemsPerRow = 2
-    private let sectionInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-    
-    var isCollectionViewVisible = false {
-        willSet {
-            newValue ? view.sendSubviewToBack(listView) : view.bringSubviewToFront(listView)
-            UserDefaults.standard.set(newValue, forKey: "genreLibraryIsCollectionViewVisible")
-            swapViewButton.image = UIImage(named: newValue ? "list" : "grid")
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,19 +35,13 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         }
         
         /// Set list view data
-        listView.delegate = self
         listView.dataSource = self
-        listView.tableFooterView = UIView()
         listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre")
         listView.register(UINib(nibName: "MultiArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre_multi")
         
         /// Set collection view data
-        collectionView.delegate = self
         collectionView.dataSource = self
-        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.sectionHeadersPinToVisibleBounds = true
-        layout?.headerReferenceSize = CGSize(width: 0, height: 28)
         collectionView.reloadData()
         collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre")
         collectionView.register(UINib(nibName: "MultiArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre_multi")
@@ -70,9 +50,6 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "header"
         )
-        
-        /// Set view to list or collection based on last selection
-        isCollectionViewVisible = UserDefaults.standard.value(forKey: "genreLibraryIsCollectionViewVisible") as? Bool ?? false
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -83,9 +60,6 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         }
     }
     
-    @IBAction func swapView(_ sender: Any) {
-        isCollectionViewVisible = !isCollectionViewVisible
-    }
 }
 
 extension GenreLibraryViewController: UITableViewDataSource {
@@ -206,25 +180,3 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
     }
     
 }
-
-extension GenreLibraryViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding = sectionInsets.left * CGFloat(itemsPerRow + 1)
-        let availableWidth = view.frame.width - padding
-        let widthPerItem = availableWidth / CGFloat(itemsPerRow)
-        
-        return CGSize(width: widthPerItem, height: widthPerItem + 50)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return sectionInsets
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
-    }
-    
-}
-
-

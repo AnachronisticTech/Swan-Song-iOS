@@ -29,6 +29,7 @@
 		91B8021C24BA25DD00C4BC31 /* FooterTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B8021B24BA25DD00C4BC31 /* FooterTableCell.xib */; };
 		91B8021E24BA287600C4BC31 /* NumberDetailTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B8021D24BA287600C4BC31 /* NumberDetailTableCell.xib */; };
 		91B8022024BA2BB000C4BC31 /* CollectionViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B8021F24BA2BB000C4BC31 /* CollectionViewHeader.xib */; };
+		91B8022224BA317800C4BC31 /* SwappableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B8022124BA317800C4BC31 /* SwappableViewController.swift */; };
 		91E164F924A0C05B005B51AD /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E164F824A0C05B005B51AD /* PlaylistViewController.swift */; };
 		91EE846D24B398AF00122BA6 /* AlbumLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */; };
 		91F24864249FD302006884B6 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F24863249FD302006884B6 /* UserInterface.swift */; };
@@ -61,6 +62,7 @@
 		91B8021B24BA25DD00C4BC31 /* FooterTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FooterTableCell.xib; sourceTree = "<group>"; };
 		91B8021D24BA287600C4BC31 /* NumberDetailTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NumberDetailTableCell.xib; sourceTree = "<group>"; };
 		91B8021F24BA2BB000C4BC31 /* CollectionViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewHeader.xib; sourceTree = "<group>"; };
+		91B8022124BA317800C4BC31 /* SwappableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwappableViewController.swift; sourceTree = "<group>"; };
 		91E164F824A0C05B005B51AD /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
 		91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryViewController.swift; sourceTree = "<group>"; };
 		91F24863249FD302006884B6 /* UserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				9151038323987E4600B20515 /* Extensions.swift */,
 				91F24863249FD302006884B6 /* UserInterface.swift */,
 				912B1E9324B5D7C8004BF44D /* TabBarController.swift */,
+				91B8022124BA317800C4BC31 /* SwappableViewController.swift */,
 				91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */,
 				9151037F2398034200B20515 /* AlbumViewController.swift */,
 				91F2F33B23998209008291E9 /* PlaylistListViewController.swift */,
@@ -236,6 +239,7 @@
 				91EE846D24B398AF00122BA6 /* AlbumLibraryViewController.swift in Sources */,
 				91510386239887D600B20515 /* PlayerViewController.swift in Sources */,
 				912B1E9424B5D7C8004BF44D /* TabBarController.swift in Sources */,
+				91B8022224BA317800C4BC31 /* SwappableViewController.swift in Sources */,
 				912B1E9624B604F0004BF44D /* GenreViewController.swift in Sources */,
 				912B1E9024B5CC09004BF44D /* GenreLibraryViewController.swift in Sources */,
 				918ED5DB2397257500FB85A9 /* AppDelegate.swift in Sources */,

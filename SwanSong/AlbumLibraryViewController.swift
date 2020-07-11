@@ -9,25 +9,11 @@
 import UIKit
 import MediaPlayer
 
-class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UICollectionViewDelegate {
+class AlbumLibraryViewController: SwappableViewController {
     
-    @IBOutlet weak var listView: UITableView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var swapViewButton: UIBarButtonItem!
     var library: [MPMediaItemCollection] = []
     var groups = [Group]()
     var selected: (Int, Int) = (-1, -1)
-    
-    private let itemsPerRow = 2
-    private let sectionInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-    
-    var isCollectionViewVisible = false {
-        willSet {
-            newValue ? view.sendSubviewToBack(listView) : view.bringSubviewToFront(listView)
-            UserDefaults.standard.set(newValue, forKey: "albumLibraryIsCollectionViewVisible")
-            swapViewButton.image = UIImage(named: newValue ? "list" : "grid")
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,18 +35,12 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         groups.sort(by: <)
         
         /// Set list view data
-        listView.delegate = self
         listView.dataSource = self
-        listView.tableFooterView = UIView()
         listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "album")
         
         /// Set collection view data
-        collectionView.delegate = self
         collectionView.dataSource = self
-        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.sectionHeadersPinToVisibleBounds = true
-        layout?.headerReferenceSize = CGSize(width: 0, height: 28)
         collectionView.reloadData()
         collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "album")
         collectionView.register(
@@ -68,9 +48,6 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "header"
         )
-        
-        /// Set view to list or collection based on last selection
-        isCollectionViewVisible = UserDefaults.standard.value(forKey: "albumLibraryIsCollectionViewVisible") as? Bool ?? false
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -81,9 +58,6 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         }
     }
     
-    @IBAction func swapView(_ sender: Any) {
-        isCollectionViewVisible = !isCollectionViewVisible
-    }
 }
 
 extension AlbumLibraryViewController: UITableViewDataSource {
@@ -173,26 +147,6 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
         selected.1 = indexPath.row
         performSegue(withIdentifier: "ToAlbum", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
-    }
-    
-}
-
-extension AlbumLibraryViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding = sectionInsets.left * CGFloat(itemsPerRow + 1)
-        let availableWidth = view.frame.width - padding
-        let widthPerItem = availableWidth / CGFloat(itemsPerRow)
-        
-        return CGSize(width: widthPerItem, height: widthPerItem + 50)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return sectionInsets
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
     }
     
 }
