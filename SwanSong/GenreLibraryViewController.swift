@@ -15,7 +15,7 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var swapViewButton: UIBarButtonItem!
     var library: [MPMediaItemCollection] = []
-    var groups = [String : [Group]]()
+    var details = [(String, Int, [MPMediaItemArtwork])]()
     var selected: String = ""
     
     private let itemsPerRow = 2
@@ -36,13 +36,16 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         
         /// Load genres from library
         library = MPMediaQuery.genres().collections ?? []
-        library.forEach { item in
-            let genre = item.items[0].genre ?? "Unknown Genre"
-            let initial = String(genre.first!)
-            if groups[initial] == nil {
-                groups[initial] = []
+        library.forEach { genre in
+            let title = genre.items.first?.genre ?? ""
+            var art = [MPMediaItemArtwork]()
+                for track in genre.items {
+                if let artwork = track.artwork, !art.contains(artwork) {
+                    art.append(artwork)
+                }
+                if art.count >= 4 { break }
             }
-            groups[initial]?.append(Group(genre, item.items))
+            details.append((title, genre.items.count, art))
         }
         
         /// Set list view data
@@ -50,6 +53,7 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         listView.dataSource = self
         listView.tableFooterView = UIView()
         listView.reloadData()
+        listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre")
         
         /// Set collection view data
         collectionView.delegate = self
@@ -57,6 +61,7 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
         collectionView.reloadData()
+        collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre")
         
         /// Set view to list or collection based on last selection
         isCollectionViewVisible = UserDefaults.standard.value(forKey: "genreLibraryIsCollectionViewVisible") as? Bool ?? false
@@ -78,20 +83,20 @@ class GenreLibraryViewController: UIViewController, UITableViewDelegate, UIColle
 extension GenreLibraryViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return groups.values.count
+        return Set(details.map { $0.0.first! }).count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return groups.keys.sorted(by: <)[section]
+        return String(Array(Set(details.map { $0.0.first! })).sorted(by: <)[section])
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let key = groups.keys.sorted(by: <)[section]
-        return groups[key]?.count ?? 0
+        let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[section].first!
+        return details.filter({ $0.0.first! == key }).count
     }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return Array(Set(groups.keys)).sorted(by: <)
+        return Array(Set(details.map { String($0.0.first!) })).sorted(by: <)
     }
     
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
@@ -99,19 +104,28 @@ extension GenreLibraryViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "genre", for: indexPath) as! ArtDetailTableViewCell
-        let key = Array(Set(groups.keys)).sorted(by: <)[indexPath.section]
-        let group = groups[key]![indexPath.row]
-        cell.title.text = group.name
-        cell.detail?.text = "\(group.items.count) songs"
-//        cell.artwork?.image = groups[indexPath.section].albums[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
-        return cell
+        let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[indexPath.section].first!
+        let data = details.filter({ $0.0.first! == key })[indexPath.row]
+        if data.2.count < 4 {
+            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "genre", for: indexPath) as! ArtDetailTableViewCell
+            cell.title.text = data.0
+            cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
+            cell.artwork?.image = data.2.first?.image(at: CGSize(width: 80, height: 80))
+            return cell
+        } else {
+            let cell: MultiArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailTableViewCell
+            cell.title.text = data.0
+            cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
+            cell.artwork1?.image = data.2[0].image(at: CGSize(width: 80, height: 80))
+            cell.artwork2?.image = data.2[1].image(at: CGSize(width: 80, height: 80))
+            cell.artwork3?.image = data.2[2].image(at: CGSize(width: 80, height: 80))
+            cell.artwork4?.image = data.2[3].image(at: CGSize(width: 80, height: 80))
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        selected.0 = indexPath.section
-//        selected.1 = indexPath.row
-        guard let row = tableView.cellForRow(at: indexPath) as? ArtDetailTableViewCell, let text = row.title.text else { return }
+        guard let row = tableView.cellForRow(at: indexPath) as? DetailTableViewCell, let text = row.title.text else { return }
         selected = text
         performSegue(withIdentifier: "ToGenre", sender: self)
         listView.deselectRow(at: indexPath, animated: true)
@@ -122,7 +136,7 @@ extension GenreLibraryViewController: UITableViewDataSource {
 extension GenreLibraryViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return groups.values.count
+        return Set(details.map { $0.0.first! }).count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -134,7 +148,7 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
                 for: indexPath) as? CollectionViewHeader
                 else { fatalError("Invalid view type") }
             
-            header.title.text = groups.keys.sorted(by: <)[indexPath.section]
+            header.title.text = String(Array(Set(details.map { $0.0.first! })).sorted(by: <)[indexPath.section])
             return header
         default:
             assert(false, "Invalid element kind")
@@ -142,12 +156,12 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let key = groups.keys.sorted(by: <)[section]
-        return groups[key]?.count ?? 0
+        let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[section].first!
+        return details.filter({ $0.0.first! == key }).count
     }
     
     func indexTitles(for collectionView: UICollectionView) -> [String]? {
-        return Array(Set(groups.keys)).sorted(by: <)
+        return Array(Set(details.map { String($0.0.first!) })).sorted(by: <)
     }
     
     /// sectionForSectionIndexTitle (for alphabet scrubber)
@@ -156,18 +170,16 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
 //    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[indexPath.section].first!
+        let data = details.filter({ $0.0.first! == key })[indexPath.row]
         let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre", for: indexPath) as! ArtDetailCollectionViewCell
-        let key = Array(Set(groups.keys)).sorted(by: <)[indexPath.section]
-        let group = groups[key]![indexPath.row]
-        cell.title.text = group.name
-        cell.detail?.text = "\(group.items.count) songs"
-//        cell.artwork?.image = groups[indexPath.section].albums[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
+        cell.title.text = data.0
+        cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
+        cell.artwork?.image = data.2.first?.image(at: CGSize(width: 80, height: 80))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        selected.0 = indexPath.section
-//        selected.1 = indexPath.row
         guard let item = collectionView.cellForItem(at: indexPath) as? ArtDetailCollectionViewCell, let text = item.title.text else { return }
         selected = text
         performSegue(withIdentifier: "ToGenre", sender: self)

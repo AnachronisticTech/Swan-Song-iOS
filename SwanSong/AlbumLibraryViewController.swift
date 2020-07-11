@@ -53,6 +53,7 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         listView.dataSource = self
         listView.tableFooterView = UIView()
         listView.reloadData()
+        listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "album")
         
         /// Set collection view data
         collectionView.delegate = self
@@ -60,6 +61,7 @@ class AlbumLibraryViewController: UIViewController, UITableViewDelegate, UIColle
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
         collectionView.reloadData()
+        collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "album")
         
         /// Set view to list or collection based on last selection
         isCollectionViewVisible = UserDefaults.standard.value(forKey: "albumLibraryIsCollectionViewVisible") as? Bool ?? false

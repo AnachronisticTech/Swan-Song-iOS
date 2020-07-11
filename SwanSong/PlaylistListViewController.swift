@@ -11,8 +11,8 @@ import MediaPlayer
 
 class PlaylistListViewController: UIViewController, UITableViewDelegate {
     
-    @IBOutlet weak var playlistListView: UITableView!
-    var playlistLibrary: [MPMediaItemCollection] = []
+    @IBOutlet weak var listView: UITableView!
+    var library: [MPMediaItemCollection] = []
     var selected = -1
     
     override func viewDidLoad() {
@@ -20,21 +20,22 @@ class PlaylistListViewController: UIViewController, UITableViewDelegate {
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        playlistListView.delegate = self
-        playlistListView.dataSource = self
-        playlistListView.tableFooterView = UIView()
-        playlistLibrary = MPMediaQuery.playlists().collections ?? []
-        playlistLibrary.sort { list1, list2 in
+        listView.delegate = self
+        listView.dataSource = self
+        listView.tableFooterView = UIView()
+        library = MPMediaQuery.playlists().collections ?? []
+        library.sort { list1, list2 in
             (list1.value(forProperty: MPMediaPlaylistPropertyName) as! String) < (list2.value(forProperty: MPMediaPlaylistPropertyName) as! String)
         }
         
-        playlistListView.reloadData()
+        listView.reloadData()
+        listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "playlist")
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToPlaylist" {
             let destinationViewController = segue.destination as! PlaylistViewController
-            let playlistID = playlistLibrary[selected].persistentID
+            let playlistID = library[selected].persistentID
             destinationViewController.playlistID = playlistID
         }
     }
@@ -44,7 +45,7 @@ class PlaylistListViewController: UIViewController, UITableViewDelegate {
 extension PlaylistListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return playlistLibrary.count
+        return library.count
     }
     
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
@@ -52,16 +53,17 @@ extension PlaylistListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: ArtDetailTableViewCell = playlistListView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
-        cell.title?.text = (playlistLibrary[indexPath.row].value(forProperty: MPMediaPlaylistPropertyName) as! String)
-        cell.artwork?.image = playlistLibrary[indexPath.row].items.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+        let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
+        cell.title?.text = (library[indexPath.row].value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        cell.detail.text = ""
+        cell.artwork?.image = library[indexPath.row].items.first?.artwork?.image(at: CGSize(width: 80, height: 80))
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selected = indexPath.row
         performSegue(withIdentifier: "ToPlaylist", sender: self)
-        playlistListView.deselectRow(at: indexPath, animated: true)
+        listView.deselectRow(at: indexPath, animated: true)
     }
     
 }

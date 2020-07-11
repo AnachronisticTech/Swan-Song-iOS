@@ -8,22 +8,40 @@
 
 import UIKit
 
-class NumberDetailTableViewCell: UITableViewCell {
+class DetailTableViewCell: UITableViewCell {
+    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var detail: UILabel!
+}
+
+class NumberDetailTableViewCell: DetailTableViewCell {
     @IBOutlet weak var number: UILabel!
+}
+
+class ArtDetailTableViewCell: DetailTableViewCell {
+    @IBOutlet weak var artwork: UIImageView!
+}
+
+class MultiArtDetailTableViewCell: DetailTableViewCell {
+    @IBOutlet weak var artwork1: UIImageView!
+    @IBOutlet weak var artwork2: UIImageView!
+    @IBOutlet weak var artwork3: UIImageView!
+    @IBOutlet weak var artwork4: UIImageView!
+}
+
+class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var detail: UILabel!
 }
 
-class ArtDetailTableViewCell: UITableViewCell {
+class ArtDetailCollectionViewCell: DetailCollectionViewCell {
     @IBOutlet weak var artwork: UIImageView!
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var detail: UILabel!
 }
 
-class ArtDetailCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var artwork: UIImageView!
-    @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var detail: UILabel!
+class MultiArtDetailCollectionViewCell: DetailCollectionViewCell {
+    @IBOutlet weak var artwork1: UIImageView!
+    @IBOutlet weak var artwork2: UIImageView!
+    @IBOutlet weak var artwork3: UIImageView!
+    @IBOutlet weak var artwork4: UIImageView!
 }
 
 class CollectionViewHeader: UICollectionReusableView {
@@ -34,12 +52,13 @@ class FooterTableViewCell: UITableViewCell {
     @IBOutlet weak var footer: UILabel!
 }
 
-//class PlaylistSongTableViewCell: UITableViewCell {
-//    @IBOutlet weak var albumArtwork: UIImageView!
-//    @IBOutlet weak var trackTitle: UILabel!
-//    @IBOutlet weak var trackDuration: UILabel!
-////    @IBOutlet weak var albumArtist: UILabel!
-//}
+@IBDesignable class RoundedView: UIView {
+    @IBInspectable var cornerRadius: CGFloat = 10 {
+        didSet {
+            layer.cornerRadius = cornerRadius
+        }
+    }
+}
 
 @IBDesignable class RoundedArtwork: UIImageView {
     @IBInspectable var cornerRadius: CGFloat = 10 {

@@ -11,7 +11,7 @@ import MediaPlayer
 
 class GenreViewController: UIViewController, UITableViewDelegate {
     
-    @IBOutlet weak var trackListView: UITableView!
+    @IBOutlet weak var listView: UITableView!
     var genreID: MPMediaEntityPersistentID? = nil
     var genre: String = ""
     var tracks: [MPMediaItem] = []
@@ -21,9 +21,9 @@ class GenreViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        trackListView.delegate = self
-        trackListView.dataSource = self
-        trackListView.tableFooterView = UIView()
+        listView.delegate = self
+        listView.dataSource = self
+        listView.tableFooterView = UIView()
         
         guard let genreQuery = MPMediaQuery.genres().collections?.filter({ $0.persistentID == genreID }).first else { return }
         tracks = genreQuery.items
@@ -38,12 +38,13 @@ class GenreViewController: UIViewController, UITableViewDelegate {
         groups = tmp.map {
             Group(
                 $0.value[0].albumTitle ?? "",
-                $0.value.sorted(by: { ($0.discNumber, $0.albumTrackNumber) < ($1.discNumber ,$1.albumTrackNumber) })
+                $0.value.sorted(by: { ($0.discNumber, $0.albumTrackNumber) < ($1.discNumber, $1.albumTrackNumber) })
             )
         }.sorted(by: { $0.name < $1.name })
         genre = tracks.first?.genre ?? "Unknown Genre"
         
-        trackListView.reloadData()
+        listView.reloadData()
+        listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "album")
     }
     
 }
@@ -61,9 +62,9 @@ extension GenreViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell: ArtDetailTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "genre", for: indexPath) as! ArtDetailTableViewCell
+            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
             cell.title?.text = groups[indexPath.section].name
-            cell.detail.text = ""
+            cell.detail?.text = groups[indexPath.section].items.first?.albumArtist ?? ""
             cell.artwork?.image = groups[indexPath.section].items.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
@@ -75,7 +76,7 @@ extension GenreViewController: UITableViewDataSource {
 //            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
 //            return cell
         default:
-            let cell: NumberDetailTableViewCell = trackListView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! NumberDetailTableViewCell
+            let cell: NumberDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! NumberDetailTableViewCell
             cell.title?.text = groups[indexPath.section].items[indexPath.row - 1].title ?? ""
             cell.number.text = "\(groups[indexPath.section].items[indexPath.row - 1].albumTrackNumber)"
             let time = Formatter.string(from: groups[indexPath.section].items[indexPath.row - 1].playbackDuration)
@@ -90,7 +91,7 @@ extension GenreViewController: UITableViewDataSource {
         default:
             Player.play(groups[indexPath.section].items, skipping: indexPath.row - 1) // Only plays from selected album
             performSegue(withIdentifier: "ToPlayer", sender: self)
-            trackListView.deselectRow(at: indexPath, animated: true)
+            listView.deselectRow(at: indexPath, animated: true)
         }
     }
     
