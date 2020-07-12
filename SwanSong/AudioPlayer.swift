@@ -74,7 +74,7 @@ class AudioPlayer {
     }
     
     func play(_ queue: [MPMediaItem], skipping skip: Int = 0) {
-        guard skip < queue.count else { return }
+        guard skip < queue.count, skip >= 0 else { return }
         let item = queue[skip]
         switch state {
         case .NotPlaying:
