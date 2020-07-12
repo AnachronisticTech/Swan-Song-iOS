@@ -10,8 +10,9 @@ import UIKit
 import MediaPlayer
 
 class GenreLibraryViewController: SwappableViewController {
-    
-    var library: [MPMediaItemCollection] = []
+
+    /// Load genres from library
+    var library = MPMediaQuery.genres().collections ?? []
     var details = [(String, Int, [MPMediaItem])]()
     var selected: String = ""
     
@@ -20,8 +21,6 @@ class GenreLibraryViewController: SwappableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        /// Load genres from library
-        library = MPMediaQuery.genres().collections ?? []
         library.forEach { genre in
             let title = genre.items.first?.genre ?? ""
             var art = [MPMediaItem]()
@@ -36,13 +35,11 @@ class GenreLibraryViewController: SwappableViewController {
         
         /// Set list view data
         listView.dataSource = self
-        listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre")
         listView.register(UINib(nibName: "MultiArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre_multi")
         
         /// Set collection view data
         collectionView.dataSource = self
-        collectionView.reloadData()
         collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre")
         collectionView.register(UINib(nibName: "MultiArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre_multi")
         collectionView.register(

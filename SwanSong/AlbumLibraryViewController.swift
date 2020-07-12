@@ -10,8 +10,9 @@ import UIKit
 import MediaPlayer
 
 class AlbumLibraryViewController: SwappableViewController {
-    
-    var library: [MPMediaItemCollection] = []
+
+    /// Load albums from library
+    var library = MPMediaQuery.albums().collections ?? []
     var groups = [Group]()
     var selected: (Int, Int) = (-1, -1)
     
@@ -20,8 +21,6 @@ class AlbumLibraryViewController: SwappableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        /// Load albums from library
-        library = MPMediaQuery.albums().collections ?? []
         library.forEach { item in
             let firstLetter = String(item.items[0].albumTitle!.first!)
             if var copy = groups.first(where: { $0.name == firstLetter }) {
@@ -36,12 +35,10 @@ class AlbumLibraryViewController: SwappableViewController {
         
         /// Set list view data
         listView.dataSource = self
-        listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "album")
         
         /// Set collection view data
         collectionView.dataSource = self
-        collectionView.reloadData()
         collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "album")
         collectionView.register(
             UINib(nibName: "CollectionViewHeader", bundle: nil),

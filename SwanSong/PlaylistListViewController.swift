@@ -12,7 +12,9 @@ import MediaPlayer
 class PlaylistListViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    var library: [MPMediaItemCollection] = []
+    var library = (MPMediaQuery.playlists().collections ?? []).sorted { list1, list2 in
+       (list1.value(forProperty: MPMediaPlaylistPropertyName) as! String) < (list2.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+    }
     var selected = -1
     
     override func viewDidLoad() {
@@ -23,12 +25,6 @@ class PlaylistListViewController: UIViewController, UITableViewDelegate {
         listView.delegate = self
         listView.dataSource = self
         listView.tableFooterView = UIView()
-        library = MPMediaQuery.playlists().collections ?? []
-        library.sort { list1, list2 in
-            (list1.value(forProperty: MPMediaPlaylistPropertyName) as! String) < (list2.value(forProperty: MPMediaPlaylistPropertyName) as! String)
-        }
-        
-        listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist")
         listView.register(UINib(nibName: "MultiArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist_multi")
     }

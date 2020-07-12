@@ -12,19 +12,16 @@ import MediaPlayer
 class SongLibraryViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    
-    var library: [MPMediaItem] = []
+
+    /// Load tracks from library
+    var library = MPMediaQuery.songs().items ?? []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /// Load songs from library
-        library = MPMediaQuery.songs().items ?? []
-        
-        /// Set list view data
+        /// Set list view properties
         listView.dataSource = self
         listView.delegate = self
-        listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellSmall", bundle: nil), forCellReuseIdentifier: "track")
     }
     
@@ -41,7 +38,7 @@ extension SongLibraryViewController: UITableViewDataSource {
         let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
         cell.title?.text = track.title ?? ""
         let time = Formatter.string(from: track.playbackDuration)
-        cell.detail?.text = "\(time ?? "--:--") - \(track.albumArtist ?? "")"
+        cell.detail?.text = "\(time ?? "--:--") - \(track.artist ?? "")"
         cell.artwork?.image = track.artwork?.image(at: CGSize(width: 80, height: 80))
         return cell
     }

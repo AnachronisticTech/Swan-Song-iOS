@@ -25,6 +25,7 @@ class GenreViewController: UIViewController, UITableViewDelegate {
         listView.dataSource = self
         listView.tableFooterView = UIView()
         
+        // MARK: - TODO: Cleanup
         guard let genreQuery = MPMediaQuery.genres().collections?.filter({ $0.persistentID == genreID }).first else { return }
         tracks = genreQuery.items
         var tmp = [MPMediaEntityPersistentID : [MPMediaItem]]()
@@ -42,8 +43,8 @@ class GenreViewController: UIViewController, UITableViewDelegate {
             )
         }.sorted(by: { $0.name < $1.name })
         genre = tracks.first?.genre ?? "Unknown Genre"
+        // MARK: -
         
-        listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "album")
         listView.register(UINib(nibName: "NumberDetailTableCell", bundle: nil), forCellReuseIdentifier: "track")
     }
