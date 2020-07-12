@@ -149,25 +149,6 @@
             </objects>
             <point key="canvasLocation" x="2868" y="2308"/>
         </scene>
-        <!--Songs-->
-        <scene sceneID="CHu-DE-Xse">
-            <objects>
-                <tableViewController id="SEB-86-qwS" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="FMw-xi-TR6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <connections>
-                            <outlet property="dataSource" destination="SEB-86-qwS" id="MhD-nR-nSy"/>
-                            <outlet property="delegate" destination="SEB-86-qwS" id="w6p-nH-Zmk"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Songs" id="g0b-aZ-1qX"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6nB-w4-nDi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2868" y="3011"/>
-        </scene>
         <!--Settings-->
         <scene sceneID="H8Y-Wf-KVu">
             <objects>
@@ -233,12 +214,51 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="SEB-86-qwS" kind="relationship" relationship="rootViewController" id="6ng-AN-DMH"/>
+                        <segue destination="t6f-8w-3Zq" kind="relationship" relationship="rootViewController" id="w6K-Ss-Ikc"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ta-Ij-QQs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2000" y="3011"/>
+        </scene>
+        <!--Songs-->
+        <scene sceneID="qdF-pJ-orz">
+            <objects>
+                <viewController id="t6f-8w-3Zq" customClass="SongLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xPV-RT-xd2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i6R-ab-fxM">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="i6R-ab-fxM" firstAttribute="leading" secondItem="e2J-bs-oJj" secondAttribute="leading" id="Inb-Nm-S0F"/>
+                            <constraint firstItem="i6R-ab-fxM" firstAttribute="top" secondItem="e2J-bs-oJj" secondAttribute="top" id="St8-Aa-MHk"/>
+                            <constraint firstItem="e2J-bs-oJj" firstAttribute="bottom" secondItem="i6R-ab-fxM" secondAttribute="bottom" id="XxN-4b-eEo"/>
+                            <constraint firstItem="e2J-bs-oJj" firstAttribute="trailing" secondItem="i6R-ab-fxM" secondAttribute="trailing" id="fPI-ik-CGZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="e2J-bs-oJj"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Songs" id="XHv-OU-cDR">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="zoy-d8-LSf">
+                            <connections>
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="zoy-d8-LSf" id="yli-Rz-Zas">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="listView" destination="i6R-ab-fxM" id="2g0-R0-sRl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZE6-dm-JbL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2867" y="3011"/>
         </scene>
         <!--Artists-->
         <scene sceneID="BZn-6X-aYg">
@@ -742,7 +762,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eD2-Zh-j2h"/>
+        <segue reference="yli-Rz-Zas"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>
