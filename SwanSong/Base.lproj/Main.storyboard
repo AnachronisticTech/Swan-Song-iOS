@@ -392,7 +392,7 @@
                                 </view>
                                 <blurEffect style="regular"/>
                             </visualEffectView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WXQ-w5-BBx" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WXQ-w5-BBx" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                                 <rect key="frame" x="15" y="15" width="384" height="384"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="WXQ-w5-BBx" secondAttribute="height" multiplier="1:1" id="NpR-RJ-3U6"/>
