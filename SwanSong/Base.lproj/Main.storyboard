@@ -54,7 +54,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="vkY-Tb-uS4">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" popoverAnchorBarButtonItem="vkY-Tb-uS4" id="dWD-6d-1A7">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="vkY-Tb-uS4" id="c4Z-fO-OM1">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -69,7 +69,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2868.115942028986" y="126.5625"/>
+            <point key="canvasLocation" x="2867" y="881"/>
         </scene>
         <!--Playlist-->
         <scene sceneID="6cz-Cb-dTP">
@@ -115,7 +115,7 @@
                     <navigationItem key="navigationItem" title="Playlists" id="T6j-MW-TKE">
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="IOq-9z-4kU">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="IOq-9z-4kU" id="Xju-ze-sQ0">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="IOq-9z-4kU" id="w3S-tO-Q8q">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -131,25 +131,6 @@
             <point key="canvasLocation" x="2868" y="1582"/>
         </scene>
         <!--Settings-->
-        <scene sceneID="H8Y-Wf-KVu">
-            <objects>
-                <tableViewController id="LAy-Hb-QRn" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5cn-rw-MHR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <connections>
-                            <outlet property="dataSource" destination="LAy-Hb-QRn" id="ax4-Nt-kLW"/>
-                            <outlet property="delegate" destination="LAy-Hb-QRn" id="lXN-d6-ePn"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="j5J-uL-xXu"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tVX-Zm-NO8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2868" y="4409"/>
-        </scene>
-        <!--Settings-->
         <scene sceneID="c8M-fY-GIe">
             <objects>
                 <navigationController id="hyM-uz-rh5" sceneMemberID="viewController">
@@ -159,12 +140,36 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="LAy-Hb-QRn" kind="relationship" relationship="rootViewController" id="JjX-jo-5cO"/>
+                        <segue destination="D0f-6L-t3z" kind="relationship" relationship="rootViewController" id="pb4-H8-FQ4"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fpK-LT-hML" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2000" y="4409"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="fr9-eI-LJb">
+            <objects>
+                <viewController id="D0f-6L-t3z" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="G6z-ec-s5w">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="WNy-0S-663"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Settings" id="bph-Nv-d7X">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="57f-sc-OsE">
+                            <connections>
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="57f-sc-OsE" id="neM-pW-n4g">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dT8-Ug-G7K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2867" y="4409"/>
         </scene>
         <!--Genres-->
         <scene sceneID="lt2-ij-wcj">
@@ -181,7 +186,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1wH-XE-Rm3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2000" y="3692"/>
+            <point key="canvasLocation" x="2000" y="3005"/>
         </scene>
         <!--Songs-->
         <scene sceneID="8b0-hz-zsq">
@@ -200,7 +205,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ta-Ij-QQs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2000" y="3011"/>
+            <point key="canvasLocation" x="2000" y="3704"/>
         </scene>
         <!--Songs-->
         <scene sceneID="qdF-pJ-orz">
@@ -227,7 +232,7 @@
                     <navigationItem key="navigationItem" title="Songs" id="XHv-OU-cDR">
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="zoy-d8-LSf">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="zoy-d8-LSf" id="yli-Rz-Zas">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="zoy-d8-LSf" id="cn1-ud-kdm">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -239,7 +244,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZE6-dm-JbL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2867" y="3011"/>
+            <point key="canvasLocation" x="2867" y="3704"/>
         </scene>
         <!--Artists-->
         <scene sceneID="BZn-6X-aYg">
@@ -285,7 +290,7 @@
                     <navigationItem key="navigationItem" id="48Z-cP-rkp">
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="Ked-Iy-zez">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="Ked-Iy-zez" id="krX-Qw-hie">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="Ked-Iy-zez" id="b9K-w0-C2S">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -297,7 +302,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cPZ-Dl-VS4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4427.536231884058" y="1581.6964285714284"/>
+            <point key="canvasLocation" x="3800" y="1582"/>
         </scene>
         <!--Album View Controller-->
         <scene sceneID="tfA-Pv-aTP">
@@ -324,7 +329,7 @@
                     <navigationItem key="navigationItem" id="qg8-fb-zWj">
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="5R9-sX-w4v">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="5R9-sX-w4v" id="4Nn-zO-q82">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="5R9-sX-w4v" id="muA-k6-9IW">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -336,7 +341,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qac-jL-YGX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4427.536231884058" y="126.5625"/>
+            <point key="canvasLocation" x="3800" y="881"/>
         </scene>
         <!--Player View Controller-->
         <scene sceneID="i8z-lT-Q8P">
@@ -593,7 +598,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PTL-tz-Za5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3673.913043478261" y="853.79464285714278"/>
+            <point key="canvasLocation" x="5110" y="881"/>
         </scene>
         <!--Albums-->
         <scene sceneID="D8S-LV-K6I">
@@ -614,7 +619,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RJ6-1k-YTt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2000.0000000000002" y="126.5625"/>
+            <point key="canvasLocation" x="2000" y="881"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="0J9-JR-bHJ">
@@ -637,7 +642,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YuV-ug-RJh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="703" y="4409"/>
+            <point key="canvasLocation" x="1117" y="4409"/>
         </scene>
         <!--Genres-->
         <scene sceneID="SV5-yk-cMb">
@@ -685,7 +690,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="QJE-Rp-6Gn">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="QJE-Rp-6Gn" id="eD2-Zh-j2h">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="QJE-Rp-6Gn" id="zjL-B1-PT4">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -700,7 +705,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ggn-Z0-vND" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2866.666666666667" y="3691.7410714285711"/>
+            <point key="canvasLocation" x="2867" y="3005"/>
         </scene>
         <!--Genre View Controller-->
         <scene sceneID="xSy-oI-3gV">
@@ -727,7 +732,7 @@
                     <navigationItem key="navigationItem" id="aod-vI-dbZ">
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="ukE-81-8aB">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="ukE-81-8aB" id="x9Z-0Y-Uco">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="ukE-81-8aB" id="wwI-XB-M5o">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -739,7 +744,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yca-zp-Hwg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4428" y="3692"/>
+            <point key="canvasLocation" x="3800" y="3005"/>
         </scene>
         <!--Artists-->
         <scene sceneID="fJK-Wc-Nom">
@@ -787,7 +792,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="Sgn-Rb-gGf">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="Sgn-Rb-gGf" id="gLP-6B-hZw">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="Sgn-Rb-gGf" id="uZx-WA-shc">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -829,7 +834,7 @@
                     <navigationItem key="navigationItem" id="CIy-di-swg">
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="rdi-nV-udC">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="rdi-nV-udC" id="M5G-wT-Me6">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="rdi-nV-udC" id="sgl-Fb-Qd8">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -841,11 +846,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1NX-KG-TE3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4428" y="2309"/>
+            <point key="canvasLocation" x="3800" y="2309"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="M5G-wT-Me6"/>
+        <segue reference="zjL-B1-PT4"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>
