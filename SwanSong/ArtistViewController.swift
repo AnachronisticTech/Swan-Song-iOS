@@ -1,18 +1,18 @@
 //
-//  GenreViewController.swift
+//  ArtistViewController.swift
 //  SwanSong
 //
-//  Created by Daniel Marriner on 08/07/2020.
+//  Created by Daniel Marriner on 15/07/2020.
 //  Copyright © 2020 Daniel Marriner. All rights reserved.
 //
 
 import UIKit
 import MediaPlayer
 
-class GenreViewController: UIViewController, UITableViewDelegate {
+class ArtistViewController: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    var genreID: MPMediaEntityPersistentID? = nil
+    var artistID: MPMediaEntityPersistentID? = nil
     var tracks: [MPMediaItem] = []
     
     var groups = [Group]()
@@ -26,7 +26,7 @@ class GenreViewController: UIViewController, UITableViewDelegate {
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "album")
         listView.register(UINib(nibName: "NumberDetailTableCell", bundle: nil), forCellReuseIdentifier: "track")
         
-        guard let tracks = MPMediaQuery.genres().collections?.filter({ $0.persistentID == genreID }).first?.items else { return }
+        guard let tracks = MPMediaQuery.artists().collections?.filter({ $0.persistentID == artistID }).first?.items else { return }
         var tmp = [MPMediaEntityPersistentID : [MPMediaItem]]()
         tracks.forEach { track in
             let albumID = track.albumPersistentID
@@ -44,7 +44,7 @@ class GenreViewController: UIViewController, UITableViewDelegate {
     
 }
 
-extension GenreViewController: UITableViewDataSource {
+extension ArtistViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         groups.count

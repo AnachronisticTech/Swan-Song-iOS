@@ -172,6 +172,15 @@ class PlayerViewController: UIViewController {
         }
         return light
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if #available(iOS 13.0, *) {
+            scrubber.setMaximumTrackImage(UIImage(color: adaptiveColor(.systemGray5, .systemGray), size: CGSize(width: 5, height: 3)), for: .normal)
+        }
+        currentTime.textColor = adaptiveColor(.darkGray, .lightGray)
+        remainingTime.textColor = adaptiveColor(.darkGray, .lightGray)
+        trackInfo.textColor = adaptiveColor(.darkGray, .lightGray)
+    }
 }
 
 extension PlayerViewController: AudioPlayerObserver {

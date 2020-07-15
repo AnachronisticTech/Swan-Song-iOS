@@ -79,7 +79,7 @@ extension PlaylistListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selected = indexPath.row
         performSegue(withIdentifier: "ToPlaylist", sender: self)
-        listView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

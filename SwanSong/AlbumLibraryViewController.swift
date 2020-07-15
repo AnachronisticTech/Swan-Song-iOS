@@ -38,9 +38,9 @@ class AlbumLibraryViewController: SwappableViewController {
         listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "album")
         
         /// Set collection view data
-        collectionView.dataSource = self
-        collectionView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "album")
-        collectionView.register(
+        gridView.dataSource = self
+        gridView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "album")
+        gridView.register(
             UINib(nibName: "CollectionViewHeader", bundle: nil),
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "header"
@@ -91,7 +91,7 @@ extension AlbumLibraryViewController: UITableViewDataSource {
         selected.0 = indexPath.section
         selected.1 = indexPath.row
         performSegue(withIdentifier: "ToAlbum", sender: self)
-        listView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

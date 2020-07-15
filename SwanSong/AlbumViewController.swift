@@ -73,7 +73,7 @@ extension AlbumViewController: UITableViewDataSource {
         default:
             Player.play(tracks, skipping: indexPath.row - 1)
             performSegue(withIdentifier: "ToPlayer", sender: self)
-            listView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     

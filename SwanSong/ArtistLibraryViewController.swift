@@ -1,18 +1,18 @@
 //
-//  GenreLibraryViewController.swift
+//  ArtistLibraryViewController.swift
 //  SwanSong
 //
-//  Created by Daniel Marriner on 08/07/2020.
+//  Created by Daniel Marriner on 15/07/2020.
 //  Copyright © 2020 Daniel Marriner. All rights reserved.
 //
 
 import UIKit
 import MediaPlayer
 
-class GenreLibraryViewController: SwappableViewController {
+class ArtistLibraryViewController: SwappableViewController {
 
     /// Load genres from library
-    var library = MPMediaQuery.genres().collections ?? []
+    var library = MPMediaQuery.artists().collections ?? []
     var details = [(String, Int, [MPMediaItem])]()
     var selected: String = ""
     
@@ -21,27 +21,27 @@ class GenreLibraryViewController: SwappableViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        library.forEach { genre in
-            let title = genre.items.first?.genre ?? ""
+        library.forEach { artist in
+            let title = artist.items.first?.artist ?? ""
             var art = [MPMediaItem]()
-            for track in genre.items.sorted(by: { $0.albumTitle! < $1.albumTitle! }) { // Sorting is slow
+            for track in artist.items.sorted(by: { $0.albumTitle! < $1.albumTitle! }) { // Sorting is slow
                 if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
                     art.append(track)
                 }
                 if art.count >= 4 { break }
             }
-            details.append((title, genre.items.count, art))
+            details.append((title, artist.items.count, art))
         }
         
         /// Set list view data
         listView.dataSource = self
-        listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre")
-        listView.register(UINib(nibName: "MultiArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "genre_multi")
+        listView.register(UINib(nibName: "ArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "artist")
+        listView.register(UINib(nibName: "MultiArtDetailTableCellMedium", bundle: nil), forCellReuseIdentifier: "artist_multi")
         
         /// Set collection view data
         gridView.dataSource = self
-        gridView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre")
-        gridView.register(UINib(nibName: "MultiArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "genre_multi")
+        gridView.register(UINib(nibName: "ArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "artist")
+        gridView.register(UINib(nibName: "MultiArtDetailCollectionCell", bundle: nil), forCellWithReuseIdentifier: "artist_multi")
         gridView.register(
             UINib(nibName: "CollectionViewHeader", bundle: nil),
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -50,16 +50,16 @@ class GenreLibraryViewController: SwappableViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ToGenre" {
-            let destinationViewController = segue.destination as! GenreViewController
-            guard let genre = library.filter({ $0.items[0].genre == selected }).first else { return }
-            destinationViewController.genreID = genre.persistentID
+        if segue.identifier == "ToArtist" {
+            let destinationViewController = segue.destination as! ArtistViewController
+            guard let artist = library.filter({ $0.items[0].artist == selected }).first else { return }
+            destinationViewController.artistID = artist.persistentID
         }
     }
     
 }
 
-extension GenreLibraryViewController: UITableViewDataSource {
+extension ArtistLibraryViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return Set(details.map { $0.0.first! }).count
@@ -86,13 +86,13 @@ extension GenreLibraryViewController: UITableViewDataSource {
         let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[indexPath.section].first!
         let data = details.filter({ $0.0.first! == key })[indexPath.row]
         if data.2.count < 4 {
-            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "genre", for: indexPath) as! ArtDetailTableViewCell
+            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "artist", for: indexPath) as! ArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             return cell
         } else {
-            let cell: MultiArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailTableViewCell
+            let cell: MultiArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "artist_multi", for: indexPath) as! MultiArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80))
@@ -106,13 +106,13 @@ extension GenreLibraryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let row = tableView.cellForRow(at: indexPath) as? DetailTableViewCell, let text = row.title.text else { return }
         selected = text
-        performSegue(withIdentifier: "ToGenre", sender: self)
+        performSegue(withIdentifier: "ToArtist", sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }
 
-extension GenreLibraryViewController: UICollectionViewDataSource {
+extension ArtistLibraryViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Set(details.map { $0.0.first! }).count
@@ -152,13 +152,13 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
         let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[indexPath.section].first!
         let data = details.filter({ $0.0.first! == key })[indexPath.row]
         if data.2.count < 4 {
-            let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre", for: indexPath) as! ArtDetailCollectionViewCell
+            let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "artist", for: indexPath) as! ArtDetailCollectionViewCell
             cell.title.text = data.0
             cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             return cell
         } else {
-            let cell: MultiArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailCollectionViewCell
+            let cell: MultiArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "artist_multi", for: indexPath) as! MultiArtDetailCollectionViewCell
             cell.title.text = data.0
             cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80))
@@ -172,7 +172,7 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = collectionView.cellForItem(at: indexPath) as? DetailCollectionViewCell, let text = item.title.text else { return }
         selected = text
-        performSegue(withIdentifier: "ToGenre", sender: self)
+        performSegue(withIdentifier: "ToArtist", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     

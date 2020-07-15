@@ -60,6 +60,7 @@ extension PlaylistViewController: UITableViewDataSource {
                 cell.artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80))
                 cell.artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80))
                 cell.artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80))
+                cell.isUserInteractionEnabled = false
                 return cell
             } else {
                 let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
@@ -75,6 +76,7 @@ extension PlaylistViewController: UITableViewDataSource {
             cell.footer?.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s") - \(Int((tracks.map({ $0.playbackDuration }).reduce(0, +) / 60).rounded(.up))) minutes"
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
+            cell.isUserInteractionEnabled = false
             return cell
         default:
             let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
@@ -93,7 +95,7 @@ extension PlaylistViewController: UITableViewDataSource {
         default:
             Player.play(tracks, skipping: indexPath.row - 1)
             performSegue(withIdentifier: "ToPlayer", sender: self)
-            listView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     

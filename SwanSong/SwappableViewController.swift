@@ -12,7 +12,7 @@ import MediaPlayer
 class SwappableViewController: UIViewController, UITableViewDelegate, UICollectionViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var swapViewButton: UIBarButtonItem!
     
     let itemsPerRow = 2
@@ -37,8 +37,8 @@ class SwappableViewController: UIViewController, UITableViewDelegate, UICollecti
         listView.delegate = self
         listView.tableFooterView = UIView()
         
-        collectionView.delegate = self
-        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        gridView.delegate = self
+        let layout = gridView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
         layout?.headerReferenceSize = CGSize(width: 0, height: 28)
         

@@ -61,7 +61,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="lcJ-dQ-spR" id="gc3-57-tcf"/>
+                        <outlet property="gridView" destination="lcJ-dQ-spR" id="oUL-Sc-ere"/>
                         <outlet property="listView" destination="xPB-sH-VIu" id="cVT-X4-WvD"/>
                         <outlet property="swapViewButton" destination="0Qs-XI-ppg" id="Tw2-Cd-FPc"/>
                         <segue destination="aPb-SA-dgo" kind="show" identifier="ToAlbum" id="fSq-x4-fKi"/>
@@ -129,25 +129,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MUN-hv-mb3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2868" y="1582"/>
-        </scene>
-        <!--Artists-->
-        <scene sceneID="iUy-T3-8nk">
-            <objects>
-                <tableViewController id="jVe-G8-RUr" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="LbS-5y-Qi6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <connections>
-                            <outlet property="dataSource" destination="jVe-G8-RUr" id="Glp-hf-tLt"/>
-                            <outlet property="delegate" destination="jVe-G8-RUr" id="Fnf-kQ-BgS"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Artists" id="GYC-jh-jbm"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YWI-mD-Mu6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2868" y="2308"/>
         </scene>
         <!--Settings-->
         <scene sceneID="H8Y-Wf-KVu">
@@ -272,7 +253,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="jVe-G8-RUr" kind="relationship" relationship="rootViewController" id="GyJ-at-JbI"/>
+                        <segue destination="Sjv-u9-4Pf" kind="relationship" relationship="rootViewController" id="Nnl-ug-eIc"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TnL-fB-xVA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -711,7 +692,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="W4p-qL-3yP" id="Uja-QQ-eQs"/>
+                        <outlet property="gridView" destination="W4p-qL-3yP" id="hmy-ff-RS9"/>
                         <outlet property="listView" destination="Tlu-bR-tgd" id="PfZ-Rm-Gru"/>
                         <outlet property="swapViewButton" destination="rEd-SW-PG4" id="65f-yp-sA0"/>
                         <segue destination="vtt-ix-LjU" kind="show" identifier="ToGenre" id="Xhv-TY-yPf"/>
@@ -760,9 +741,111 @@
             </objects>
             <point key="canvasLocation" x="4428" y="3692"/>
         </scene>
+        <!--Artists-->
+        <scene sceneID="fJK-Wc-Nom">
+            <objects>
+                <viewController id="Sjv-u9-4Pf" customClass="ArtistLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Nd5-5d-Ptk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2Od-yd-G5Q">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Evr-ZT-AwC">
+                                    <size key="itemSize" width="300" height="366"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NuO-ss-b6p">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2Od-yd-G5Q" firstAttribute="leading" secondItem="WxI-AZ-Rak" secondAttribute="leading" id="ECt-RC-jBV"/>
+                            <constraint firstItem="WxI-AZ-Rak" firstAttribute="bottom" secondItem="NuO-ss-b6p" secondAttribute="bottom" id="Grw-cR-qP5"/>
+                            <constraint firstItem="2Od-yd-G5Q" firstAttribute="top" secondItem="WxI-AZ-Rak" secondAttribute="top" id="S7a-2I-F5e"/>
+                            <constraint firstItem="NuO-ss-b6p" firstAttribute="top" secondItem="WxI-AZ-Rak" secondAttribute="top" id="SEM-wl-mwl"/>
+                            <constraint firstItem="NuO-ss-b6p" firstAttribute="trailing" secondItem="WxI-AZ-Rak" secondAttribute="trailing" id="euR-pd-nht"/>
+                            <constraint firstItem="2Od-yd-G5Q" firstAttribute="trailing" secondItem="WxI-AZ-Rak" secondAttribute="trailing" id="l92-Us-0bu"/>
+                            <constraint firstItem="NuO-ss-b6p" firstAttribute="leading" secondItem="WxI-AZ-Rak" secondAttribute="leading" id="mcd-IK-79S"/>
+                            <constraint firstItem="WxI-AZ-Rak" firstAttribute="bottom" secondItem="2Od-yd-G5Q" secondAttribute="bottom" id="vff-8p-wu5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="WxI-AZ-Rak"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Artists" id="Vx4-gI-wQP">
+                        <barButtonItem key="backBarButtonItem" title=" " id="mzV-jh-EJG"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="grid" id="qmT-QS-8Oy">
+                            <connections>
+                                <action selector="swapView:" destination="Sjv-u9-4Pf" id="z1E-Ay-r0p"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="Sgn-Rb-gGf">
+                            <connections>
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="Sgn-Rb-gGf" id="gLP-6B-hZw">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="gridView" destination="2Od-yd-G5Q" id="0u7-E3-hYd"/>
+                        <outlet property="listView" destination="NuO-ss-b6p" id="Lqx-7d-k4I"/>
+                        <outlet property="swapViewButton" destination="qmT-QS-8Oy" id="kkQ-Yk-tZR"/>
+                        <segue destination="SKc-B3-Mzw" kind="show" identifier="ToArtist" id="MMU-Y8-Kob"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KWR-WU-D2x" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2867" y="2309"/>
+        </scene>
+        <!--Artist View Controller-->
+        <scene sceneID="UdQ-iz-XIT">
+            <objects>
+                <viewController id="SKc-B3-Mzw" customClass="ArtistViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2EA-9D-0Og">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nIJ-lf-3EA">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="nIJ-lf-3EA" firstAttribute="leading" secondItem="KMM-yF-VtI" secondAttribute="leading" id="Bhv-3l-EhU"/>
+                            <constraint firstItem="KMM-yF-VtI" firstAttribute="trailing" secondItem="nIJ-lf-3EA" secondAttribute="trailing" id="GwP-Uf-uwn"/>
+                            <constraint firstItem="KMM-yF-VtI" firstAttribute="bottom" secondItem="nIJ-lf-3EA" secondAttribute="bottom" id="H9w-ag-ciJ"/>
+                            <constraint firstItem="nIJ-lf-3EA" firstAttribute="top" secondItem="KMM-yF-VtI" secondAttribute="top" id="zdS-Nq-jAz"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="KMM-yF-VtI"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="CIy-di-swg">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="rdi-nV-udC">
+                            <connections>
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="rdi-nV-udC" id="M5G-wT-Me6">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="listView" destination="nIJ-lf-3EA" id="7nb-k4-TRF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1NX-KG-TE3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4428" y="2309"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yli-Rz-Zas"/>
+        <segue reference="M5G-wT-Me6"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>
