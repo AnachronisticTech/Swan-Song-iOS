@@ -115,7 +115,7 @@ class PlayerViewController: UIViewController {
         artwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
         bigArtwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
         trackTitle.text = item.title
-        trackInfo.text = "\(item.albumArtist ?? "") - \(item.albumTitle ?? "")"
+        trackInfo.text = "\(item.artist ?? (item.albumArtist ?? "")) - \(item.albumTitle ?? "")"
 
         // Update times and scrubber
         if isMovingScrubber {

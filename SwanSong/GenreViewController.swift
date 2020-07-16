@@ -39,6 +39,7 @@ class GenreViewController: UIViewController, UITableViewDelegate {
                 $0.value.sorted(by: { ($0.discNumber, $0.albumTrackNumber) < ($1.discNumber, $1.albumTrackNumber) })
             )
         }.sorted(by: { $0.name < $1.name })
+        self.tracks = groups.flatMap({ $0.items })
         
     }
     
@@ -75,7 +76,9 @@ extension GenreViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row != 0 {
-            Player.play(groups[indexPath.section].items, skipping: indexPath.row - 1) // Only plays from selected album
+//            Player.play(groups[indexPath.section].items, skipping: indexPath.row - 1) // Only plays from selected album
+            let skip = groups[0..<indexPath.section].map({ $0.items.count }).reduce(0, +) + indexPath.row
+            Player.play(tracks, skipping: skip - 1)
             performSegue(withIdentifier: "ToPlayer", sender: self)
             tableView.deselectRow(at: indexPath, animated: true)
         }
