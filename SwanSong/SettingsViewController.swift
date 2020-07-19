@@ -8,9 +8,15 @@
 
 import UIKit
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, UIPickerViewDelegate {
     
     @IBOutlet weak var changeThemeModeControl: UISegmentedControl!
+    @IBOutlet weak var lightModePicker: UIPickerView!
+    @IBOutlet weak var lightModeLabel: UILabel!
+    var lightModePickerVisible = false
+    @IBOutlet weak var darkModePicker: UIPickerView!
+    @IBOutlet weak var darkModeLabel: UILabel!
+    var darkModePickerVisible = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,12 +25,39 @@ class SettingsViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         
         setTheme()
+        
+        lightModePicker.isHidden = true
+        lightModePicker.delegate = self
+        lightModePicker.dataSource = self
+        lightModePicker.translatesAutoresizingMaskIntoConstraints = false
+        lightModePicker.selectRow(TintColor.allCases.firstIndex(where: { $0.color == lightTint }) ?? 0, inComponent: 0, animated: false)
+        lightModeLabel.text = TintColor.allCases.first(where: { $0.color == lightTint })?.rawValue ?? "Blue"
+        
+        darkModePicker.isHidden = true
+        darkModePicker.delegate = self
+        darkModePicker.dataSource = self
+        darkModePicker.translatesAutoresizingMaskIntoConstraints = false
+        darkModePicker.selectRow(TintColor.allCases.firstIndex(where: { $0.color == darkTint }) ?? 0, inComponent: 0, animated: false)
+        darkModeLabel.text = TintColor.allCases.first(where: { $0.color == darkTint })?.rawValue ?? "Blue"
+        
+        if #available(iOS 13.0, *) {} else {
+            changeThemeModeControl.isEnabled = false
+            tableView.cellForRow(at: IndexPath(row: 3, section: 1))?.isUserInteractionEnabled = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         setTheme()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.userInterfaceStyle == .dark {
+            (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
+        } else {
+            (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
+        }
     }
     
     func setTheme() {
@@ -58,7 +91,120 @@ class SettingsViewController: UITableViewController {
                 UserDefaults.standard.set("auto", forKey: "theme")
                 UIApplication.shared.windows.first!.rootViewController?.overrideUserInterfaceStyle = .unspecified
             }
+            setTint()
         }
+    }
+    
+    func showPicker(_ picker: UIPickerView) {
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        picker.alpha = 0
+        UIView.animate(withDuration: 0.25, animations: {
+            picker.alpha = 1
+        }) { _ in
+            picker.isHidden = false
+        }
+    }
+    
+    func hidePicker(_ picker: UIPickerView) {
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        picker.alpha = 1
+        UIView.animate(withDuration: 0.25, animations: {
+            picker.alpha = 0
+        }) { _ in
+            picker.isHidden = true
+        }
+    }
+    
+    func setTint() {
+        if let theme = UserDefaults.standard.value(forKey: "theme") as? String {
+            if theme == "light" {
+                (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
+            } else if theme == "dark" {
+                (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
+            } else {
+                if traitCollection.userInterfaceStyle == .light {
+                    (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
+                } else {
+                    (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
+                }
+            }
+        } else {
+            if traitCollection.userInterfaceStyle == .light {
+                (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
+            } else {
+                (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
+            }
+        }
+    }
+    
+}
+
+extension SettingsViewController {
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        var height = tableView.rowHeight
+        if indexPath.row == 2 {
+            height = lightModePickerVisible ? 216 : 0
+        } else if indexPath.row == 4 {
+            height = darkModePickerVisible ? 216 : 0
+        }
+        return height
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 1 {
+            if lightModePickerVisible {
+                lightModePickerVisible = false
+                hidePicker(lightModePicker)
+            } else {
+                lightModePickerVisible = true
+                showPicker(lightModePicker)
+                darkModePickerVisible = false
+                hidePicker(darkModePicker)
+            }
+        } else if indexPath.row == 3, #available(iOS 13.0, *) {
+            if darkModePickerVisible {
+                darkModePickerVisible = false
+                hidePicker(darkModePicker)
+            } else {
+                darkModePickerVisible = true
+                showPicker(darkModePicker)
+                lightModePickerVisible = false
+                hidePicker(lightModePicker)
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+}
+
+extension SettingsViewController: UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return TintColor.allCases.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        TintColor.allCases[row].rawValue
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if lightModePickerVisible {
+            UserDefaults.standard.set(TintColor.allCases[row].rawValue, forKey: "light")
+            lightModeLabel.text = TintColor.allCases[row].rawValue
+            lightTint = TintColor.allCases[row].color
+        } else {
+            UserDefaults.standard.set(TintColor.allCases[row].rawValue, forKey: "dark")
+            darkModeLabel.text = TintColor.allCases[row].rawValue
+            darkTint = TintColor.allCases[row].color
+        }
+        setTint()
     }
     
 }

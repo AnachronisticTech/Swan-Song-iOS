@@ -31,14 +31,29 @@ class SwanSongViewController: UIViewController {
             case "light":
                 UIApplication.shared.windows.first!.rootViewController?.overrideUserInterfaceStyle = .light
                 navigationController?.navigationBar.overrideUserInterfaceStyle = .light
+                (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
             case "dark" :
                 UIApplication.shared.windows.first!.rootViewController?.overrideUserInterfaceStyle = .dark
                 navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
+                (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
             default:
                 UIApplication.shared.windows.first!.rootViewController?.overrideUserInterfaceStyle = .unspecified
                 navigationController?.navigationBar.overrideUserInterfaceStyle = .unspecified
+                if traitCollection.userInterfaceStyle == .dark {
+                    (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
+                } else {
+                    (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
+                }
             }
             setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.userInterfaceStyle == .dark {
+            (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
+        } else {
+            (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
         }
     }
     

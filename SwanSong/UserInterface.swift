@@ -83,3 +83,20 @@ class FooterTableViewCell: UITableViewCell {
         return CGRect(origin: origin, size: CGSize(width: bounds.width, height: height))
     }
 }
+
+enum TintColor: String, CaseIterable {
+    case Red, Orange, Yellow, Green, Teal, Blue, Purple, Pink
+    
+    var color: UIColor {
+        switch self {
+        case .Red: return .systemRed
+        case .Orange: return .systemOrange
+        case .Yellow: return .systemYellow
+        case .Green: return .systemGreen
+        case .Teal: return .systemTeal
+        case .Blue: return .systemBlue
+        case .Purple: return .systemPurple
+        case .Pink: return .systemPink
+        }
+    }
+}

@@ -62,8 +62,8 @@ class PlayerViewController: SwanSongViewController {
         
         /// Set up time scrubber and labels
         scrubber.isContinuous = false
-        scrubber.setThumbImage(UIImage(color: .systemBlue, size: CGSize(width: 1, height: 6)), for: .normal)
-        scrubber.setMinimumTrackImage(UIImage(color: .systemBlue, size: CGSize(width: 5, height: 3)), for: .normal)
+        scrubber.setThumbImage(UIImage(color: adaptiveColor(lightTint, darkTint), size: CGSize(width: 1, height: 6)), for: .normal)
+        scrubber.setMinimumTrackImage(UIImage(color: adaptiveColor(lightTint, darkTint), size: CGSize(width: 5, height: 3)), for: .normal)
         if #available(iOS 13.0, *) {
             scrubber.setMaximumTrackImage(UIImage(color: adaptiveColor(.systemGray5, .systemGray), size: CGSize(width: 5, height: 3)), for: .normal)
         } else {
@@ -112,9 +112,9 @@ class PlayerViewController: SwanSongViewController {
             playButton.setImage(UIImage(named: "play_fill"), for: .normal)
         }
         
-        repeatButton.backgroundColor = Player.repeatState ? .systemBlue : .clear
+        repeatButton.backgroundColor = Player.repeatState ? adaptiveColor(lightTint, darkTint) : .clear
         repeatButton.setImage(UIImage(named: Player.repeatState ? "repeat_inverted" : "repeat"), for: .normal)
-        shuffleButton.backgroundColor = Player.shuffleState ? .systemBlue : .clear
+        shuffleButton.backgroundColor = Player.shuffleState ? adaptiveColor(lightTint, darkTint) : .clear
         shuffleButton.setImage(UIImage(named: Player.shuffleState ? "shuffle_inverted" : "shuffle"), for: .normal)
     }
     
@@ -186,6 +186,8 @@ class PlayerViewController: SwanSongViewController {
         if #available(iOS 13.0, *) {
             scrubber.setMaximumTrackImage(UIImage(color: adaptiveColor(.systemGray5, .systemGray), size: CGSize(width: 5, height: 3)), for: .normal)
         }
+        scrubber.setThumbImage(UIImage(color: adaptiveColor(lightTint, darkTint), size: CGSize(width: 1, height: 6)), for: .normal)
+        scrubber.setMinimumTrackImage(UIImage(color: adaptiveColor(lightTint, darkTint), size: CGSize(width: 5, height: 3)), for: .normal)
         currentTime.textColor = adaptiveColor(.darkGray, .lightGray)
         remainingTime.textColor = adaptiveColor(.darkGray, .lightGray)
         trackInfo.textColor = adaptiveColor(.darkGray, .lightGray)

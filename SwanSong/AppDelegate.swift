@@ -11,6 +11,9 @@ import UIKit
 let Player = AudioPlayer()
 let Formatter = DateComponentsFormatter()
 
+var lightTint: UIColor = TintColor.Blue.color
+var darkTint : UIColor = TintColor.Blue.color
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -23,6 +26,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Formatter.allowedUnits = [.minute, .second]
         Formatter.unitsStyle = .positional
         Formatter.zeroFormattingBehavior = .pad
+        
+        if UserDefaults.standard.value(forKey: "theme") == nil {
+            UserDefaults.standard.set("auto", forKey: "theme")
+        }
+        
+        if let light = UserDefaults.standard.value(forKey: "light") as? String {
+            lightTint = TintColor.init(rawValue: light)!.color
+        } else {
+            UserDefaults.standard.set("Blue", forKey: "light")
+        }
+        if let dark = UserDefaults.standard.value(forKey: "dark") as? String {
+            darkTint = TintColor.init(rawValue: dark)!.color
+        } else {
+            UserDefaults.standard.set("Blue", forKey: "dark")
+        }
         
         return true
     }
@@ -48,7 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 
