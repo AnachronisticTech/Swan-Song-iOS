@@ -19,8 +19,6 @@ class ArtistLibraryViewController: SwappableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.prefersLargeTitles = false
-        
         library.forEach { artist in
             let title = artist.items.first?.artist ?? ""
             var art = [MPMediaItem]()

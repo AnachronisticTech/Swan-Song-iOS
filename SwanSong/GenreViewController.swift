@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class GenreViewController: UIViewController, UITableViewDelegate {
+class GenreViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
     var genreID: MPMediaEntityPersistentID? = nil
@@ -76,7 +76,6 @@ extension GenreViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row != 0 {
-//            Player.play(groups[indexPath.section].items, skipping: indexPath.row - 1) // Only plays from selected album
             let skip = groups[0..<indexPath.section].map({ $0.items.count }).reduce(0, +) + indexPath.row
             Player.play(tracks, skipping: skip - 1)
             performSegue(withIdentifier: "ToPlayer", sender: self)

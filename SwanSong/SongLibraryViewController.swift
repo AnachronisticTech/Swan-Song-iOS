@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class SongLibraryViewController: UIViewController, UITableViewDelegate {
+class SongLibraryViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
 

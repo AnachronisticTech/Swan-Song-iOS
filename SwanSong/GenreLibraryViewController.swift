@@ -19,8 +19,6 @@ class GenreLibraryViewController: SwappableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.prefersLargeTitles = false
-        
         library.forEach { genre in
             let title = genre.items.first?.genre ?? ""
             var art = [MPMediaItem]()

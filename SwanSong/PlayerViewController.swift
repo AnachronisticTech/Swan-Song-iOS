@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class PlayerViewController: UIViewController {
+class PlayerViewController: SwanSongViewController {
     
     @IBOutlet weak var artwork: UIImageView!
     @IBOutlet weak var bigArtwork: UIImageView!
@@ -47,6 +47,15 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /// Set view theme
+        if #available(iOS 13.0, *), let theme = UserDefaults.standard.value(forKey: "theme") as? String {
+            switch theme {
+                case "light": overrideUserInterfaceStyle = .light
+                case "dark" : overrideUserInterfaceStyle = .dark
+                default: overrideUserInterfaceStyle = .unspecified
+            }
+        }
         
         /// Set view controller as observer of AudioPlayer state
         Player.addObserver(self)
@@ -167,7 +176,7 @@ class PlayerViewController: UIViewController {
     
     /// Select colour based on UI theme or user preferece
     private func adaptiveColor(_ light: UIColor, _ dark: UIColor) -> UIColor {
-        if case .dark = traitCollection.userInterfaceStyle {// or user preference is dark
+        if case .dark = traitCollection.userInterfaceStyle {
             return dark
         }
         return light

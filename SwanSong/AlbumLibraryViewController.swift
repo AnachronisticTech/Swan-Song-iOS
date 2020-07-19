@@ -19,8 +19,6 @@ class AlbumLibraryViewController: SwappableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.prefersLargeTitles = false
-        
         library.forEach { item in
             let firstLetter = String(item.items[0].albumTitle!.first!)
             if var copy = groups.first(where: { $0.name == firstLetter }) {

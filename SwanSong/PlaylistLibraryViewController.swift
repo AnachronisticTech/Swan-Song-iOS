@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class PlaylistListViewController: UIViewController, UITableViewDelegate {
+class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
     var library = (MPMediaQuery.playlists().collections ?? []).sorted { list1, list2 in
@@ -19,8 +19,6 @@ class PlaylistListViewController: UIViewController, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.navigationBar.prefersLargeTitles = false
         
         listView.delegate = self
         listView.dataSource = self
@@ -39,7 +37,7 @@ class PlaylistListViewController: UIViewController, UITableViewDelegate {
 
 }
 
-extension PlaylistListViewController: UITableViewDataSource {
+extension PlaylistLibraryViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return library.count

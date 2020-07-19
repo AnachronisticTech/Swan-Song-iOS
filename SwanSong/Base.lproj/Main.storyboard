@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EMt-J1-pHc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EMt-J1-pHc">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -93,7 +93,7 @@
         <!--Playlists-->
         <scene sceneID="5bh-wI-Xcp">
             <objects>
-                <viewController id="zcp-2w-aw4" customClass="PlaylistListViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="zcp-2w-aw4" customClass="PlaylistLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="v9w-68-ZMq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -140,7 +140,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="D0f-6L-t3z" kind="relationship" relationship="rootViewController" id="pb4-H8-FQ4"/>
+                        <segue destination="jqk-Ld-bTH" kind="relationship" relationship="rootViewController" id="QVy-G7-its"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fpK-LT-hML" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -148,26 +148,74 @@
             <point key="canvasLocation" x="2000" y="4409"/>
         </scene>
         <!--Settings-->
-        <scene sceneID="fr9-eI-LJb">
+        <scene sceneID="Vx9-fN-3ob">
             <objects>
-                <viewController id="D0f-6L-t3z" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="G6z-ec-s5w">
+                <tableViewController id="jqk-Ld-bTH" customClass="SettingsViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Awl-dX-1YK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="WNy-0S-663"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Settings" id="bph-Nv-d7X">
-                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="57f-sc-OsE">
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="RMm-CO-EGh">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="jCI-LX-Xyx">
+                                        <rect key="frame" x="0.0" y="18" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jCI-LX-Xyx" id="dE5-Uq-5Gr">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Interface" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBZ-0O-ml1">
+                                                    <rect key="frame" x="20" y="11.5" width="109" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VgM-Wp-uyk">
+                                                    <rect key="frame" x="242" y="6" width="152" height="33"/>
+                                                    <segments>
+                                                        <segment title="Auto"/>
+                                                        <segment title="Light"/>
+                                                        <segment title="Dark"/>
+                                                    </segments>
+                                                    <connections>
+                                                        <action selector="changeThemeMode:" destination="jqk-Ld-bTH" eventType="valueChanged" id="z5o-Hd-AZf"/>
+                                                    </connections>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="VgM-Wp-uyk" secondAttribute="bottom" constant="6" id="6O6-g6-NGa"/>
+                                                <constraint firstItem="VgM-Wp-uyk" firstAttribute="top" secondItem="dE5-Uq-5Gr" secondAttribute="top" constant="6" id="6gk-2c-6bb"/>
+                                                <constraint firstItem="VgM-Wp-uyk" firstAttribute="centerY" secondItem="dE5-Uq-5Gr" secondAttribute="centerY" id="W78-8F-KUE"/>
+                                                <constraint firstItem="PBZ-0O-ml1" firstAttribute="leading" secondItem="dE5-Uq-5Gr" secondAttribute="leadingMargin" id="bmb-Lt-l6u"/>
+                                                <constraint firstItem="PBZ-0O-ml1" firstAttribute="centerY" secondItem="dE5-Uq-5Gr" secondAttribute="centerY" id="k3Y-LD-fXm"/>
+                                                <constraint firstAttribute="trailing" secondItem="VgM-Wp-uyk" secondAttribute="trailing" constant="20" id="o3w-lA-zHa"/>
+                                                <constraint firstItem="VgM-Wp-uyk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PBZ-0O-ml1" secondAttribute="trailing" constant="10" id="y3G-2p-yed"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="jqk-Ld-bTH" id="Ru5-Mo-leG"/>
+                            <outlet property="delegate" destination="jqk-Ld-bTH" id="itf-VS-W6U"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="tZh-Ye-0Fe">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="YzL-rF-Yxp">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="57f-sc-OsE" id="neM-pW-n4g">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="YzL-rF-Yxp" id="6f9-om-GWE">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dT8-Ug-G7K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                    <connections>
+                        <outlet property="changeThemeModeControl" destination="VgM-Wp-uyk" id="bMw-yv-mMR"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ol8-o3-3GV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2867" y="4409"/>
         </scene>
@@ -850,7 +898,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zjL-B1-PT4"/>
+        <segue reference="c4Z-fO-OM1"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>

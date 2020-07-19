@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class SwappableViewController: UIViewController, UITableViewDelegate, UICollectionViewDelegate {
+class SwappableViewController: SwanSongViewController, UITableViewDelegate, UICollectionViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
     @IBOutlet weak var gridView: UICollectionView!

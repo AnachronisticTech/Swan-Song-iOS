@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class PlaylistViewController: UIViewController, UITableViewDelegate {
+class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
     var playlistID: MPMediaEntityPersistentID? = nil
