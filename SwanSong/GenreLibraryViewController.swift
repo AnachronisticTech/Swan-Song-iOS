@@ -12,24 +12,27 @@ import MediaPlayer
 class GenreLibraryViewController: SwappableViewController {
 
     /// Load genres from library
-    var library = MPMediaQuery.genres().collections ?? []
+    var library = [MPMediaItemCollection]()
     var details = [(String, Int, [MPMediaItem])]()
     var selected: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        library.forEach { genre in
-            let title = genre.items.first?.genre ?? ""
-            var art = [MPMediaItem]()
-            for track in genre.items.sorted(by: { $0.albumTitle! < $1.albumTitle! }) { // Sorting is slow
-                if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
-                    art.append(track)
+                
+        /// Ensure app is authorised
+        if MPMediaLibrary.authorizationStatus() != .authorized {
+            MPMediaLibrary.requestAuthorization { status in
+                if status != .authorized {
+                    print("not authorised")
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                        self.librarySetup()
+                    }
                 }
-                if art.count >= 4 { break }
             }
-            details.append((title, genre.items.count, art))
         }
+        
+        librarySetup()
         
         /// Set list view data
         listView.dataSource = self
@@ -45,6 +48,24 @@ class GenreLibraryViewController: SwappableViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "header"
         )
+    }
+    
+    func librarySetup() {
+        library = MPMediaQuery.genres().collections ?? []
+        library.forEach { genre in
+            let title = genre.items.first?.genre ?? ""
+            var art = [MPMediaItem]()
+            for track in genre.items.sorted(by: { $0.albumTitle! < $1.albumTitle! }) { // Sorting is slow
+                if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
+                    art.append(track)
+                }
+                if art.count >= 4 { break }
+            }
+            details.append((title, genre.items.count, art))
+        }
+        
+        listView.reloadData()
+        gridView.reloadData()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

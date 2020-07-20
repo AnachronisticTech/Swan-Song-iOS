@@ -12,24 +12,38 @@ import MediaPlayer
 class AlbumLibraryViewController: SwappableViewController {
 
     /// Load albums from library
-    var library = MPMediaQuery.albums().collections ?? []
+    var library = [MPMediaItemCollection]()
     var groups = [Group]()
     var selected: (Int, Int) = (-1, -1)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        library.forEach { item in
-            let firstLetter = String(item.items[0].albumTitle!.first!)
-            if var copy = groups.first(where: { $0.name == firstLetter }) {
-                groups.removeAll(where: { $0 == copy })
-                copy.items.append(item.items[0])
-                groups.append(copy)
-            } else {
-                groups.append(Group(firstLetter, [item.items[0]]))
+                
+        /// Ensure app is authorised
+        if MPMediaLibrary.authorizationStatus() != .authorized {
+            MPMediaLibrary.requestAuthorization { status in
+                if status != .authorized {
+                    let alert = UIAlertController(
+                        title: "Not Authorised",
+                        message: "Swan Song is not authorised to access your iTunes media library. To authorise, please go to the in-app settings page to re-request authorisation.",
+                        preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(
+                        title: "Ok",
+                        style: .cancel,
+                        handler: nil)
+                    )
+                    DispatchQueue.main.async {
+                        self.present(alert, animated: true)
+                    }
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                        self.librarySetup()
+                    }
+                }
             }
         }
-        groups.sort(by: <)
+        
+        librarySetup()
         
         /// Set list view data
         listView.dataSource = self
@@ -43,6 +57,25 @@ class AlbumLibraryViewController: SwappableViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "header"
         )
+    }
+    
+    func librarySetup() {
+        /// Organise library entries
+        library = MPMediaQuery.albums().collections ?? []
+        library.forEach { item in
+            let firstLetter = String(item.items[0].albumTitle!.first!)
+            if var copy = groups.first(where: { $0.name == firstLetter }) {
+                groups.removeAll(where: { $0 == copy })
+                copy.items.append(item.items[0])
+                groups.append(copy)
+            } else {
+                groups.append(Group(firstLetter, [item.items[0]]))
+            }
+        }
+        groups.sort(by: <)
+        
+        listView.reloadData()
+        gridView.reloadData()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

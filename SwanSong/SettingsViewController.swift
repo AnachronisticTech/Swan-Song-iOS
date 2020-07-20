@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediaPlayer
 
 class SettingsViewController: UITableViewController, UIPickerViewDelegate {
     
@@ -139,6 +140,28 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
         }
     }
     
+    @IBAction func reauthorise(_ sender: Any) {
+        if MPMediaLibrary.authorizationStatus() == .authorized {
+            let alert = UIAlertController(
+                title: "Already Authorised",
+                message: "Swan Song is already authorised to access your iTunes media library.",
+                preferredStyle: .alert)
+            alert.addAction(UIAlertAction(
+                title: "Ok",
+                style: .cancel,
+                handler: nil)
+            )
+            DispatchQueue.main.async {
+                self.present(alert, animated: true)
+            }
+        } else if MPMediaLibrary.authorizationStatus() == .denied {
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: nil)
+            }
+        }
+    }
+    
 }
 
 extension SettingsViewController {
@@ -154,27 +177,33 @@ extension SettingsViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 {
-            if lightModePickerVisible {
-                lightModePickerVisible = false
-                hidePicker(lightModePicker)
-            } else {
-                lightModePickerVisible = true
-                showPicker(lightModePicker)
-                darkModePickerVisible = false
-                hidePicker(darkModePicker)
-            }
-        } else if indexPath.row == 3, #available(iOS 13.0, *) {
-            if darkModePickerVisible {
-                darkModePickerVisible = false
-                hidePicker(darkModePicker)
-            } else {
-                darkModePickerVisible = true
-                showPicker(darkModePicker)
-                lightModePickerVisible = false
-                hidePicker(lightModePicker)
-            }
+        switch (indexPath.section, indexPath.row) {
+            case (0, 1):
+                if lightModePickerVisible {
+                    lightModePickerVisible = false
+                    hidePicker(lightModePicker)
+                } else {
+                    lightModePickerVisible = true
+                    showPicker(lightModePicker)
+                    darkModePickerVisible = false
+                    hidePicker(darkModePicker)
+                }
+            case (0, 3):
+                if #available(iOS 13.0, *) {
+                    if darkModePickerVisible {
+                        darkModePickerVisible = false
+                        hidePicker(darkModePicker)
+                    } else {
+                        darkModePickerVisible = true
+                        showPicker(darkModePicker)
+                        lightModePickerVisible = false
+                        hidePicker(lightModePicker)
+                    }
+                }
+            default:
+                return
         }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

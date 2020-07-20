@@ -292,6 +292,32 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Library Authorisation" id="F47-pD-Twm">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="mVN-2S-bd3">
+                                        <rect key="frame" x="0.0" y="674" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mVN-2S-bd3" id="FL7-tZ-2cB">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xW5-ZL-esg">
+                                                    <rect key="frame" x="20" y="7" width="374" height="30"/>
+                                                    <state key="normal" title="Re-authorise Swan Song"/>
+                                                    <connections>
+                                                        <action selector="reauthorise:" destination="jqk-Ld-bTH" eventType="touchUpInside" id="ovm-JI-BgF"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="xW5-ZL-esg" secondAttribute="trailing" constant="20" id="19z-xW-ifU"/>
+                                                <constraint firstItem="xW5-ZL-esg" firstAttribute="centerY" secondItem="FL7-tZ-2cB" secondAttribute="centerY" id="DEU-10-6Ro"/>
+                                                <constraint firstItem="xW5-ZL-esg" firstAttribute="leading" secondItem="FL7-tZ-2cB" secondAttribute="leading" constant="20" id="Jlu-A9-tIm"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="jqk-Ld-bTH" id="Ru5-Mo-leG"/>

@@ -14,15 +14,36 @@ class SongLibraryViewController: SwanSongViewController, UITableViewDelegate {
     @IBOutlet weak var listView: UITableView!
 
     /// Load tracks from library
-    var library = MPMediaQuery.songs().items ?? []
+    var library = [MPMediaItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        /// Ensure app is authorised
+        if MPMediaLibrary.authorizationStatus() != .authorized {
+            MPMediaLibrary.requestAuthorization { status in
+                if status != .authorized {
+                    print("not authorised")
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                        self.librarySetup()
+                    }
+                }
+            }
+        }
+        
+        librarySetup()
         
         /// Set list view properties
         listView.dataSource = self
         listView.delegate = self
         listView.register(UINib(nibName: "ArtDetailTableCellSmall", bundle: nil), forCellReuseIdentifier: "track")
+    }
+    
+    func librarySetup() {
+        library = MPMediaQuery.songs().items ?? []
+        
+        listView.reloadData()
     }
     
 }

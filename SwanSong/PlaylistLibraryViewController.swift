@@ -12,19 +12,40 @@ import MediaPlayer
 class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    var library = (MPMediaQuery.playlists().collections ?? []).sorted { list1, list2 in
-       (list1.value(forProperty: MPMediaPlaylistPropertyName) as! String) < (list2.value(forProperty: MPMediaPlaylistPropertyName) as! String)
-    }
+    var library = [MPMediaItemCollection]()
     var selected = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
+        /// Ensure app is authorised
+        if MPMediaLibrary.authorizationStatus() != .authorized {
+            MPMediaLibrary.requestAuthorization { status in
+                if status != .authorized {
+                    print("not authorised")
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                        self.librarySetup()
+                    }
+                }
+            }
+        }
+        
+        librarySetup()
         
         listView.delegate = self
         listView.dataSource = self
         listView.tableFooterView = UIView()
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist")
         listView.register(UINib(nibName: "MultiArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist_multi")
+    }
+    
+    func librarySetup() {
+        library = (MPMediaQuery.playlists().collections ?? []).sorted { list1, list2 in
+        (list1.value(forProperty: MPMediaPlaylistPropertyName) as! String) < (list2.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        }
+        
+        listView.reloadData()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
