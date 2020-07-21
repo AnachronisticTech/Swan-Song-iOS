@@ -1,18 +1,20 @@
 //
-//  ArtistViewController.swift
+//  MultiAlbumListViewController.swift
 //  SwanSong
 //
-//  Created by Daniel Marriner on 15/07/2020.
+//  Created by Daniel Marriner on 21/07/2020.
 //  Copyright © 2020 Daniel Marriner. All rights reserved.
 //
 
 import UIKit
 import MediaPlayer
 
-class ArtistViewController: SwanSongViewController, UITableViewDelegate {
+class MultiAlbumListViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    var artistID: MPMediaEntityPersistentID? = nil
+    var query: MPMediaQuery? = nil
+    var persistentID: MPMediaEntityPersistentID? = nil
+    var filterProperty: String? = nil
     var collections = [MPMediaItemCollection]()
     var tracks: [MPMediaItem] = []
     
@@ -25,18 +27,17 @@ class ArtistViewController: SwanSongViewController, UITableViewDelegate {
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "album")
         listView.register(UINib(nibName: "NumberDetailTableCell", bundle: nil), forCellReuseIdentifier: "track")
         
-        let query = MPMediaQuery.artists()
-        let filter = MPMediaPropertyPredicate(value: artistID, forProperty: MPMediaItemPropertyArtistPersistentID)
-        query.addFilterPredicate(filter)
-        query.groupingType = .album
-        collections = query.collections ?? []
-        tracks = query.items ?? []
+        let filter = MPMediaPropertyPredicate(value: persistentID, forProperty: filterProperty!)
+        query!.addFilterPredicate(filter)
+        query!.groupingType = .album
+        collections = query!.collections ?? []
+        tracks = query!.items ?? []
         
     }
     
 }
 
-extension ArtistViewController: UITableViewDataSource {
+extension MultiAlbumListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return collections.count

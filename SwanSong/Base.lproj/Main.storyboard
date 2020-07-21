@@ -881,10 +881,10 @@
             </objects>
             <point key="canvasLocation" x="2867" y="3005"/>
         </scene>
-        <!--Genre View Controller-->
+        <!--Multi Album List View Controller-->
         <scene sceneID="xSy-oI-3gV">
             <objects>
-                <viewController id="vtt-ix-LjU" customClass="GenreViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vtt-ix-LjU" customClass="MultiAlbumListViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6KI-aw-GjC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -983,10 +983,10 @@
             </objects>
             <point key="canvasLocation" x="2867" y="2309"/>
         </scene>
-        <!--Artist View Controller-->
+        <!--Multi Album List View Controller-->
         <scene sceneID="UdQ-iz-XIT">
             <objects>
-                <viewController id="SKc-B3-Mzw" customClass="ArtistViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="SKc-B3-Mzw" customClass="MultiAlbumListViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2EA-9D-0Og">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1024,7 +1024,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="6f9-om-GWE"/>
+        <segue reference="wwI-XB-M5o"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>

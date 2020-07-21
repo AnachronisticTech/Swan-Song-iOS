@@ -59,9 +59,11 @@ class GenreLibraryViewController: SwappableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToGenre" {
-            let destinationViewController = segue.destination as! GenreViewController
+            let destinationViewController = segue.destination as! MultiAlbumListViewController
             guard let genre = library.filter({ $0.items[0].genre == selected }).first else { return }
-            destinationViewController.genreID = genre.persistentID
+            destinationViewController.query = MPMediaQuery.genres()
+            destinationViewController.persistentID = genre.persistentID
+            destinationViewController.filterProperty = MPMediaItemPropertyGenrePersistentID
         }
     }
     

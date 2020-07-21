@@ -59,9 +59,11 @@ class ArtistLibraryViewController: SwappableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToArtist" {
-            let destinationViewController = segue.destination as! ArtistViewController
+            let destinationViewController = segue.destination as! MultiAlbumListViewController
             guard let artist = library.filter({ $0.items[0].artist == selected }).first else { return }
-            destinationViewController.artistID = artist.persistentID
+            destinationViewController.query = MPMediaQuery.artists()
+            destinationViewController.persistentID = artist.persistentID
+            destinationViewController.filterProperty = MPMediaItemPropertyArtistPersistentID
         }
     }
     
