@@ -20,29 +20,7 @@ class ArtistLibraryViewController: SwappableViewController {
         super.viewDidLoad()
                 
         /// Ensure app is authorised
-        if MPMediaLibrary.authorizationStatus() != .authorized {
-            MPMediaLibrary.requestAuthorization { status in
-                if status != .authorized {
-                    let alert = UIAlertController(
-                        title: "Not Authorised",
-                        message: "Swan Song is not authorised to access your iTunes media library. To authorise, please go to the in-app settings page to re-request authorisation.",
-                        preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(
-                        title: "Ok",
-                        style: .cancel,
-                        handler: nil)
-                    )
-                    DispatchQueue.main.async {
-                        self.present(alert, animated: true)
-                    }
-                } else {
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
-                        self.librarySetup()
-                    }
-                }
-            }
-        }
-        
+        checkAuthorisation(self, then: self.librarySetup)
         librarySetup()
         
         /// Set list view data

@@ -69,4 +69,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+    
+func checkAuthorisation(_ viewController: UIViewController, then run: (() -> Void)? = nil) {
+    if MPMediaLibrary.authorizationStatus() != .authorized {
+        MPMediaLibrary.requestAuthorization { status in
+            if status != .authorized {
+                let alert = UIAlertController(
+                    title: "Not Authorised",
+                    message: "Swan Song is not authorised to access your iTunes media library. To authorise, please go to the in-app settings page to re-request authorisation.",
+                    preferredStyle: .alert)
+                alert.addAction(UIAlertAction(
+                    title: "Ok",
+                    style: .cancel,
+                    handler: nil)
+                )
+                DispatchQueue.main.async {
+                    viewController.present(alert, animated: true)
+                }
+            } else if let run = run {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                    run()
+                }
+            }
+        }
+    }
+}
 
