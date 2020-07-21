@@ -18,9 +18,8 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        /// Ensure app is authorised
-        checkAuthorisation(self, then: self.librarySetup)
-        librarySetup()
+        /// Ensure app is authorised, then load library
+        checkAuthorisation(self) { self.librarySetup() }
         
         listView.delegate = self
         listView.dataSource = self
@@ -29,10 +28,9 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
         listView.register(UINib(nibName: "MultiArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist_multi")
     }
     
+    /// Load playlists from library
     func librarySetup() {
-        library = (MPMediaQuery.playlists().collections ?? []) as! [MPMediaPlaylist]//.sorted { list1, list2 in
-//            (list1.value(forProperty: MPMediaPlaylistPropertyName) as! String) < (list2.value(forProperty: MPMediaPlaylistPropertyName) as! String)
-//        }
+        library = (MPMediaQuery.playlists().collections ?? []) as! [MPMediaPlaylist]
         
         listView.reloadData()
     }

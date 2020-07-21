@@ -19,9 +19,8 @@ class GenreLibraryViewController: SwappableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        /// Ensure app is authorised
-        checkAuthorisation(self, then: self.librarySetup)
-        librarySetup()
+        /// Ensure app is authorised, then load library
+        checkAuthorisation(self) { self.librarySetup() }
         
         /// Set list view data
         listView.dataSource = self
@@ -39,6 +38,7 @@ class GenreLibraryViewController: SwappableViewController {
         )
     }
     
+    /// Load genres from library
     func librarySetup() {
         library = MPMediaQuery.genres().collections ?? []
         library.forEach { genre in

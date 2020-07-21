@@ -19,9 +19,8 @@ class SongLibraryViewController: SwanSongViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        /// Ensure app is authorised
-        checkAuthorisation(self, then: self.librarySetup)
-        librarySetup()
+        /// Ensure app is authorised, then load library
+        checkAuthorisation(self) { self.librarySetup() }
         
         /// Set list view properties
         listView.dataSource = self
@@ -29,6 +28,7 @@ class SongLibraryViewController: SwanSongViewController, UITableViewDelegate {
         listView.register(UINib(nibName: "ArtDetailTableCellSmall", bundle: nil), forCellReuseIdentifier: "track")
     }
     
+    /// Load songs from library
     func librarySetup() {
         library = MPMediaQuery.songs().items ?? []
         

@@ -18,9 +18,8 @@ class AlbumLibraryViewController: SwappableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        /// Ensure app is authorised
-        checkAuthorisation(self, then: self.librarySetup)
-        librarySetup()
+        /// Ensure app is authorised, then load library
+        checkAuthorisation(self) { self.librarySetup() }
         
         /// Set list view data
         listView.dataSource = self

@@ -93,5 +93,6 @@ func checkAuthorisation(_ viewController: UIViewController, then run: (() -> Voi
             }
         }
     }
+    if let run = run { run() }
 }
 

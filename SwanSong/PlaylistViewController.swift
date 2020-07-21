@@ -23,9 +23,11 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         listView.dataSource = self
         listView.tableFooterView = UIView()
         
-        guard let playlist = MPMediaQuery.playlists().collections?.filter({ $0.persistentID == playlistID }).first else { return }
-        tracks = playlist.items
-        playlistTitle = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        let query = MPMediaQuery.playlists()
+        let filter = MPMediaPropertyPredicate(value: playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
+        query.addFilterPredicate(filter)
+        playlistTitle = (query.collections?.first?.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        tracks = query.items ?? []
         
         listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist")
@@ -80,10 +82,10 @@ extension PlaylistViewController: UITableViewDataSource {
             return cell
         default:
             let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
-            cell.title?.text = tracks[indexPath.row - 1].title!
-            cell.artwork?.image = tracks[indexPath.row - 1].artwork?.image(at: CGSize(width: 50, height: 50))
-            let time = Formatter.string(from: tracks[indexPath.row - 1].playbackDuration)
-            cell.detail?.text = time
+            let track = tracks[indexPath.row - 1]
+            cell.title?.text = track.title ?? ""
+            cell.artwork?.image = track.artwork?.image(at: CGSize(width: 50, height: 50))
+            cell.detail?.text = Formatter.string(from: track.playbackDuration)
             return cell
         }
     }
