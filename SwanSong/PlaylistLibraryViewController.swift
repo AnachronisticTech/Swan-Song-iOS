@@ -12,7 +12,7 @@ import MediaPlayer
 class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    var library = [MPMediaItemCollection]()
+    var library = [MPMediaPlaylist]()
     var selected = -1
     
     override func viewDidLoad() {
@@ -30,9 +30,9 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     }
     
     func librarySetup() {
-        library = (MPMediaQuery.playlists().collections ?? []).sorted { list1, list2 in
-        (list1.value(forProperty: MPMediaPlaylistPropertyName) as! String) < (list2.value(forProperty: MPMediaPlaylistPropertyName) as! String)
-        }
+        library = (MPMediaQuery.playlists().collections ?? []) as! [MPMediaPlaylist]//.sorted { list1, list2 in
+//            (list1.value(forProperty: MPMediaPlaylistPropertyName) as! String) < (list2.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+//        }
         
         listView.reloadData()
     }
