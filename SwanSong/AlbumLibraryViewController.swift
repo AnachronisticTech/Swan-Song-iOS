@@ -11,10 +11,9 @@ import MediaPlayer
 
 class AlbumLibraryViewController: SwappableViewController {
 
-    /// Load albums from library
-    var library = [MPMediaItemCollection]()
-    var groups = [Group]()
-    var selected: (Int, Int) = (-1, -1)
+    var collections = [MPMediaItemCollection]()
+    var sections = [MPMediaQuerySection]()
+    var selected = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,20 +58,11 @@ class AlbumLibraryViewController: SwappableViewController {
         )
     }
     
+    /// Load albums from library
     func librarySetup() {
-        /// Organise library entries
-        library = MPMediaQuery.albums().collections ?? []
-        library.forEach { item in
-            let firstLetter = String(item.items[0].albumTitle!.first!)
-            if var copy = groups.first(where: { $0.name == firstLetter }) {
-                groups.removeAll(where: { $0 == copy })
-                copy.items.append(item.items[0])
-                groups.append(copy)
-            } else {
-                groups.append(Group(firstLetter, [item.items[0]]))
-            }
-        }
-        groups.sort(by: <)
+        let query = MPMediaQuery.albums()
+        collections = query.collections ?? []
+        sections = query.collectionSections ?? []
         
         listView.reloadData()
         gridView.reloadData()
@@ -81,7 +71,7 @@ class AlbumLibraryViewController: SwappableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToAlbum" {
             let destinationViewController = segue.destination as! AlbumViewController
-            let albumID = groups[selected.0].items[selected.1].albumPersistentID
+            let albumID = collections[selected].representativeItem!.albumPersistentID
             destinationViewController.albumID = albumID
         }
     }
@@ -91,19 +81,19 @@ class AlbumLibraryViewController: SwappableViewController {
 extension AlbumLibraryViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return groups.count
+        return sections.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return String(groups[section].name)
+        return sections[section].title
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups[section].items.count
+        return sections[section].range.length
     }
     
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return groups.map { String($0.name) }
+        return sections.map({ $0.title })
     }
     
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
@@ -112,15 +102,15 @@ extension AlbumLibraryViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
-        cell.title?.text = groups[indexPath.section].items[indexPath.row].albumTitle ?? ""
-        cell.detail?.text = groups[indexPath.section].items[indexPath.row].albumArtist ?? ""
-        cell.artwork?.image = groups[indexPath.section].items[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
+        let index = sections[indexPath.section].range.lowerBound + indexPath.row
+        cell.title.text = collections[index].representativeItem?.albumTitle ?? ""
+        cell.detail?.text = collections[index].representativeItem?.albumArtist ?? ""
+        cell.artwork?.image = collections[index].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selected.0 = indexPath.section
-        selected.1 = indexPath.row
+        selected = sections[indexPath.section].range.lowerBound + indexPath.row
         performSegue(withIdentifier: "ToAlbum", sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -130,7 +120,7 @@ extension AlbumLibraryViewController: UITableViewDataSource {
 extension AlbumLibraryViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return groups.count
+        return sections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -142,7 +132,7 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
                 for: indexPath) as? CollectionViewHeader
                 else { fatalError("Invalid view type") }
             
-            header.title.text = String(groups[indexPath.section].name)
+            header.title.text = sections[indexPath.section].title
             return header
         default:
             assert(false, "Invalid element kind")
@@ -150,11 +140,11 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return groups[section].items.count
+        return sections[section].range.length
     }
     
     func indexTitles(for collectionView: UICollectionView) -> [String]? {
-        return groups.map { String($0.name) }
+        return sections.map({ $0.title })
     }
     
     /// sectionForSectionIndexTitle (for alphabet scrubber)
@@ -164,15 +154,15 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "album", for: indexPath) as! ArtDetailCollectionViewCell
-        cell.title?.text = groups[indexPath.section].items[indexPath.row].albumTitle ?? ""
-        cell.detail?.text = groups[indexPath.section].items[indexPath.row].albumArtist ?? ""
-        cell.artwork?.image = groups[indexPath.section].items[indexPath.row].artwork?.image(at: CGSize(width: 80, height: 80))
+        let index = sections[indexPath.section].range.lowerBound + indexPath.row
+        cell.title?.text = collections[index].representativeItem?.albumTitle ?? ""
+        cell.detail?.text = collections[index].representativeItem?.albumArtist ?? ""
+        cell.artwork?.image = collections[index].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selected.0 = indexPath.section
-        selected.1 = indexPath.row
+        selected = sections[indexPath.section].range.lowerBound + indexPath.row
         performSegue(withIdentifier: "ToAlbum", sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
