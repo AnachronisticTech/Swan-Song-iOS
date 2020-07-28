@@ -45,7 +45,7 @@ extension SongLibraryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let track = library[indexPath.row]
-        let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
+        let cell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
         cell.title?.text = track.title ?? ""
         let time = Formatter.string(from: track.playbackDuration)
         cell.detail?.text = "\(time ?? "--:--") - \(track.artist ?? "")"

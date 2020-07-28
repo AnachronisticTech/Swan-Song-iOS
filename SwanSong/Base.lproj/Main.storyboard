@@ -93,7 +93,7 @@
         <!--Playlists-->
         <scene sceneID="5bh-wI-Xcp">
             <objects>
-                <viewController id="zcp-2w-aw4" customClass="PlaylistLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PlaylistLibrary" id="zcp-2w-aw4" customClass="PlaylistLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="v9w-68-ZMq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1024,7 +1024,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="wwI-XB-M5o"/>
+        <segue reference="w3S-tO-Q8q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>

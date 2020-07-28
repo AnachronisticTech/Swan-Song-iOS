@@ -55,7 +55,7 @@ extension PlaylistViewController: UITableViewDataSource {
                 if art.count >= 4 { break }
             }
             if art.count == 4 {
-                let cell: MultiArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
+                let cell = listView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
                 cell.title?.text = playlistTitle
                 cell.detail.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s")"
                 cell.artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80))
@@ -65,7 +65,7 @@ extension PlaylistViewController: UITableViewDataSource {
                 cell.isUserInteractionEnabled = false
                 return cell
             } else {
-                let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
+                let cell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
                 cell.title?.text = playlistTitle
                 cell.detail.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s")"
                 cell.artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
@@ -74,14 +74,14 @@ extension PlaylistViewController: UITableViewDataSource {
                 return cell
             }
         case tracks.count + 1:
-            let cell: FooterTableViewCell = listView.dequeueReusableCell(withIdentifier: "footer", for: indexPath) as! FooterTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "footer", for: indexPath) as! FooterTableViewCell
             cell.footer?.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s") - \(Int((tracks.map({ $0.playbackDuration }).reduce(0, +) / 60).rounded(.up))) minutes"
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             cell.isUserInteractionEnabled = false
             return cell
         default:
-            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
             let track = tracks[indexPath.row - 1]
             cell.title?.text = track.title ?? ""
             cell.artwork?.image = track.artwork?.image(at: CGSize(width: 50, height: 50))

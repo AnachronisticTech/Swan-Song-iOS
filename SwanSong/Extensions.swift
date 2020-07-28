@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MediaPlayer
 
 extension Double {
     /// Code courtesy of Alessandro Francucci on StackOverflow
@@ -62,5 +63,27 @@ public extension UIImage {
         UIGraphicsEndImageContext()
 
         return newImage
+    }
+}
+
+extension MPMediaPlaylist {
+    /// Code courtesy of Stephen Bodnar on Vaporforums.io
+    /// https://www.vaporforums.io/viewThread/55
+    var folderItems: [MPMediaPlaylist] {
+        var allFolderItems = [MPMediaPlaylist]()
+        if let playlists = MPMediaQuery.playlists().collections as? [MPMediaPlaylist], let id = value(forProperty: "persistentID") as? Int  {
+            for playlist in playlists {
+                if let parentId = playlist.value(forProperty: "parentPersistentID") as? Int {
+                    if parentId != 0 && parentId == id {
+                        allFolderItems.append(playlist)
+                    }
+                }
+            }
+        }
+        return allFolderItems
+    }
+    
+    var isAFolder: Bool {
+        self.value(forProperty: "isFolder") as! Bool
     }
 }

@@ -43,7 +43,7 @@ extension AlbumViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
             cell.title?.text = tracks.first?.albumTitle ?? ""
             cell.detail?.text = tracks.first?.albumArtist ?? ""
             cell.artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
@@ -51,13 +51,13 @@ extension AlbumViewController: UITableViewDataSource {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell
         case tracks.count + 1:
-            let cell: FooterTableViewCell = listView.dequeueReusableCell(withIdentifier: "footer", for: indexPath) as! FooterTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "footer", for: indexPath) as! FooterTableViewCell
             cell.footer?.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s") - \(Int((tracks.map({ $0.playbackDuration }).reduce(0, +) / 60).rounded(.up))) minutes"
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell
         default:
-            let cell: NumberDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! NumberDetailTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! NumberDetailTableViewCell
             cell.title?.text = tracks[indexPath.row - 1].title!
             cell.number?.text = String(tracks[indexPath.row - 1].albumTrackNumber)
             let time = Formatter.string(from: tracks[indexPath.row - 1].playbackDuration)

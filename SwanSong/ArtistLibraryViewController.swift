@@ -96,13 +96,13 @@ extension ArtistLibraryViewController: UITableViewDataSource {
         let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[indexPath.section].first!
         let data = details.filter({ $0.0.first! == key })[indexPath.row]
         if data.2.count < 4 {
-            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "artist", for: indexPath) as! ArtDetailTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "artist", for: indexPath) as! ArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             return cell
         } else {
-            let cell: MultiArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "artist_multi", for: indexPath) as! MultiArtDetailTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "artist_multi", for: indexPath) as! MultiArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80))
@@ -162,13 +162,13 @@ extension ArtistLibraryViewController: UICollectionViewDataSource {
         let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[indexPath.section].first!
         let data = details.filter({ $0.0.first! == key })[indexPath.row]
         if data.2.count < 4 {
-            let cell: ArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "artist", for: indexPath) as! ArtDetailCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "artist", for: indexPath) as! ArtDetailCollectionViewCell
             cell.title.text = data.0
             cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             return cell
         } else {
-            let cell: MultiArtDetailCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "artist_multi", for: indexPath) as! MultiArtDetailCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "artist_multi", for: indexPath) as! MultiArtDetailCollectionViewCell
             cell.title.text = data.0
             cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80))

@@ -49,7 +49,7 @@ extension MultiAlbumListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
             cell.title.text = collections[indexPath.section].representativeItem?.albumTitle ?? ""
             cell.detail?.text = collections[indexPath.section].representativeItem?.albumArtist ?? ""
             cell.artwork?.image = collections[indexPath.section].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
@@ -57,7 +57,7 @@ extension MultiAlbumListViewController: UITableViewDataSource {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell
         } else {
-            let cell: NumberDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! NumberDetailTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! NumberDetailTableViewCell
             let item = collections[indexPath.section].items[indexPath.row - 1]
             cell.title.text = item.title ?? ""
             cell.number.text = "\(item.albumTrackNumber)"

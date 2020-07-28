@@ -14,6 +14,7 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     @IBOutlet weak var listView: UITableView!
     var library = [MPMediaPlaylist]()
     var selected = -1
+    var playlistFolderID: MPMediaEntityPersistentID? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +31,20 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     
     /// Load playlists from library
     func librarySetup() {
-        library = (MPMediaQuery.playlists().collections ?? []) as! [MPMediaPlaylist]
+        let query = MPMediaQuery.playlists()
+        if let playlistFolderID = playlistFolderID {
+            let filter = MPMediaPropertyPredicate(
+                value: playlistFolderID,
+                forProperty: MPMediaPlaylistPropertyPersistentID,
+                comparisonType: .equalTo
+            )
+            query.addFilterPredicate(filter)
+            library = (query.collections?.first as! MPMediaPlaylist).folderItems
+        } else {
+            library = (query.collections ?? []) as! [MPMediaPlaylist]
+        }
+        let sublists = library.filter({ $0.isAFolder }).flatMap({ $0.folderItems })
+        library.removeAll { sublists.contains($0) }
         
         listView.reloadData()
     }
@@ -64,28 +78,45 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
             }
             if art.count >= 4 { break }
         }
+        
+        let title = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        let detail: String
+        if playlist.isAFolder {
+            detail = "\(playlist.folderItems.count) playlist\(playlist.folderItems.count == 1 ? "" : "s")"
+        } else {
+            detail = "\(playlist.count) track\(playlist.count == 1 ? "" : "s")"
+        }
+        
         if art.count == 4 {
-            let cell: MultiArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
-            cell.title?.text = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
-            cell.detail.text = "\(playlist.items.count) track\(playlist.items.count == 1 ? "" : "s")"
+            let cell = listView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
+            cell.title?.text = title
+            cell.detail.text = detail
             cell.artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80))
             cell.artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80))
             cell.artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80))
             cell.artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80))
             return cell
         } else {
-            let cell: ArtDetailTableViewCell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
-            cell.title?.text = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
-            cell.detail.text = "\(playlist.items.count) track\(playlist.items.count == 1 ? "" : "s")"
-            cell.artwork?.image = playlist.items.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+            let cell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
+            cell.title?.text = title
+            cell.detail.text = detail
+            cell.artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
             return cell
         }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selected = indexPath.row
-        performSegue(withIdentifier: "ToPlaylist", sender: self)
         tableView.deselectRow(at: indexPath, animated: true)
+        if library[indexPath.row].isAFolder {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier: "PlaylistLibrary") as! PlaylistLibraryViewController
+            viewController.playlistFolderID = library[indexPath.row].persistentID
+            navigationController?.pushViewController(viewController, animated: true)
+        } else {
+            selected = indexPath.row
+            performSegue(withIdentifier: "ToPlaylist", sender: self)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
 }
