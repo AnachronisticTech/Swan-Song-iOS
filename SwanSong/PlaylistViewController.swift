@@ -47,6 +47,7 @@ extension PlaylistViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
+            let cell: DetailTableViewCell
             var art = [MPMediaItem]()
             for track in tracks {
                 if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
@@ -54,25 +55,24 @@ extension PlaylistViewController: UITableViewDataSource {
                 }
                 if art.count >= 4 { break }
             }
+            
             if art.count == 4 {
-                let cell = listView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
-                cell.title?.text = playlistTitle
-                cell.detail.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s")"
-                cell.artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80))
-                cell.artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80))
-                cell.artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80))
-                cell.artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80))
-                cell.isUserInteractionEnabled = false
-                return cell
+                cell = tableView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
+                (cell as! MultiArtDetailTableViewCell).artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80))
+                (cell as! MultiArtDetailTableViewCell).artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80))
+                (cell as! MultiArtDetailTableViewCell).artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80))
+                (cell as! MultiArtDetailTableViewCell).artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80))
             } else {
-                let cell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
-                cell.title?.text = playlistTitle
-                cell.detail.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s")"
-                cell.artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
-                cell.isUserInteractionEnabled = false
-                cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
-                return cell
+                cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
+                (cell as! ArtDetailTableViewCell).artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
             }
+            
+            cell.title?.text = playlistTitle
+            cell.detail.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s")"
+            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
+            cell.selectionStyle = .none
+            return cell
+            
         case tracks.count + 1:
             let cell = listView.dequeueReusableCell(withIdentifier: "footer", for: indexPath) as! FooterTableViewCell
             cell.footer?.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s") - \(Int((tracks.map({ $0.playbackDuration }).reduce(0, +) / 60).rounded(.up))) minutes"
@@ -80,6 +80,7 @@ extension PlaylistViewController: UITableViewDataSource {
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             cell.isUserInteractionEnabled = false
             return cell
+            
         default:
             let cell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! ArtDetailTableViewCell
             let track = tracks[indexPath.row - 1]

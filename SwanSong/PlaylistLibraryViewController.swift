@@ -22,6 +22,7 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
         /// Ensure app is authorised, then load library
         checkAuthorisation(self) { self.librarySetup() }
         
+        /// Set list view data
         listView.delegate = self
         listView.dataSource = self
         listView.tableFooterView = UIView()
@@ -64,13 +65,10 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return library.count
     }
-    
-    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return index
-    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let playlist = library[indexPath.row]
+        let cell: DetailTableViewCell
         var art = [MPMediaItem]()
         for track in playlist.items {
             if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
@@ -79,30 +77,24 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
             if art.count >= 4 { break }
         }
         
-        let title = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
-        let detail: String
-        if playlist.isAFolder {
-            detail = "\(playlist.folderItems.count) playlist\(playlist.folderItems.count == 1 ? "" : "s")"
+        if art.count == 4 {
+            cell = tableView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
+            (cell as! MultiArtDetailTableViewCell).artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80))
+            (cell as! MultiArtDetailTableViewCell).artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80))
+            (cell as! MultiArtDetailTableViewCell).artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80))
+            (cell as! MultiArtDetailTableViewCell).artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80))
         } else {
-            detail = "\(playlist.count) track\(playlist.count == 1 ? "" : "s")"
+            cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
+            (cell as! ArtDetailTableViewCell).artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
         }
         
-        if art.count == 4 {
-            let cell = listView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
-            cell.title?.text = title
-            cell.detail.text = detail
-            cell.artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80))
-            return cell
+        cell.title.text = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        if playlist.isAFolder {
+            cell.detail.text = "\(playlist.folderItems.count) playlist\(playlist.folderItems.count == 1 ? "" : "s")"
         } else {
-            let cell = listView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
-            cell.title?.text = title
-            cell.detail.text = detail
-            cell.artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
-            return cell
+            cell.detail.text = "\(playlist.count) track\(playlist.count == 1 ? "" : "s")"
         }
+        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -115,7 +107,6 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
         } else {
             selected = indexPath.row
             performSegue(withIdentifier: "ToPlaylist", sender: self)
-            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
