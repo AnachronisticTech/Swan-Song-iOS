@@ -78,7 +78,7 @@ extension AlbumLibraryViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
+        let cell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! SingleArtDetailTableViewCell
         let index = sections[indexPath.section].range.lowerBound + indexPath.row
         cell.title.text = collections[index].representativeItem?.albumTitle ?? ""
         cell.detail?.text = collections[index].representativeItem?.albumArtist ?? ""

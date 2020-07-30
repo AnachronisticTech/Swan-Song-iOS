@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -43,12 +43,51 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gjr-J5-hwu">
                                 <rect key="frame" x="50" y="50" width="50" height="50"/>
                             </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZSP-tv-XOS">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                <subviews>
+                                    <visualEffectView opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="637-xI-l0E">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="JO7-KK-EfK">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PAj-QP-vJc">
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="tYY-Ha-3Yg">
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    </view>
+                                                    <vibrancyEffect>
+                                                        <blurEffect style="regular"/>
+                                                    </vibrancyEffect>
+                                                </visualEffectView>
+                                            </subviews>
+                                        </view>
+                                        <blurEffect style="regular"/>
+                                    </visualEffectView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="folder" translatesAutoresizingMaskIntoConstraints="NO" id="118-JT-7JG">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="118-JT-7JG" secondAttribute="bottom" id="0jP-Ww-Qld"/>
+                                    <constraint firstAttribute="bottom" secondItem="637-xI-l0E" secondAttribute="bottom" id="A6S-1l-Gpo"/>
+                                    <constraint firstItem="637-xI-l0E" firstAttribute="top" secondItem="ZSP-tv-XOS" secondAttribute="top" id="HHE-8J-57B"/>
+                                    <constraint firstItem="118-JT-7JG" firstAttribute="top" secondItem="ZSP-tv-XOS" secondAttribute="top" id="I3V-gS-5MJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="118-JT-7JG" secondAttribute="trailing" id="Tz9-Iq-QxA"/>
+                                    <constraint firstAttribute="trailing" secondItem="637-xI-l0E" secondAttribute="trailing" id="fMG-cC-lID"/>
+                                    <constraint firstItem="637-xI-l0E" firstAttribute="leading" secondItem="ZSP-tv-XOS" secondAttribute="leading" id="yJ7-Kl-VcM"/>
+                                    <constraint firstItem="118-JT-7JG" firstAttribute="leading" secondItem="ZSP-tv-XOS" secondAttribute="leading" id="yks-mf-4xM"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="100" id="0SZ-2M-kfb"/>
                             <constraint firstItem="IJa-kA-xkq" firstAttribute="height" secondItem="orB-zg-Mm2" secondAttribute="height" id="5lp-P5-0go"/>
                             <constraint firstItem="IJa-kA-xkq" firstAttribute="width" secondItem="orB-zg-Mm2" secondAttribute="width" id="9Zf-70-dlC"/>
+                            <constraint firstItem="ZSP-tv-XOS" firstAttribute="top" secondItem="jeZ-xH-RI2" secondAttribute="top" id="BD3-1X-G52"/>
                             <constraint firstItem="gjr-J5-hwu" firstAttribute="leading" secondItem="IJa-kA-xkq" secondAttribute="trailing" id="BqE-Ae-nLC"/>
                             <constraint firstItem="9h3-uz-rsr" firstAttribute="height" secondItem="orB-zg-Mm2" secondAttribute="height" id="C6y-BY-9JH"/>
                             <constraint firstItem="orB-zg-Mm2" firstAttribute="leading" secondItem="jeZ-xH-RI2" secondAttribute="leading" id="Fh1-78-Jm2"/>
@@ -59,14 +98,17 @@
                             <constraint firstAttribute="width" constant="100" id="TkE-LO-FCW"/>
                             <constraint firstItem="gjr-J5-hwu" firstAttribute="height" secondItem="orB-zg-Mm2" secondAttribute="height" id="UrL-Gx-LAf"/>
                             <constraint firstItem="orB-zg-Mm2" firstAttribute="height" secondItem="jeZ-xH-RI2" secondAttribute="height" multiplier="0.5" id="Vvt-LX-69J"/>
+                            <constraint firstItem="ZSP-tv-XOS" firstAttribute="leading" secondItem="jeZ-xH-RI2" secondAttribute="leading" id="WcY-wd-XfQ"/>
                             <constraint firstItem="IJa-kA-xkq" firstAttribute="leading" secondItem="jeZ-xH-RI2" secondAttribute="leading" id="XZT-MU-FUW"/>
                             <constraint firstAttribute="trailing" secondItem="gjr-J5-hwu" secondAttribute="trailing" id="be7-7G-ihZ"/>
                             <constraint firstItem="gjr-J5-hwu" firstAttribute="width" secondItem="orB-zg-Mm2" secondAttribute="width" id="dq0-SM-RL7"/>
+                            <constraint firstAttribute="trailing" secondItem="ZSP-tv-XOS" secondAttribute="trailing" id="ezx-wK-4yx"/>
                             <constraint firstItem="9h3-uz-rsr" firstAttribute="leading" secondItem="orB-zg-Mm2" secondAttribute="trailing" id="i6v-sy-YmM"/>
                             <constraint firstAttribute="trailing" secondItem="9h3-uz-rsr" secondAttribute="trailing" id="ibM-0k-0hQ"/>
                             <constraint firstItem="orB-zg-Mm2" firstAttribute="width" secondItem="jeZ-xH-RI2" secondAttribute="width" multiplier="0.5" id="pLk-T9-gOB"/>
                             <constraint firstItem="orB-zg-Mm2" firstAttribute="top" secondItem="jeZ-xH-RI2" secondAttribute="top" id="scd-kJ-9HX"/>
                             <constraint firstAttribute="bottom" secondItem="gjr-J5-hwu" secondAttribute="bottom" id="te3-Mf-xjn"/>
+                            <constraint firstAttribute="bottom" secondItem="ZSP-tv-XOS" secondAttribute="bottom" id="vuG-sn-L7o"/>
                             <constraint firstItem="IJa-kA-xkq" firstAttribute="top" secondItem="orB-zg-Mm2" secondAttribute="bottom" id="zwy-Ia-PCb"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -95,9 +137,13 @@
                 <outlet property="artwork3" destination="IJa-kA-xkq" id="ol0-G8-gD8"/>
                 <outlet property="artwork4" destination="gjr-J5-hwu" id="UYS-kX-WUs"/>
                 <outlet property="detail" destination="fmI-g4-IfD" id="gJx-VW-jX4"/>
+                <outlet property="folderOverlay" destination="ZSP-tv-XOS" id="xQe-i0-E1p"/>
                 <outlet property="title" destination="Zd9-5S-xW1" id="FKn-y3-RhG"/>
             </connections>
             <point key="canvasLocation" x="128.98550724637681" y="150"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="folder" width="500" height="500"/>
+    </resources>
 </document>

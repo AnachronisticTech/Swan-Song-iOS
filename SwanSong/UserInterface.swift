@@ -18,10 +18,20 @@ class NumberDetailTableViewCell: DetailTableViewCell {
 }
 
 class ArtDetailTableViewCell: DetailTableViewCell {
+    @IBOutlet private weak var folderOverlay: UIView!
+    
+    var isFolderOverlayVisible = false {
+        willSet {
+            folderOverlay.isHidden = !newValue
+        }
+    }
+}
+
+class SingleArtDetailTableViewCell: ArtDetailTableViewCell {
     @IBOutlet weak var artwork: UIImageView!
 }
 
-class MultiArtDetailTableViewCell: DetailTableViewCell {
+class MultiArtDetailTableViewCell: ArtDetailTableViewCell {
     @IBOutlet weak var artwork1: UIImageView!
     @IBOutlet weak var artwork2: UIImageView!
     @IBOutlet weak var artwork3: UIImageView!

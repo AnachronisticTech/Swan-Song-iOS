@@ -84,15 +84,17 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
             (cell as! MultiArtDetailTableViewCell).artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             (cell as! MultiArtDetailTableViewCell).artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
         } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! ArtDetailTableViewCell
-            (cell as! ArtDetailTableViewCell).artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! SingleArtDetailTableViewCell
+            (cell as! SingleArtDetailTableViewCell).artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
         }
         
         cell.title.text = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
         if playlist.isAFolder {
             cell.detail.text = "\(playlist.folderItems.count) playlist\(playlist.folderItems.count == 1 ? "" : "s")"
+            (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = true
         } else {
             cell.detail.text = "\(playlist.count) track\(playlist.count == 1 ? "" : "s")"
+            (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = false
         }
         return cell
     }

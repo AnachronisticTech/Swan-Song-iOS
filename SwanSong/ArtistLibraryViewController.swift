@@ -96,7 +96,7 @@ extension ArtistLibraryViewController: UITableViewDataSource {
         let key = Array(Set(details.map { String($0.0.first!) })).sorted(by: <)[indexPath.section].first!
         let data = details.filter({ $0.0.first! == key })[indexPath.row]
         if data.2.count < 4 {
-            let cell = listView.dequeueReusableCell(withIdentifier: "artist", for: indexPath) as! ArtDetailTableViewCell
+            let cell = listView.dequeueReusableCell(withIdentifier: "artist", for: indexPath) as! SingleArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
