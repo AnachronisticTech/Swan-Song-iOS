@@ -82,7 +82,7 @@ extension AlbumLibraryViewController: UITableViewDataSource {
         let index = sections[indexPath.section].range.lowerBound + indexPath.row
         cell.title.text = collections[index].representativeItem?.albumTitle ?? ""
         cell.detail?.text = collections[index].representativeItem?.albumArtist ?? ""
-        cell.artwork?.image = collections[index].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
+        cell.artwork?.image = collections[index].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
         return cell
     }
 

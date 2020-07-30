@@ -52,7 +52,7 @@ extension MultiAlbumListViewController: UITableViewDataSource {
             let cell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
             cell.title.text = collections[indexPath.section].representativeItem?.albumTitle ?? ""
             cell.detail?.text = collections[indexPath.section].representativeItem?.albumArtist ?? ""
-            cell.artwork?.image = collections[indexPath.section].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork?.image = collections[indexPath.section].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell

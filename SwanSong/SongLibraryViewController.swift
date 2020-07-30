@@ -49,7 +49,7 @@ extension SongLibraryViewController: UITableViewDataSource {
         cell.title?.text = track.title ?? ""
         let time = Formatter.string(from: track.playbackDuration)
         cell.detail?.text = "\(time ?? "--:--") - \(track.artist ?? "")"
-        cell.artwork?.image = track.artwork?.image(at: CGSize(width: 80, height: 80))
+        cell.artwork?.image = track.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
         return cell
     }
     

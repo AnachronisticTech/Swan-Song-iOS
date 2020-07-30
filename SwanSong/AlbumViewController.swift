@@ -46,7 +46,7 @@ extension AlbumViewController: UITableViewDataSource {
             let cell = listView.dequeueReusableCell(withIdentifier: "album", for: indexPath) as! ArtDetailTableViewCell
             cell.title?.text = tracks.first?.albumTitle ?? ""
             cell.detail?.text = tracks.first?.albumArtist ?? ""
-            cell.artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell

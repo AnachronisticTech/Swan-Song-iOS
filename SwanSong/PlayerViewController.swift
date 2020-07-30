@@ -106,8 +106,8 @@ class PlayerViewController: SwanSongViewController {
             title = "Not Playing"
             currentTime.text = "00:00"
             remainingTime.text = "00:00"
-            artwork.image = UIImage(color: .gray)
-            bigArtwork.image = UIImage(color: .white)
+            artwork.image =  UIImage(named: "blank_artwork")
+            bigArtwork.image =  UIImage(named: "blank_artwork")
             scrubber.setValue(0, animated: false)
             playButton.setImage(UIImage(named: "play_fill"), for: .normal)
         }
@@ -121,8 +121,8 @@ class PlayerViewController: SwanSongViewController {
     /// Set track details and user interface elements
     private func setViewContents(for item: MPMediaItem) {
         // Update artwork and labels
-        artwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
-        bigArtwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000))
+        artwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000)) ?? UIImage(named: "blank_artwork")
+        bigArtwork.image = item.artwork?.image(at: CGSize(width: 1000, height: 1000)) ?? UIImage(named: "blank_artwork")
         trackTitle.text = item.title
         trackInfo.text = "\(item.artist ?? (item.albumArtist ?? "")) - \(item.albumTitle ?? "")"
 

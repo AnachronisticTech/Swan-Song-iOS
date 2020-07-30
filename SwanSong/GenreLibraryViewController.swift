@@ -99,16 +99,16 @@ extension GenreLibraryViewController: UITableViewDataSource {
             let cell = listView.dequeueReusableCell(withIdentifier: "genre", for: indexPath) as! ArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
-            cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             return cell
         } else {
             let cell = listView.dequeueReusableCell(withIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailTableViewCell
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
-            cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork2?.image = data.2[1].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork3?.image = data.2[2].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork4?.image = data.2[3].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.artwork2?.image = data.2[1].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.artwork3?.image = data.2[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.artwork4?.image = data.2[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             return cell
         }
     }
@@ -165,16 +165,16 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre", for: indexPath) as! ArtDetailCollectionViewCell
             cell.title.text = data.0
             cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
-            cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailCollectionViewCell
             cell.title.text = data.0
             cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
-            cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork2?.image = data.2[1].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork3?.image = data.2[2].artwork?.image(at: CGSize(width: 80, height: 80))
-            cell.artwork4?.image = data.2[3].artwork?.image(at: CGSize(width: 80, height: 80))
+            cell.artwork1?.image = data.2[0].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.artwork2?.image = data.2[1].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.artwork3?.image = data.2[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.artwork4?.image = data.2[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             return cell
         }
     }
