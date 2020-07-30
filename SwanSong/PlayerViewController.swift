@@ -23,6 +23,7 @@ class PlayerViewController: SwanSongViewController {
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var repeatButton: UIButton!
     @IBOutlet weak var shuffleButton: UIButton!
+    @IBOutlet weak var volumeSlider: MPVolumeView!
     
     var timer = Timer()
     var nowPlaying: MPMediaItem?

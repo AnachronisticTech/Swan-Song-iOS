@@ -731,14 +731,20 @@
                                     <constraint firstItem="S5H-mr-dpo" firstAttribute="centerX" secondItem="gIt-on-llD" secondAttribute="centerX" id="xPm-kp-ck6"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h6L-B5-9Em" customClass="MPVolumeView">
+                                <rect key="frame" x="25" y="564" width="364" height="50"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="WXQ-w5-BBx" firstAttribute="leading" secondItem="9B7-SQ-Efz" secondAttribute="leading" constant="15" id="0Sp-tg-fiy"/>
+                            <constraint firstItem="9B7-SQ-Efz" firstAttribute="trailing" secondItem="h6L-B5-9Em" secondAttribute="trailing" constant="25" id="2RR-e8-Gun"/>
                             <constraint firstItem="U1e-xm-zSq" firstAttribute="centerX" secondItem="W5s-mD-JOA" secondAttribute="centerX" id="7lX-Hl-sS5"/>
                             <constraint firstItem="7hb-5B-0ed" firstAttribute="leading" secondItem="9B7-SQ-Efz" secondAttribute="leading" id="890-kx-3ma"/>
                             <constraint firstAttribute="bottom" secondItem="7hb-5B-0ed" secondAttribute="bottom" id="8AT-oY-WZm"/>
                             <constraint firstItem="gIt-on-llD" firstAttribute="top" secondItem="5Xk-iv-pHY" secondAttribute="bottom" constant="8" id="9uy-1z-QFJ"/>
+                            <constraint firstItem="h6L-B5-9Em" firstAttribute="top" secondItem="gIt-on-llD" secondAttribute="bottom" constant="15" id="BOx-Oz-cJg"/>
                             <constraint firstItem="5Xk-iv-pHY" firstAttribute="top" secondItem="poJ-Lw-5t9" secondAttribute="bottom" id="E6u-XP-aBG"/>
                             <constraint firstItem="7hb-5B-0ed" firstAttribute="trailing" secondItem="9B7-SQ-Efz" secondAttribute="trailing" id="EXK-4Z-o9w"/>
                             <constraint firstItem="9B7-SQ-Efz" firstAttribute="trailing" secondItem="poJ-Lw-5t9" secondAttribute="trailing" constant="15" id="K1x-s3-Fud"/>
@@ -752,8 +758,10 @@
                             <constraint firstItem="9B7-SQ-Efz" firstAttribute="trailing" secondItem="WXQ-w5-BBx" secondAttribute="trailing" constant="15" id="fg1-Sm-WPS"/>
                             <constraint firstItem="9B7-SQ-Efz" firstAttribute="trailing" secondItem="gIt-on-llD" secondAttribute="trailing" constant="15" id="i9J-Kw-wAZ"/>
                             <constraint firstItem="7hb-5B-0ed" firstAttribute="top" secondItem="9B7-SQ-Efz" secondAttribute="top" id="j1r-jm-Iw2"/>
+                            <constraint firstItem="h6L-B5-9Em" firstAttribute="height" secondItem="gIt-on-llD" secondAttribute="height" id="jcr-Rf-iVe"/>
                             <constraint firstItem="U1e-xm-zSq" firstAttribute="top" secondItem="9B7-SQ-Efz" secondAttribute="top" id="nlV-gQ-HiT"/>
                             <constraint firstItem="FKC-Yv-Thc" firstAttribute="top" secondItem="WXQ-w5-BBx" secondAttribute="bottom" constant="10" id="pIV-qo-Lhb"/>
+                            <constraint firstItem="h6L-B5-9Em" firstAttribute="leading" secondItem="9B7-SQ-Efz" secondAttribute="leading" constant="25" id="q2I-R1-2oR"/>
                             <constraint firstAttribute="bottom" secondItem="U1e-xm-zSq" secondAttribute="bottom" id="r3m-pM-9a8"/>
                             <constraint firstItem="gIt-on-llD" firstAttribute="leading" secondItem="9B7-SQ-Efz" secondAttribute="leading" constant="15" id="ra4-pM-31e"/>
                             <constraint firstItem="U1e-xm-zSq" firstAttribute="centerY" secondItem="W5s-mD-JOA" secondAttribute="centerY" id="zXA-eu-UyA"/>
@@ -774,11 +782,12 @@
                         <outlet property="skipButton" destination="jA9-yU-Gy2" id="yi2-I9-1TO"/>
                         <outlet property="trackInfo" destination="5Xk-iv-pHY" id="5fS-pp-d87"/>
                         <outlet property="trackTitle" destination="poJ-Lw-5t9" id="yfz-D7-XK9"/>
+                        <outlet property="volumeSlider" destination="h6L-B5-9Em" id="678-gG-LTN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PTL-tz-Za5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5110" y="881"/>
+            <point key="canvasLocation" x="5107.2463768115949" y="880.58035714285711"/>
         </scene>
         <!--Albums-->
         <scene sceneID="D8S-LV-K6I">
