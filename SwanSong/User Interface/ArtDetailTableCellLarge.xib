@@ -98,10 +98,23 @@
                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vwH-RI-9bd">
+                        <rect key="frame" x="394" y="109" width="0.0" height="0.0"/>
+                        <constraints>
+                            <constraint firstAttribute="height" id="HR8-kx-Zjs"/>
+                            <constraint firstAttribute="width" id="ntB-tJ-Nn4"/>
+                        </constraints>
+                        <state key="normal" title="Edit"/>
+                        <connections>
+                            <action selector="editAction:" destination="4wt-0V-MXL" eventType="touchUpInside" id="8pN-sx-jFQ"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="vwH-RI-9bd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fmI-g4-IfD" secondAttribute="trailing" constant="20" id="625-29-tdw"/>
+                    <constraint firstItem="vwH-RI-9bd" firstAttribute="trailing" secondItem="4T9-zZ-yXR" secondAttribute="trailingMargin" id="81j-tm-8tJ"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Zd9-5S-xW1" secondAttribute="trailing" constant="20" id="C5K-Sv-gRF"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fmI-g4-IfD" secondAttribute="trailing" constant="20" id="JI9-yj-0lV"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="vwH-RI-9bd" secondAttribute="bottom" id="Dpb-5P-fJx"/>
                     <constraint firstItem="Zd9-5S-xW1" firstAttribute="leading" secondItem="Gvl-21-ZYa" secondAttribute="trailing" constant="8" id="KaT-zc-EtJ"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="fmI-g4-IfD" secondAttribute="bottom" constant="8" id="Yje-aI-uDw"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Gvl-21-ZYa" secondAttribute="bottom" constant="10" id="Zfo-dx-9HB"/>
@@ -115,6 +128,9 @@
             <connections>
                 <outlet property="artwork" destination="fAY-IR-okY" id="0Lg-Vd-fkd"/>
                 <outlet property="detail" destination="fmI-g4-IfD" id="gJx-VW-jX4"/>
+                <outlet property="editButton" destination="vwH-RI-9bd" id="lhK-Ti-NPF"/>
+                <outlet property="editButtonHeight" destination="HR8-kx-Zjs" id="T6o-rC-xgS"/>
+                <outlet property="editButtonWidth" destination="ntB-tJ-Nn4" id="feO-2S-cDJ"/>
                 <outlet property="folderOverlay" destination="ulE-ZA-OeM" id="FkV-pk-zVg"/>
                 <outlet property="title" destination="Zd9-5S-xW1" id="FKn-y3-RhG"/>
             </connections>

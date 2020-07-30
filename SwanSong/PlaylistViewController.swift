@@ -47,7 +47,7 @@ extension PlaylistViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.row {
         case 0:
-            let cell: DetailTableViewCell
+            let cell: ArtDetailTableViewCell
             var art = [MPMediaItem]()
             for track in tracks {
                 if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
@@ -71,22 +71,27 @@ extension PlaylistViewController: UITableViewDataSource {
             cell.detail.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s")"
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             cell.selectionStyle = .none
+            cell.showsEditControl = true
+            cell.setEditAction {
+                tableView.setEditing(!tableView.isEditing, animated: true)
+                cell.editButton.setTitle(tableView.isEditing ? "Done" : "Edit", for: .normal)
+            }
             return cell
             
         case tracks.count + 1:
-            let cell = listView.dequeueReusableCell(withIdentifier: "footer", for: indexPath) as! FooterTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "footer", for: indexPath) as! FooterTableViewCell
             cell.footer?.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s") - \(Int((tracks.map({ $0.playbackDuration }).reduce(0, +) / 60).rounded(.up))) minutes"
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
-            cell.isUserInteractionEnabled = false
             return cell
             
         default:
-            let cell = listView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! SingleArtDetailTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! SingleArtDetailTableViewCell
             let track = tracks[indexPath.row - 1]
             cell.title?.text = track.title ?? ""
             cell.artwork?.image = track.artwork?.image(at: CGSize(width: 50, height: 50)) ?? UIImage(named: "blank_artwork")
             cell.detail?.text = Formatter.string(from: track.playbackDuration)
+            cell.showsReorderControl = true
             return cell
         }
     }
@@ -98,8 +103,43 @@ extension PlaylistViewController: UITableViewDataSource {
         default:
             Player.play(tracks, skipping: indexPath.row - 1)
             performSegue(withIdentifier: "ToPlayer", sender: self)
-            tableView.deselectRow(at: indexPath, animated: true)
         }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+//        return .none
+//    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return !(indexPath.row == 0 || indexPath.row == tracks.count + 1)
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return !(indexPath.row == 0 || indexPath.row == tracks.count + 1)
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let track = tracks[sourceIndexPath.row - 1]
+        tracks.remove(at: sourceIndexPath.row - 1)
+        tracks.insert(track, at: destinationIndexPath.row - 1)
+    }
+    
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        switch proposedDestinationIndexPath.row {
+            case 0: return IndexPath(row: 1, section: proposedDestinationIndexPath.section)
+            case tracks.count + 1: return IndexPath(row: tracks.count, section: proposedDestinationIndexPath.section)
+            default: return proposedDestinationIndexPath
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        let query = MPMediaQuery.playlists()
+//        let filter = MPMediaPropertyPredicate(value: playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
+//        query.addFilterPredicate(filter)
+//        if let playlist = query.collections?.first as? MPMediaPlaylist {
+//            let new = MPMediaPlaylist(items: tracks)
+//        }
     }
     
 }
