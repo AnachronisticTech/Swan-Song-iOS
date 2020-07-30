@@ -88,7 +88,7 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
             (cell as! SingleArtDetailTableViewCell).artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
         }
         
-        cell.title.text = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        cell.title.text = playlist.title ?? ""
         if playlist.isAFolder {
             cell.detail.text = "\(playlist.folderItems.count) playlist\(playlist.folderItems.count == 1 ? "" : "s")"
             (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = true

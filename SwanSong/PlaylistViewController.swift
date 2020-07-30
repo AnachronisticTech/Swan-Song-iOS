@@ -26,7 +26,7 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         let query = MPMediaQuery.playlists()
         let filter = MPMediaPropertyPredicate(value: playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
         query.addFilterPredicate(filter)
-        playlistTitle = (query.collections?.first?.value(forProperty: MPMediaPlaylistPropertyName) as! String)
+        playlistTitle = (query.collections?.first as? MPMediaPlaylist)?.title ?? ""
         tracks = query.items ?? []
         
         listView.reloadData()

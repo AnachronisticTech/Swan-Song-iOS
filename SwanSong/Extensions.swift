@@ -86,4 +86,8 @@ extension MPMediaPlaylist {
     var isAFolder: Bool {
         self.value(forProperty: "isFolder") as! Bool
     }
+    
+    var title: String? {
+        self.value(forProperty: MPMediaPlaylistPropertyName) as? String
+    }
 }
