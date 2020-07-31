@@ -8,13 +8,16 @@
 
 import UIKit
 import MediaPlayer
+import CoreData
 
 class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
     var playlistID: MPMediaEntityPersistentID? = nil
     var playlistTitle: String = ""
-    var tracks: [MPMediaItem] = []
+    var tracks: [MPMediaItem] = [] {
+        didSet { saveListToCoreData() }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,18 +25,79 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         listView.delegate = self
         listView.dataSource = self
         listView.tableFooterView = UIView()
-        
-        let query = MPMediaQuery.playlists()
-        let filter = MPMediaPropertyPredicate(value: playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
-        query.addFilterPredicate(filter)
-        playlistTitle = (query.collections?.first as? MPMediaPlaylist)?.title ?? ""
-        tracks = query.items ?? []
+
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", Int64(bitPattern: playlistID!))
+        let results: [Playlist]
+        do {
+            results = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            results = []
+            print("Could not fetch. Error: \(error)")
+        }
+
+        if results.count > 0, let playlist = results.first {
+            playlistTitle = playlist.title
+            var tmp = [MPMediaItem]()
+            for track in playlist.tracks {
+                let query = MPMediaQuery.songs()
+                let filter = MPMediaPropertyPredicate(value: UInt64(bitPattern: track), forProperty: MPMediaItemPropertyPersistentID)
+                query.addFilterPredicate(filter)
+                tmp.append(contentsOf: query.items ?? [])
+            }
+            tracks = tmp
+        } else {
+            let query = MPMediaQuery.playlists()
+            let filter = MPMediaPropertyPredicate(value: playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
+            query.addFilterPredicate(filter)
+            playlistTitle = (query.collections?.first as? MPMediaPlaylist)?.title ?? ""
+            tracks = query.items ?? []
+        }
         
         listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist")
         listView.register(UINib(nibName: "MultiArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist_multi")
         listView.register(UINib(nibName: "ArtDetailTableCellSmall", bundle: nil), forCellReuseIdentifier: "track")
         listView.register(UINib(nibName: "FooterTableCell", bundle: nil), forCellReuseIdentifier: "footer")
+    }
+    
+    func saveListToCoreData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Playlist")
+        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", Int64(bitPattern: playlistID!))
+
+        do {
+            let objects = try managedContext.fetch(fetchRequest)
+            if objects.count >= 1, let object = objects.first {
+                object.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
+            } else {
+                let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
+                let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
+                playlist.setValue(Int64(bitPattern: playlistID!), forKey: "persistentID")
+                playlist.setValue(playlistTitle, forKey: "title")
+                playlist.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
+            }
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not update and save. \(error)")
+        }
+    }
+
+    func deleteAll() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
+        let batchDelete = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try managedContext.execute(batchDelete)
+            print("All records deleted")
+        } catch let error as NSError {
+            print("Could not delete. \(error)")
+        }
     }
     
 }
@@ -121,8 +185,10 @@ extension PlaylistViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let track = tracks[sourceIndexPath.row - 1]
-        tracks.remove(at: sourceIndexPath.row - 1)
-        tracks.insert(track, at: destinationIndexPath.row - 1)
+        var tmp = tracks
+        tmp.remove(at: sourceIndexPath.row - 1)
+        tmp.insert(track, at: destinationIndexPath.row - 1)
+        tracks = tmp
     }
     
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
@@ -131,15 +197,6 @@ extension PlaylistViewController: UITableViewDataSource {
             case tracks.count + 1: return IndexPath(row: tracks.count, section: proposedDestinationIndexPath.section)
             default: return proposedDestinationIndexPath
         }
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        let query = MPMediaQuery.playlists()
-//        let filter = MPMediaPropertyPredicate(value: playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
-//        query.addFilterPredicate(filter)
-//        if let playlist = query.collections?.first as? MPMediaPlaylist {
-//            let new = MPMediaPlaylist(items: tracks)
-//        }
     }
     
 }
