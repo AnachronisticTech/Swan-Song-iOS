@@ -26,6 +26,22 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         listView.dataSource = self
         listView.tableFooterView = UIView()
 
+        checkForStoredList {
+            let query = MPMediaQuery.playlists()
+            let filter = MPMediaPropertyPredicate(value: self.playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
+            query.addFilterPredicate(filter)
+            self.playlistTitle = (query.collections?.first as? MPMediaPlaylist)?.title ?? ""
+            self.tracks = query.items ?? []
+        }
+        
+        listView.reloadData()
+        listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist")
+        listView.register(UINib(nibName: "MultiArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist_multi")
+        listView.register(UINib(nibName: "ArtDetailTableCellSmall", bundle: nil), forCellReuseIdentifier: "track")
+        listView.register(UINib(nibName: "FooterTableCell", bundle: nil), forCellReuseIdentifier: "footer")
+    }
+    
+    func checkForStoredList(else run: (() -> Void)?) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
@@ -48,19 +64,9 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
                 tmp.append(contentsOf: query.items ?? [])
             }
             tracks = tmp
-        } else {
-            let query = MPMediaQuery.playlists()
-            let filter = MPMediaPropertyPredicate(value: playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
-            query.addFilterPredicate(filter)
-            playlistTitle = (query.collections?.first as? MPMediaPlaylist)?.title ?? ""
-            tracks = query.items ?? []
+        } else if let run = run {
+            run()
         }
-        
-        listView.reloadData()
-        listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist")
-        listView.register(UINib(nibName: "MultiArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist_multi")
-        listView.register(UINib(nibName: "ArtDetailTableCellSmall", bundle: nil), forCellReuseIdentifier: "track")
-        listView.register(UINib(nibName: "FooterTableCell", bundle: nil), forCellReuseIdentifier: "footer")
     }
     
     func saveListToCoreData() {
