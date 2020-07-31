@@ -177,12 +177,11 @@ extension PlaylistViewController: UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-//        return .none
-//    }
-    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return !(indexPath.row == 0 || indexPath.row == tracks.count + 1)
+        if tableView.isEditing {
+            return !(indexPath.row == 0 || indexPath.row == tracks.count + 1)
+        }
+        return false
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -203,6 +202,14 @@ extension PlaylistViewController: UITableViewDataSource {
             case tracks.count + 1: return IndexPath(row: tracks.count, section: proposedDestinationIndexPath.section)
             default: return proposedDestinationIndexPath
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let remove = UIContextualAction(style: .destructive, title: "Remove") { _, _, _ in
+            self.tracks.remove(at: indexPath.row - 1)
+            tableView.deleteRows(at: [indexPath], with: .bottom)
+        }
+        return UISwipeActionsConfiguration(actions: [remove])
     }
     
 }
