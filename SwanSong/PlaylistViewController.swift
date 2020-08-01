@@ -25,6 +25,7 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         listView.delegate = self
         listView.dataSource = self
         listView.tableFooterView = UIView()
+        listView.allowsSelectionDuringEditing = true
 
         checkForStoredList {
             let query = MPMediaQuery.playlists()
@@ -110,54 +111,71 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
 
 extension PlaylistViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tracks.count + 2
+        switch section {
+        case 0: return tableView.isEditing ? 2 : 1
+            case 2: return 1
+            default: return tracks.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.row {
-        case 0:
-            let cell: ArtDetailTableViewCell
-            var art = [MPMediaItem]()
-            for track in tracks {
-                if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
-                    art.append(track)
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                let cell: ArtDetailTableViewCell
+                var art = [MPMediaItem]()
+                for track in tracks {
+                    if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
+                        art.append(track)
+                    }
+                    if art.count >= 4 { break }
                 }
-                if art.count >= 4 { break }
-            }
-            
-            if art.count == 4 {
-                cell = tableView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
-                (cell as! MultiArtDetailTableViewCell).artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
-                (cell as! MultiArtDetailTableViewCell).artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
-                (cell as! MultiArtDetailTableViewCell).artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
-                (cell as! MultiArtDetailTableViewCell).artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                if art.count == 4 {
+                    cell = tableView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
+                    (cell as! MultiArtDetailTableViewCell).artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                    (cell as! MultiArtDetailTableViewCell).artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                    (cell as! MultiArtDetailTableViewCell).artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                    (cell as! MultiArtDetailTableViewCell).artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                } else {
+                    cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! SingleArtDetailTableViewCell
+                    (cell as! SingleArtDetailTableViewCell).artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                }
+                
+                cell.title?.text = playlistTitle
+                cell.detail.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s")"
+                cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
+                cell.selectionStyle = .none
+                cell.showsEditControl = true
+                cell.setEditAction {
+                    tableView.setEditing(!tableView.isEditing, animated: true)
+                    cell.editButton.setTitle(tableView.isEditing ? "Done" : "Edit", for: .normal)
+                    tableView.beginUpdates()
+                    if tableView.isEditing {
+                        tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+                    } else {
+                        tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+                    }
+                    tableView.endUpdates()
+                }
+                return cell
             } else {
-                cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! SingleArtDetailTableViewCell
-                (cell as! SingleArtDetailTableViewCell).artwork?.image = tracks.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+                cell.textLabel?.text = "Add tracks"
+                return cell
             }
-            
-            cell.title?.text = playlistTitle
-            cell.detail.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s")"
-            cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
-            cell.selectionStyle = .none
-            cell.showsEditControl = true
-            cell.setEditAction {
-                tableView.setEditing(!tableView.isEditing, animated: true)
-                cell.editButton.setTitle(tableView.isEditing ? "Done" : "Edit", for: .normal)
-            }
-            return cell
-            
-        case tracks.count + 1:
+        } else if indexPath.section == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "footer", for: indexPath) as! FooterTableViewCell
             cell.footer?.text = "\(tracks.count) track\(tracks.count == 1 ? "" : "s") - \(Int((tracks.map({ $0.playbackDuration }).reduce(0, +) / 60).rounded(.up))) minutes"
             cell.isUserInteractionEnabled = false
             cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.width, bottom: 0, right: 0)
             return cell
-            
-        default:
+        } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "track", for: indexPath) as! SingleArtDetailTableViewCell
-            let track = tracks[indexPath.row - 1]
+            let track = tracks[indexPath.row]
             cell.title?.text = track.title ?? ""
             cell.artwork?.image = track.artwork?.image(at: CGSize(width: 50, height: 50)) ?? UIImage(named: "blank_artwork")
             cell.detail?.text = Formatter.string(from: track.playbackDuration)
@@ -167,46 +185,48 @@ extension PlaylistViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0: return
-        case tracks.count + 1: return
-        default:
-            Player.play(tracks, skipping: indexPath.row - 1)
-            performSegue(withIdentifier: "ToPlayer", sender: self)
-        }
         tableView.deselectRow(at: indexPath, animated: true)
+        if !tableView.isEditing {
+            if indexPath.section == 1 {
+                Player.play(tracks, skipping: indexPath.row)
+                performSegue(withIdentifier: "ToPlayer", sender: self)
+            }
+        } else {
+            if indexPath == IndexPath(row: 1, section: 0) {
+                print("adding items")
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if tableView.isEditing {
-            return !(indexPath.row == 0 || indexPath.row == tracks.count + 1)
-        }
-        return false
+        return tableView.isEditing ? indexPath.section == 1 : false
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return !(indexPath.row == 0 || indexPath.row == tracks.count + 1)
+        return indexPath.section == 1
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let track = tracks[sourceIndexPath.row - 1]
+        let track = tracks[sourceIndexPath.row]
         var tmp = tracks
-        tmp.remove(at: sourceIndexPath.row - 1)
-        tmp.insert(track, at: destinationIndexPath.row - 1)
+        tmp.remove(at: sourceIndexPath.row)
+        tmp.insert(track, at: destinationIndexPath.row)
         tracks = tmp
     }
     
     func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        switch proposedDestinationIndexPath.row {
-            case 0: return IndexPath(row: 1, section: proposedDestinationIndexPath.section)
-            case tracks.count + 1: return IndexPath(row: tracks.count, section: proposedDestinationIndexPath.section)
-            default: return proposedDestinationIndexPath
+        if proposedDestinationIndexPath.section == 0 {
+            return IndexPath(row: 0, section: 1)
+        } else if proposedDestinationIndexPath.section == 2 {
+            return IndexPath(row: tracks.count - 1, section: 1)
+        } else {
+            return proposedDestinationIndexPath
         }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let remove = UIContextualAction(style: .destructive, title: "Remove") { _, _, _ in
-            self.tracks.remove(at: indexPath.row - 1)
+            self.tracks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .bottom)
         }
         return UISwipeActionsConfiguration(actions: [remove])
