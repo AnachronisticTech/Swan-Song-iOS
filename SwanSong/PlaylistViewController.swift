@@ -157,7 +157,7 @@ extension PlaylistViewController: UITableViewDataSource {
                     if tableView.isEditing {
                         tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
                     } else {
-                        tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+                        tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
                     }
                     tableView.endUpdates()
                 }
@@ -165,6 +165,9 @@ extension PlaylistViewController: UITableViewDataSource {
             } else {
                 let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
                 cell.textLabel?.text = "Add tracks"
+                let button = UIButton(type: .contactAdd)
+                button.isUserInteractionEnabled = false
+                cell.accessoryView = button
                 return cell
             }
         } else if indexPath.section == 2 {
@@ -193,7 +196,11 @@ extension PlaylistViewController: UITableViewDataSource {
             }
         } else {
             if indexPath == IndexPath(row: 1, section: 0) {
-                print("adding items")
+                let controller = MPMediaPickerController(mediaTypes: .music)
+                controller.allowsPickingMultipleItems = true
+                controller.popoverPresentationController?.sourceView = self.view
+                controller.delegate = self
+                present(controller, animated: true)
             }
         }
     }
@@ -230,6 +237,21 @@ extension PlaylistViewController: UITableViewDataSource {
             tableView.deleteRows(at: [indexPath], with: .bottom)
         }
         return UISwipeActionsConfiguration(actions: [remove])
+    }
+    
+}
+
+extension PlaylistViewController: MPMediaPickerControllerDelegate {
+    
+    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+        mediaPicker.dismiss(animated: true) {
+            self.tracks.append(contentsOf: mediaItemCollection.items)
+            self.listView.reloadData()
+        }
+    }
+
+    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+        mediaPicker.dismiss(animated: true)
     }
     
 }
