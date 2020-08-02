@@ -14,6 +14,7 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     
     @IBOutlet weak var listView: UITableView!
     var library = [Playlist]()
+    var artlib = [Int64: MPMediaPlaylist]()
     var selected = -1
     var playlistFolderID: Int64? = nil
     
@@ -48,6 +49,17 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
         library.removeAll { sublists.contains($0.persistentID) }
         library.removeAll { !$0.isFolder && isListHidden(with: $0.persistentID) }
         library.sort(by: { $0.isFolder && !$1.isFolder })
+        for playlist in library {
+            let query = MPMediaQuery.playlists()
+            let filter = MPMediaPropertyPredicate(
+                value: UInt64(bitPattern: playlist.persistentID),
+                forProperty: MPMediaPlaylistPropertyPersistentID
+            )
+            query.addFilterPredicate(filter)
+            if let list = query.collections?.first as? MPMediaPlaylist {
+                artlib[playlist.persistentID] = list
+            }
+        }
         
         listView.reloadData()
     }
@@ -84,19 +96,26 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
             let playlist = library[indexPath.row]
             let cell: DetailTableViewCell
             var art = [MPMediaItem]()
-            for track in playlist.items {
-                let query = MPMediaQuery.songs()
-                let filter = MPMediaPropertyPredicate(
-                    value: UInt64(track),
-                    forProperty: MPMediaItemPropertyPersistentID
-                )
-                query.addFilterPredicate(filter)
-                if let items = query.items, let item = items.first {
-                if !art.contains(where: { $0.albumPersistentID == item.albumPersistentID }) {
-                    art.append(item)
+            if let sysPlaylist = artlib[playlist.persistentID] {
+                for item in sysPlaylist.items {
+                    if !art.contains(where: { $0.albumPersistentID == item.albumPersistentID }) {
+                        art.append(item)
+                    }
+                    if art.count >= 4 { break }
                 }
+            } else {
+                for track in playlist.items {
+                    let query = MPMediaQuery.songs()
+                    let filter = MPMediaPropertyPredicate(
+                        value: UInt64(track),
+                        forProperty: MPMediaItemPropertyPersistentID
+                    )
+                    query.addFilterPredicate(filter)
+                    if let item = query.items?.first, !art.contains(where: { $0.albumPersistentID == item.albumPersistentID }) {
+                        art.append(item)
+                    }
+                    if art.count >= 4 { break }
                 }
-                if art.count >= 4 { break }
             }
             
             if art.count == 4 {
@@ -180,17 +199,6 @@ extension PlaylistLibraryViewController {
         return results
     }
     
-    func save(_ list: MPMediaPlaylist) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
-        let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
-        playlist.setValue(Int64(bitPattern: list.persistentID), forKey: "persistentID")
-        playlist.setValue(list.title ?? "", forKey: "title")
-        playlist.setValue(false, forKey: "isHidden")
-        playlist.setValue(list.items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
-    }
-    
     func isListHidden(with id: Int64) -> Bool {
         let results = fetchLists(with: id)
         if results.count > 0, let playlist = results.first {
@@ -204,14 +212,6 @@ extension PlaylistLibraryViewController {
         if results.count > 0, let playlist = results.first {
             playlist.hide()
         }
-    }
-    
-    func getList(with id: Int64) -> Playlist? {
-        let results = fetchLists(with: id)
-        if results.count > 0, let playlist = results.first {
-            return playlist
-        }
-        return nil
     }
     
 }
