@@ -85,25 +85,12 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
                 let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
                 playlist.setValue(Int64(bitPattern: playlistID!), forKey: "persistentID")
                 playlist.setValue(playlistTitle, forKey: "title")
+                playlist.setValue(false, forKey: "isHidden")
                 playlist.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
             }
             try managedContext.save()
         } catch let error as NSError {
             print("Could not update and save. \(error)")
-        }
-    }
-
-    func deleteAll() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
-        let batchDelete = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-        do {
-            try managedContext.execute(batchDelete)
-            print("All records deleted")
-        } catch let error as NSError {
-            print("Could not delete. \(error)")
         }
     }
     
@@ -235,6 +222,7 @@ extension PlaylistViewController: UITableViewDataSource {
         let remove = UIContextualAction(style: .destructive, title: "Remove") { _, _, _ in
             self.tracks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .bottom)
+            tableView.reloadData()
         }
         return UISwipeActionsConfiguration(actions: [remove])
     }

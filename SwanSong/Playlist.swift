@@ -6,7 +6,7 @@
 //  Copyright © 2020 Daniel Marriner. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 @objc(Playlist)
@@ -15,6 +15,19 @@ class Playlist: NSManagedObject {
     @NSManaged var persistentID: Int64
     @NSManaged var title: String
     @NSManaged var tracks: [Int64]
+    @NSManaged var isHidden: Bool
+    
+    func hide() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        isHidden = true
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not delete list with id \(persistentID). \(error)")
+        }
+    }
     
 }
 

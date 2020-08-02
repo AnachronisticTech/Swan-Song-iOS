@@ -44,6 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set("Blue", forKey: "dark")
         }
         
+        let query = MPMediaQuery.playlists()
+        let lists = ((query.collections ?? []) as! [MPMediaPlaylist]).filter({ !$0.isAFolder })
+        lists.forEach { save($0) }
+        
         return true
     }
 
@@ -110,6 +114,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
+    func save(_ list: MPMediaPlaylist) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", Int64(bitPattern: list.persistentID))
+        let results: [Playlist]?
+        do {
+            results = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            results = nil
+            print("Could not fetch. Error: \(error)")
+        }
+        if let results = results, results.count == 0 {
+            let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
+            let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
+            playlist.setValue(Int64(bitPattern: list.persistentID), forKey: "persistentID")
+            playlist.setValue(list.title ?? "", forKey: "title")
+            playlist.setValue(false, forKey: "isHidden")
+            playlist.setValue(list.items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not update and save. \(error)")
             }
         }
     }
