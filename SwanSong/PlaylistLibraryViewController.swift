@@ -68,49 +68,68 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
 }
 
 extension PlaylistLibraryViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return library.count
+        return section == 0 ? 1 : library.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let playlist = library[indexPath.row]
-        let cell: DetailTableViewCell
-        var art = [MPMediaItem]()
-        for track in playlist.items {
-            if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
-                art.append(track)
+        if indexPath.section == 0 {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            cell.textLabel?.text = "Add new playlist"
+            let button = UIButton(type: .contactAdd)
+            button.isUserInteractionEnabled = false
+            cell.accessoryView = button
+            return cell
+        } else {
+            let playlist = library[indexPath.row]
+            let cell: DetailTableViewCell
+            var art = [MPMediaItem]()
+            for track in playlist.items {
+                if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
+                    art.append(track)
+                }
+                if art.count >= 4 { break }
             }
-            if art.count >= 4 { break }
+            
+            if art.count == 4 {
+                cell = tableView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
+                (cell as! MultiArtDetailTableViewCell).artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                (cell as! MultiArtDetailTableViewCell).artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                (cell as! MultiArtDetailTableViewCell).artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                (cell as! MultiArtDetailTableViewCell).artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            } else {
+                cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! SingleArtDetailTableViewCell
+                (cell as! SingleArtDetailTableViewCell).artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            }
+            
+            cell.title.text = playlist.title ?? ""
+            if playlist.isAFolder {
+                let visibleSublists = playlist.folderItems.filter({ !isListHidden(with: $0.persistentID) }).count
+                cell.detail.text = "\(visibleSublists) playlist\(visibleSublists == 1 ? "" : "s")"
+                (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = true
+            } else {
+                let count = getList(with: playlist.persistentID)?.tracks.count ?? playlist.count
+                cell.detail.text = "\(count) track\(count == 1 ? "" : "s")"
+                (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = false
+            }
+            return cell
         }
-        
-        if art.count == 4 {
-            cell = tableView.dequeueReusableCell(withIdentifier: "playlist_multi", for: indexPath) as! MultiArtDetailTableViewCell
-            (cell as! MultiArtDetailTableViewCell).artwork1?.image = art[0].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
-            (cell as! MultiArtDetailTableViewCell).artwork2?.image = art[1].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
-            (cell as! MultiArtDetailTableViewCell).artwork3?.image = art[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
-            (cell as! MultiArtDetailTableViewCell).artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
-        } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! SingleArtDetailTableViewCell
-            (cell as! SingleArtDetailTableViewCell).artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
-        }
-        
-        cell.title.text = playlist.title ?? ""
-        if playlist.isAFolder {
-            let visibleSublists = playlist.folderItems.filter({ !isListHidden(with: $0.persistentID) }).count
-            cell.detail.text = "\(visibleSublists) playlist\(visibleSublists == 1 ? "" : "s")"
-            (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = true
-        } else {
-            let count = getList(with: playlist.persistentID)?.tracks.count ?? playlist.count
-            cell.detail.text = "\(count) track\(count == 1 ? "" : "s")"
-            (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = false
-        }
-        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if library[indexPath.row].isAFolder {
+        if indexPath.section == 0 {
+            let controller = MPMediaPickerController(mediaTypes: .music)
+            controller.allowsPickingMultipleItems = true
+            controller.popoverPresentationController?.sourceView = self.view
+            controller.delegate = self
+            present(controller, animated: true)
+        } else if library[indexPath.row].isAFolder {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let viewController = storyboard.instantiateViewController(withIdentifier: "PlaylistLibrary") as! PlaylistLibraryViewController
             viewController.playlistFolderID = library[indexPath.row].persistentID
@@ -122,7 +141,7 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return !library[indexPath.row].isAFolder
+        return !library[indexPath.row].isAFolder && indexPath.section == 1
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -185,6 +204,21 @@ extension PlaylistLibraryViewController {
             return playlist
         }
         return nil
+    }
+    
+}
+
+extension PlaylistLibraryViewController: MPMediaPickerControllerDelegate {
+    
+    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+        mediaPicker.dismiss(animated: true) {
+            print(mediaItemCollection.items.map { $0.title! })
+            self.listView.reloadData()
+        }
+    }
+
+    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+        mediaPicker.dismiss(animated: true)
     }
     
 }
