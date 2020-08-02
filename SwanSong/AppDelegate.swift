@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let query = MPMediaQuery.playlists()
-        let lists = ((query.collections ?? []) as! [MPMediaPlaylist]).filter({ !$0.isAFolder })
+        let lists = ((query.collections ?? []) as! [MPMediaPlaylist])
         lists.forEach { save($0) }
         
         return true
@@ -136,7 +136,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             playlist.setValue(Int64(bitPattern: list.persistentID), forKey: "persistentID")
             playlist.setValue(list.title ?? "", forKey: "title")
             playlist.setValue(false, forKey: "isHidden")
-            playlist.setValue(list.items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
+            playlist.setValue(list.isFolder, forKey: "isFolder")
+            playlist.setValue(list.value(forProperty: "parentPersistentID") as? Int, forKey: "parentPersistentID")
+            playlist.setValue(list.items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
+            playlist.setValue(list.folderItems.map({ Int64(bitPattern: $0.persistentID) }), forKey: "folderItems")
             do {
                 try managedContext.save()
             } catch let error as NSError {

@@ -13,9 +13,9 @@ import CoreData
 class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    var library = [MPMediaPlaylist]()
+    var library = [Playlist]()
     var selected = -1
-    var playlistFolderID: MPMediaEntityPersistentID? = nil
+    var playlistFolderID: Int64? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,20 +39,15 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     
     /// Load playlists from library
     func librarySetup() {
-        let query = MPMediaQuery.playlists()
         if let playlistFolderID = playlistFolderID {
-            let filter = MPMediaPropertyPredicate(
-                value: playlistFolderID,
-                forProperty: MPMediaPlaylistPropertyPersistentID
-            )
-            query.addFilterPredicate(filter)
-            library = (query.collections?.first as! MPMediaPlaylist).folderItems
+            library = fetchLists(with: playlistFolderID, ofParent: true)
         } else {
-            library = (query.collections ?? []) as! [MPMediaPlaylist]
+            library = fetchLists()
         }
-        let sublists = library.filter({ $0.isAFolder }).flatMap({ $0.folderItems })
-        library.removeAll { sublists.contains($0) }
-        library.removeAll { !$0.isAFolder && isListHidden(with: $0.persistentID) }
+        let sublists = library.filter({ $0.isFolder }).flatMap({ $0.folderItems })
+        library.removeAll { sublists.contains($0.persistentID) }
+        library.removeAll { !$0.isFolder && isListHidden(with: $0.persistentID) }
+        library.sort(by: { $0.isFolder && !$1.isFolder })
         
         listView.reloadData()
     }
@@ -90,8 +85,16 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
             let cell: DetailTableViewCell
             var art = [MPMediaItem]()
             for track in playlist.items {
-                if !art.contains(where: { $0.albumPersistentID == track.albumPersistentID }) {
-                    art.append(track)
+                let query = MPMediaQuery.songs()
+                let filter = MPMediaPropertyPredicate(
+                    value: UInt64(track),
+                    forProperty: MPMediaItemPropertyPersistentID
+                )
+                query.addFilterPredicate(filter)
+                if let items = query.items, let item = items.first {
+                if !art.contains(where: { $0.albumPersistentID == item.albumPersistentID }) {
+                    art.append(item)
+                }
                 }
                 if art.count >= 4 { break }
             }
@@ -104,16 +107,16 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
                 (cell as! MultiArtDetailTableViewCell).artwork4?.image = art[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             } else {
                 cell = tableView.dequeueReusableCell(withIdentifier: "playlist", for: indexPath) as! SingleArtDetailTableViewCell
-                (cell as! SingleArtDetailTableViewCell).artwork?.image = playlist.representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+                (cell as! SingleArtDetailTableViewCell).artwork?.image = art.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             }
             
-            cell.title.text = playlist.title ?? ""
-            if playlist.isAFolder {
-                let visibleSublists = playlist.folderItems.filter({ !isListHidden(with: $0.persistentID) }).count
+            cell.title.text = playlist.title
+            if playlist.isFolder {
+                let visibleSublists = playlist.folderItems.filter({ !isListHidden(with: $0) }).count
                 cell.detail.text = "\(visibleSublists) playlist\(visibleSublists == 1 ? "" : "s")"
                 (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = true
             } else {
-                let count = getList(with: playlist.persistentID)?.tracks.count ?? playlist.count
+                let count = playlist.items.count
                 cell.detail.text = "\(count) track\(count == 1 ? "" : "s")"
                 (cell as! ArtDetailTableViewCell).isFolderOverlayVisible = false
             }
@@ -129,7 +132,7 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
             controller.popoverPresentationController?.sourceView = self.view
             controller.delegate = self
             present(controller, animated: true)
-        } else if library[indexPath.row].isAFolder {
+        } else if library[indexPath.row].isFolder {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let viewController = storyboard.instantiateViewController(withIdentifier: "PlaylistLibrary") as! PlaylistLibraryViewController
             viewController.playlistFolderID = library[indexPath.row].persistentID
@@ -141,7 +144,7 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return !library[indexPath.row].isAFolder && indexPath.section == 1
+        return !library[indexPath.row].isFolder && indexPath.section == 1
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -157,11 +160,16 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
 
 extension PlaylistLibraryViewController {
     
-    func fetchLists(with id: UInt64) -> [Playlist] {
+    func fetchLists(with id: Int64? = nil, ofParent: Bool = false) -> [Playlist] {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
-        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", Int64(bitPattern: id))
+        if let id = id {
+            fetchRequest.predicate = NSPredicate(
+                format: "p\(ofParent ? "arentP" : "")ersistentID = %ld",
+                id
+            )
+        }
         let results: [Playlist]
         do {
             results = try managedContext.fetch(fetchRequest)
@@ -183,7 +191,7 @@ extension PlaylistLibraryViewController {
         playlist.setValue(list.items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
     }
     
-    func isListHidden(with id: UInt64) -> Bool {
+    func isListHidden(with id: Int64) -> Bool {
         let results = fetchLists(with: id)
         if results.count > 0, let playlist = results.first {
             return playlist.isHidden
@@ -191,14 +199,14 @@ extension PlaylistLibraryViewController {
         return false
     }
     
-    func hideList(with id: UInt64) {
+    func hideList(with id: Int64) {
         let results = fetchLists(with: id)
         if results.count > 0, let playlist = results.first {
             playlist.hide()
         }
     }
     
-    func getList(with id: UInt64) -> Playlist? {
+    func getList(with id: Int64) -> Playlist? {
         let results = fetchLists(with: id)
         if results.count > 0, let playlist = results.first {
             return playlist

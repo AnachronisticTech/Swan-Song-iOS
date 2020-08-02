@@ -83,7 +83,7 @@ extension MPMediaPlaylist {
         return allFolderItems
     }
     
-    var isAFolder: Bool {
+    var isFolder: Bool {
         self.value(forProperty: "isFolder") as! Bool
     }
     

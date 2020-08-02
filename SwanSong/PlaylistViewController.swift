@@ -13,7 +13,7 @@ import CoreData
 class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    var playlistID: MPMediaEntityPersistentID? = nil
+    var playlistID: Int64? = nil
     var playlistTitle: String = ""
     var tracks: [MPMediaItem] = [] {
         didSet { saveListToCoreData() }
@@ -46,7 +46,7 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
-        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", Int64(bitPattern: playlistID!))
+        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", playlistID!)
         let results: [Playlist]
         do {
             results = try managedContext.fetch(fetchRequest)
@@ -58,7 +58,7 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         if results.count > 0, let playlist = results.first {
             playlistTitle = playlist.title
             var tmp = [MPMediaItem]()
-            for track in playlist.tracks {
+            for track in playlist.items {
                 let query = MPMediaQuery.songs()
                 let filter = MPMediaPropertyPredicate(value: UInt64(bitPattern: track), forProperty: MPMediaItemPropertyPersistentID)
                 query.addFilterPredicate(filter)
@@ -74,19 +74,19 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Playlist")
-        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", Int64(bitPattern: playlistID!))
+        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", playlistID!)
 
         do {
             let objects = try managedContext.fetch(fetchRequest)
             if objects.count >= 1, let object = objects.first {
-                object.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
+                object.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
             } else {
                 let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
                 let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
-                playlist.setValue(Int64(bitPattern: playlistID!), forKey: "persistentID")
+                playlist.setValue(playlistID, forKey: "persistentID")
                 playlist.setValue(playlistTitle, forKey: "title")
                 playlist.setValue(false, forKey: "isHidden")
-                playlist.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "tracks")
+                playlist.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
             }
             try managedContext.save()
         } catch let error as NSError {

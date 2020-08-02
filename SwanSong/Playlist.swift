@@ -14,8 +14,11 @@ class Playlist: NSManagedObject {
     
     @NSManaged var persistentID: Int64
     @NSManaged var title: String
-    @NSManaged var tracks: [Int64]
+    @NSManaged var items: [Int64]
+    @NSManaged var folderItems: [Int64]
     @NSManaged var isHidden: Bool
+    @NSManaged var isFolder: Bool
+    @NSManaged var parentPersistentID: Int64
     
     func hide() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
