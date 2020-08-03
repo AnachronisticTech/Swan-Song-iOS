@@ -17,6 +17,7 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     var artlib = [Int64: MPMediaPlaylist]()
     var selected = -1
     var playlistFolderID: Int64? = nil
+    var newPlaylistTempName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,11 +147,32 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
-            let controller = MPMediaPickerController(mediaTypes: .music)
-            controller.allowsPickingMultipleItems = true
-            controller.popoverPresentationController?.sourceView = self.view
-            controller.delegate = self
-            present(controller, animated: true)
+            let alert = UIAlertController(title: "New Playlist", message: "Enter a playlist title", preferredStyle: .alert)
+            alert.addTextField { textField in
+                textField.placeholder = "Title"
+            }
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            let action = UIAlertAction(title: "Select tracks", style: .default) { _ in
+                guard alert.textFields!.first!.text != "" else { return }
+                self.newPlaylistTempName = alert.textFields!.first!.text!
+                let controller = MPMediaPickerController(mediaTypes: .music)
+                controller.allowsPickingMultipleItems = true
+                controller.popoverPresentationController?.sourceView = self.view
+                controller.delegate = self
+                self.present(controller, animated: true)
+            }
+            action.isEnabled = false
+            alert.addAction(action)
+            NotificationCenter.default.addObserver(
+                forName: UITextField.textDidChangeNotification,
+                object: alert.textFields!.first!,
+                queue: .main
+            ) { _ in
+                var text = alert.textFields!.first!.text ?? ""
+                while text.first == " " { text.removeFirst() }
+                action.isEnabled = text.count > 0
+            }
+            present(alert, animated: true)
         } else if library[indexPath.row].isFolder {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let viewController = storyboard.instantiateViewController(withIdentifier: "PlaylistLibrary") as! PlaylistLibraryViewController
@@ -214,14 +236,68 @@ extension PlaylistLibraryViewController {
         }
     }
     
+    func saveNewList(with items: [MPMediaItem]) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+        let results: [Int64]?
+        do {
+            results = try managedContext.fetch(fetchRequest).map { $0.persistentID }
+        } catch let error as NSError {
+            results = nil
+            print("Could not fetch. Error: \(error)")
+        }
+        
+        guard let listIDs = results else { return }
+        var id: Int64
+        repeat { id = Int64.random(in: Int64.min ..< Int64.max) } while listIDs.contains(id)
+        let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
+        let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
+        playlist.setValue(id, forKey: "persistentID")
+        playlist.setValue(newPlaylistTempName.consume(), forKey: "title")
+        playlist.setValue(false, forKey: "isHidden")
+        playlist.setValue(false, forKey: "isFolder")
+        playlist.setValue(playlistFolderID, forKey: "parentPersistentID")
+        playlist.setValue(items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
+        playlist.setValue([], forKey: "folderItems")
+        if let playlistFolderID = playlistFolderID {
+            let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+            fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", playlistFolderID)
+            let results: [Playlist]?
+            do {
+                results = try managedContext.fetch(fetchRequest)
+                if let lists = results, let parent = lists.first {
+                    parent.folderItems.append(id)
+                }
+            } catch let error as NSError {
+                results = nil
+                print("Could not fetch. Error: \(error)")
+            }
+        }
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not update and save. \(error)")
+        }
+    }
+    
+}
+
+extension Optional where Wrapped == String {
+    mutating func consume() -> String {
+        let tmp = self ?? ""
+        self = nil
+        return tmp
+    }
 }
 
 extension PlaylistLibraryViewController: MPMediaPickerControllerDelegate {
     
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         mediaPicker.dismiss(animated: true) {
-            print(mediaItemCollection.items.map { $0.title! })
-            self.listView.reloadData()
+            if mediaItemCollection.items.count == 0 { return }
+            self.saveNewList(with: mediaItemCollection.items)
+            self.librarySetup()
         }
     }
 
