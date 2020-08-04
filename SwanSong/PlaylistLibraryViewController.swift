@@ -185,6 +185,7 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard library.count > 0 else { return false }
         return !library[indexPath.row].isFolder && indexPath.section == 1
     }
     
