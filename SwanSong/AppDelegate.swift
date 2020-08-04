@@ -123,14 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
         fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", Int64(bitPattern: list.persistentID))
-        let results: [Playlist]?
-        do {
-            results = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            results = nil
-            print("Could not fetch. Error: \(error)")
-        }
-        if let results = results, results.count == 0 {
+        if let results = try? managedContext.fetch(fetchRequest), results.count == 0 {
             let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
             let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
             playlist.setValue(Int64(bitPattern: list.persistentID), forKey: "persistentID")

@@ -27,6 +27,14 @@ extension Double {
     }
 }
 
+extension Optional where Wrapped == String {
+    mutating func consume() -> String {
+        let tmp = self ?? ""
+        self = nil
+        return tmp
+    }
+}
+
 public extension UIImage {
     convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
         let rect = CGRect(origin: .zero, size: size)

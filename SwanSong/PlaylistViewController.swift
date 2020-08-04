@@ -13,7 +13,7 @@ import CoreData
 class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
     
     @IBOutlet weak var listView: UITableView!
-    var playlistID: Int64? = nil
+    var playlistID: Int64!
     var playlistTitle: String = ""
     var tracks: [MPMediaItem] = [] {
         didSet { saveListToCoreData() }
@@ -40,58 +40,6 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
         listView.register(UINib(nibName: "MultiArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "playlist_multi")
         listView.register(UINib(nibName: "ArtDetailTableCellSmall", bundle: nil), forCellReuseIdentifier: "track")
         listView.register(UINib(nibName: "FooterTableCell", bundle: nil), forCellReuseIdentifier: "footer")
-    }
-    
-    func checkForStoredList(else run: (() -> Void)?) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
-        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", playlistID!)
-        let results: [Playlist]
-        do {
-            results = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            results = []
-            print("Could not fetch. Error: \(error)")
-        }
-
-        if results.count > 0, let playlist = results.first {
-            playlistTitle = playlist.title
-            var tmp = [MPMediaItem]()
-            for track in playlist.items {
-                let query = MPMediaQuery.songs()
-                let filter = MPMediaPropertyPredicate(value: UInt64(bitPattern: track), forProperty: MPMediaItemPropertyPersistentID)
-                query.addFilterPredicate(filter)
-                tmp.append(contentsOf: query.items ?? [])
-            }
-            tracks = tmp
-        } else if let run = run {
-            run()
-        }
-    }
-    
-    func saveListToCoreData() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Playlist")
-        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", playlistID!)
-
-        do {
-            let objects = try managedContext.fetch(fetchRequest)
-            if objects.count >= 1, let object = objects.first {
-                object.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
-            } else {
-                let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
-                let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
-                playlist.setValue(playlistID, forKey: "persistentID")
-                playlist.setValue(playlistTitle, forKey: "title")
-                playlist.setValue(false, forKey: "isHidden")
-                playlist.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
-            }
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not update and save. \(error)")
-        }
     }
     
 }
@@ -225,6 +173,56 @@ extension PlaylistViewController: UITableViewDataSource {
             tableView.reloadData()
         }
         return UISwipeActionsConfiguration(actions: [remove])
+    }
+    
+}
+
+extension PlaylistViewController {
+    
+    func fetchLists() -> [Playlist]? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", playlistID)
+        return try? managedContext.fetch(fetchRequest)
+    }
+    
+    func checkForStoredList(else run: (() -> Void)?) {
+        if let results = fetchLists(), let playlist = results.first {
+            playlistTitle = playlist.title
+            var tmp = [MPMediaItem]()
+            for track in playlist.items {
+                let query = MPMediaQuery.songs()
+                let filter = MPMediaPropertyPredicate(value: UInt64(bitPattern: track), forProperty: MPMediaItemPropertyPersistentID)
+                query.addFilterPredicate(filter)
+                tmp.append(contentsOf: query.items ?? [])
+            }
+            tracks = tmp
+        } else if let run = run {
+            run()
+        }
+    }
+    
+    func saveListToCoreData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        if let results = fetchLists(), let playlist = results.first {
+            playlist.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
+        } else {
+            let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
+            let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
+            playlist.setValue(playlistID, forKey: "persistentID")
+            playlist.setValue(playlistTitle, forKey: "title")
+            playlist.setValue(false, forKey: "isHidden")
+            playlist.setValue(tracks.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
+        }
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not update and save. \(error)")
+        }
     }
     
 }

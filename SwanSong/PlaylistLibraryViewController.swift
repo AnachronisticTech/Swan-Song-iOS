@@ -42,9 +42,9 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     /// Load playlists from library
     func librarySetup() {
         if let playlistFolderID = playlistFolderID {
-            library = fetchLists(with: playlistFolderID, ofParent: true)
+            library = fetchLists(with: playlistFolderID, ofParent: true)!
         } else {
-            library = fetchLists()
+            library = fetchLists()!
         }
         let sublists = library.filter({ $0.isFolder }).flatMap({ $0.folderItems })
         library.removeAll { sublists.contains($0.persistentID) }
@@ -201,37 +201,25 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
 
 extension PlaylistLibraryViewController {
     
-    func fetchLists(with id: Int64? = nil, ofParent: Bool = false) -> [Playlist] {
+    func fetchLists(with id: Int64? = nil, ofParent: Bool = false) -> [Playlist]? {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
         if let id = id {
-            fetchRequest.predicate = NSPredicate(
-                format: "p\(ofParent ? "arentP" : "")ersistentID = %ld",
-                id
-            )
+            fetchRequest.predicate = NSPredicate(format: "p\(ofParent ? "arentP" : "")ersistentID = %ld", id)
         }
-        let results: [Playlist]
-        do {
-            results = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            results = []
-            print("Could not fetch. Error: \(error)")
-        }
-        return results
+        return try? managedContext.fetch(fetchRequest)
     }
     
     func isListHidden(with id: Int64) -> Bool {
-        let results = fetchLists(with: id)
-        if results.count > 0, let playlist = results.first {
+        if let results = fetchLists(with: id), let playlist = results.first {
             return playlist.isHidden
         }
         return false
     }
     
     func hideList(with id: Int64) {
-        let results = fetchLists(with: id)
-        if results.count > 0, let playlist = results.first {
+        if let results = fetchLists(with: id), let playlist = results.first {
             playlist.hide()
         }
     }
@@ -240,15 +228,8 @@ extension PlaylistLibraryViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
-        let results: [Int64]?
-        do {
-            results = try managedContext.fetch(fetchRequest).map { $0.persistentID }
-        } catch let error as NSError {
-            results = nil
-            print("Could not fetch. Error: \(error)")
-        }
         
-        guard let listIDs = results else { return }
+        guard let listIDs = try? managedContext.fetch(fetchRequest).map({ $0.persistentID }) else { return }
         var id: Int64
         repeat { id = Int64.random(in: Int64.min ..< Int64.max) } while listIDs.contains(id)
         let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
@@ -260,19 +241,8 @@ extension PlaylistLibraryViewController {
         playlist.setValue(playlistFolderID, forKey: "parentPersistentID")
         playlist.setValue(items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
         playlist.setValue([], forKey: "folderItems")
-        if let playlistFolderID = playlistFolderID {
-            let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
-            fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", playlistFolderID)
-            let results: [Playlist]?
-            do {
-                results = try managedContext.fetch(fetchRequest)
-                if let lists = results, let parent = lists.first {
-                    parent.folderItems.append(id)
-                }
-            } catch let error as NSError {
-                results = nil
-                print("Could not fetch. Error: \(error)")
-            }
+        if let results = fetchLists(with: playlistFolderID), let parent = results.first {
+            parent.folderItems.append(id)
         }
         do {
             try managedContext.save()
@@ -281,14 +251,6 @@ extension PlaylistLibraryViewController {
         }
     }
     
-}
-
-extension Optional where Wrapped == String {
-    mutating func consume() -> String {
-        let tmp = self ?? ""
-        self = nil
-        return tmp
-    }
 }
 
 extension PlaylistLibraryViewController: MPMediaPickerControllerDelegate {
