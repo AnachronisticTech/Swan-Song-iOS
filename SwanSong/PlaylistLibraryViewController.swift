@@ -52,11 +52,16 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
         library.sort(by: { $0.isFolder && !$1.isFolder })
         for playlist in library {
             let query = MPMediaQuery.playlists()
-            let filter = MPMediaPropertyPredicate(
+            let filterPlaylistID = MPMediaPropertyPredicate(
                 value: UInt64(bitPattern: playlist.persistentID),
                 forProperty: MPMediaPlaylistPropertyPersistentID
             )
-            query.addFilterPredicate(filter)
+            query.addFilterPredicate(filterPlaylistID)
+            let filterLocal = MPMediaPropertyPredicate(
+                value: false,
+                forProperty: MPMediaItemPropertyIsCloudItem
+            )
+            query.addFilterPredicate(filterLocal)
             if let list = query.collections?.first as? MPMediaPlaylist {
                 artlib[playlist.persistentID] = list
             }
@@ -107,11 +112,16 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
             } else {
                 for track in playlist.items {
                     let query = MPMediaQuery.songs()
-                    let filter = MPMediaPropertyPredicate(
+                    let filterTrackID = MPMediaPropertyPredicate(
                         value: UInt64(track),
                         forProperty: MPMediaItemPropertyPersistentID
                     )
-                    query.addFilterPredicate(filter)
+                    query.addFilterPredicate(filterTrackID)
+                    let filterLocal = MPMediaPropertyPredicate(
+                        value: false,
+                        forProperty: MPMediaItemPropertyIsCloudItem
+                    )
+                    query.addFilterPredicate(filterLocal)
                     if let item = query.items?.first, !art.contains(where: { $0.albumPersistentID == item.albumPersistentID }) {
                         art.append(item)
                     }

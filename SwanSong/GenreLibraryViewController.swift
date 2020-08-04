@@ -40,7 +40,13 @@ class GenreLibraryViewController: SwappableViewController {
     
     /// Load genres from library
     func librarySetup() {
-        library = MPMediaQuery.genres().collections ?? []
+        let query = MPMediaQuery.genres()
+        let filterLocal = MPMediaPropertyPredicate(
+            value: false,
+            forProperty: MPMediaItemPropertyIsCloudItem
+        )
+        query.addFilterPredicate(filterLocal)
+        library = query.collections ?? []
         library.forEach { genre in
             let title = genre.items.first?.genre ?? ""
             var art = [MPMediaItem]()

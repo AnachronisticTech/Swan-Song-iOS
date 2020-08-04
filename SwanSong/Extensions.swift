@@ -79,7 +79,13 @@ extension MPMediaPlaylist {
     /// https://www.vaporforums.io/viewThread/55
     var folderItems: [MPMediaPlaylist] {
         var allFolderItems = [MPMediaPlaylist]()
-        if let playlists = MPMediaQuery.playlists().collections as? [MPMediaPlaylist], let id = value(forProperty: "persistentID") as? Int  {
+        let query = MPMediaQuery.playlists()
+        let filterLocal = MPMediaPropertyPredicate(
+            value: false,
+            forProperty: MPMediaItemPropertyIsCloudItem
+        )
+        query.addFilterPredicate(filterLocal)
+        if let playlists = query.collections as? [MPMediaPlaylist], let id = value(forProperty: "persistentID") as? Int  {
             for playlist in playlists {
                 if let parentId = playlist.value(forProperty: "parentPersistentID") as? Int {
                     if parentId != 0 && parentId == id {

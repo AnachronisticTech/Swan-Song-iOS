@@ -45,6 +45,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let query = MPMediaQuery.playlists()
+        let filterLocal = MPMediaPropertyPredicate(
+            value: false,
+            forProperty: MPMediaItemPropertyIsCloudItem
+        )
+        query.addFilterPredicate(filterLocal)
         let lists = ((query.collections ?? []) as! [MPMediaPlaylist])
         lists.forEach { save($0) }
         

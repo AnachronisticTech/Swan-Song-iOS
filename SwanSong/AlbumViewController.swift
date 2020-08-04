@@ -22,9 +22,18 @@ class AlbumViewController: SwanSongViewController, UITableViewDelegate {
         listView.dataSource = self
         listView.tableFooterView = UIView()
         
-        let albumFilter = MPMediaPropertyPredicate(value: albumID, forProperty: MPMediaItemPropertyAlbumPersistentID)
-        let filterSet = Set([albumFilter])
-        tracks = MPMediaQuery(filterPredicates: filterSet).items ?? []
+        let query = MPMediaQuery.albums()
+        let filterAlbumID = MPMediaPropertyPredicate(
+            value: albumID,
+            forProperty: MPMediaItemPropertyAlbumPersistentID
+        )
+        query.addFilterPredicate(filterAlbumID)
+        let filterLocal = MPMediaPropertyPredicate(
+            value: false,
+            forProperty: MPMediaItemPropertyIsCloudItem
+        )
+        query.addFilterPredicate(filterLocal)
+        tracks = query.items ?? []
         
         listView.reloadData()
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "album")

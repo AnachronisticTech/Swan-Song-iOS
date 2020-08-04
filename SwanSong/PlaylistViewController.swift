@@ -29,8 +29,16 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
 
         checkForStoredList {
             let query = MPMediaQuery.playlists()
-            let filter = MPMediaPropertyPredicate(value: self.playlistID, forProperty: MPMediaPlaylistPropertyPersistentID)
-            query.addFilterPredicate(filter)
+            let filterPlaylistID = MPMediaPropertyPredicate(
+                value: self.playlistID,
+                forProperty: MPMediaPlaylistPropertyPersistentID
+            )
+            query.addFilterPredicate(filterPlaylistID)
+            let filterLocal = MPMediaPropertyPredicate(
+                value: false,
+                forProperty: MPMediaItemPropertyIsCloudItem
+            )
+            query.addFilterPredicate(filterLocal)
             self.playlistTitle = (query.collections?.first as? MPMediaPlaylist)?.title ?? ""
             self.tracks = query.items ?? []
         }
@@ -193,8 +201,16 @@ extension PlaylistViewController {
             var tmp = [MPMediaItem]()
             for track in playlist.items {
                 let query = MPMediaQuery.songs()
-                let filter = MPMediaPropertyPredicate(value: UInt64(bitPattern: track), forProperty: MPMediaItemPropertyPersistentID)
-                query.addFilterPredicate(filter)
+                let filterTrackID = MPMediaPropertyPredicate(
+                    value: UInt64(bitPattern: track),
+                    forProperty: MPMediaItemPropertyPersistentID
+                )
+                query.addFilterPredicate(filterTrackID)
+                let filterLocal = MPMediaPropertyPredicate(
+                    value: false,
+                    forProperty: MPMediaItemPropertyIsCloudItem
+                )
+                query.addFilterPredicate(filterLocal)
                 tmp.append(contentsOf: query.items ?? [])
             }
             tracks = tmp
