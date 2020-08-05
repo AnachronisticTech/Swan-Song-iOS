@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let query = MPMediaQuery.playlists()
         query.addFilterPredicate(filterLocal)
-        let lists = ((query.collections ?? []) as! [MPMediaPlaylist])
+        let lists = (query.collections ?? []) as! [MPMediaPlaylist]
         lists.forEach { save($0) }
         
         return true
@@ -134,6 +134,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
             playlist.setValue(Int64(bitPattern: list.persistentID), forKey: "persistentID")
             playlist.setValue(list.title ?? "", forKey: "title")
+            playlist.setValue(false, forKey: "isLocalItem")
             playlist.setValue(false, forKey: "isHidden")
             playlist.setValue(list.isFolder, forKey: "isFolder")
             playlist.setValue(list.value(forProperty: "parentPersistentID") as? Int, forKey: "parentPersistentID")

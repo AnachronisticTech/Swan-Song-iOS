@@ -16,7 +16,7 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     var library = [Playlist]()
     var artlib = [Int64: MPMediaPlaylist]()
     var selected = -1
-    var playlistFolderID: Int64? = nil
+    var playlistFolderID: Int64 = 0
     var newPlaylistTempName: String?
     
     override func viewDidLoad() {
@@ -55,7 +55,7 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     
     /// Load playlists from library
     func librarySetup() {
-        if let playlistFolderID = playlistFolderID {
+        if playlistFolderID != 0 {
             library = fetchLists(with: playlistFolderID, ofParent: true)!
         } else {
             library = fetchLists()!
@@ -207,7 +207,7 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let remove = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.hideList(with: self.library[indexPath.row].persistentID)
+            self.deleteList(with: self.library[indexPath.row].persistentID)
             self.library.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .bottom)
         }
@@ -229,15 +229,30 @@ extension PlaylistLibraryViewController {
     }
     
     func isListHidden(with id: Int64) -> Bool {
-        if let results = fetchLists(with: id), let playlist = results.first {
+        if let playlist = fetchLists(with: id)?.first {
             return playlist.isHidden
         }
         return false
     }
     
-    func hideList(with id: Int64) {
+    func deleteList(with id: Int64) {
         if let results = fetchLists(with: id), let playlist = results.first {
-            playlist.hide()
+            if playlist.isLocalItem {
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+                let managedContext = appDelegate.persistentContainer.viewContext
+                
+                managedContext.delete(playlist)
+                if let parent = fetchLists(with: playlistFolderID)?.first {
+                    parent.folderItems.removeAll { $0 == id }
+                }
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not update and save. \(error)")
+                }
+            } else {
+                playlist.hide()
+            }
         }
     }
     
@@ -258,7 +273,7 @@ extension PlaylistLibraryViewController {
         playlist.setValue(playlistFolderID, forKey: "parentPersistentID")
         playlist.setValue(items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
         playlist.setValue([], forKey: "folderItems")
-        if let results = fetchLists(with: playlistFolderID), let parent = results.first {
+        if playlistFolderID != 0, let parent = fetchLists(with: playlistFolderID)?.first {
             parent.folderItems.append(id)
         }
         do {

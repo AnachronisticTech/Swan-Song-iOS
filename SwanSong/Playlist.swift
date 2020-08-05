@@ -16,6 +16,7 @@ class Playlist: NSManagedObject {
     @NSManaged var title: String
     @NSManaged var items: [Int64]
     @NSManaged var folderItems: [Int64]
+    @NSManaged var isLocalItem: Bool
     @NSManaged var isHidden: Bool
     @NSManaged var isFolder: Bool
     @NSManaged var parentPersistentID: Int64

@@ -4,12 +4,13 @@
         <attribute name="folderItems" attributeType="Transformable" valueTransformerName="Int64ArrayTransformer" customClassName="[Int64]"/>
         <attribute name="isFolder" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isHidden" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isLocalItem" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="items" attributeType="Transformable" valueTransformerName="Int64ArrayTransformer" customClassName="[Int64]"/>
         <attribute name="parentPersistentID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="persistentID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
     </entity>
     <elements>
-        <element name="Playlist" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="Playlist" positionX="-63" positionY="-18" width="128" height="28"/>
     </elements>
 </model>
