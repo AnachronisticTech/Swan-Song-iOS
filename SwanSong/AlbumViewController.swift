@@ -28,10 +28,6 @@ class AlbumViewController: SwanSongViewController, UITableViewDelegate {
             forProperty: MPMediaItemPropertyAlbumPersistentID
         )
         query.addFilterPredicate(filterAlbumID)
-        let filterLocal = MPMediaPropertyPredicate(
-            value: false,
-            forProperty: MPMediaItemPropertyIsCloudItem
-        )
         query.addFilterPredicate(filterLocal)
         tracks = query.items ?? []
         

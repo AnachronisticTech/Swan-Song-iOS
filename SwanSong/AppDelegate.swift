@@ -16,6 +16,11 @@ let Formatter = DateComponentsFormatter()
 var lightTint: UIColor = TintColor.Blue.color
 var darkTint : UIColor = TintColor.Blue.color
 
+let filterLocal = MPMediaPropertyPredicate(
+    value: false,
+    forProperty: MPMediaItemPropertyIsCloudItem
+)
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -45,10 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let query = MPMediaQuery.playlists()
-        let filterLocal = MPMediaPropertyPredicate(
-            value: false,
-            forProperty: MPMediaItemPropertyIsCloudItem
-        )
         query.addFilterPredicate(filterLocal)
         let lists = ((query.collections ?? []) as! [MPMediaPlaylist])
         lists.forEach { save($0) }

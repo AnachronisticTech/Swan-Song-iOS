@@ -31,10 +31,6 @@ class SongLibraryViewController: SwanSongViewController, UITableViewDelegate {
     /// Load songs from library
     func librarySetup() {
         let query = MPMediaQuery.songs()
-        let filterLocal = MPMediaPropertyPredicate(
-            value: false,
-            forProperty: MPMediaItemPropertyIsCloudItem
-        )
         query.addFilterPredicate(filterLocal)
         library = query.items ?? []
         

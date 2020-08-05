@@ -80,10 +80,6 @@ extension MPMediaPlaylist {
     var folderItems: [MPMediaPlaylist] {
         var allFolderItems = [MPMediaPlaylist]()
         let query = MPMediaQuery.playlists()
-        let filterLocal = MPMediaPropertyPredicate(
-            value: false,
-            forProperty: MPMediaItemPropertyIsCloudItem
-        )
         query.addFilterPredicate(filterLocal)
         if let playlists = query.collections as? [MPMediaPlaylist], let id = value(forProperty: "persistentID") as? Int  {
             for playlist in playlists {

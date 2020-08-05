@@ -71,10 +71,6 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
                 forProperty: MPMediaPlaylistPropertyPersistentID
             )
             query.addFilterPredicate(filterPlaylistID)
-            let filterLocal = MPMediaPropertyPredicate(
-                value: false,
-                forProperty: MPMediaItemPropertyIsCloudItem
-            )
             query.addFilterPredicate(filterLocal)
             if let list = query.collections?.first as? MPMediaPlaylist {
                 artlib[playlist.persistentID] = list
@@ -131,10 +127,6 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
                         forProperty: MPMediaItemPropertyPersistentID
                     )
                     query.addFilterPredicate(filterTrackID)
-                    let filterLocal = MPMediaPropertyPredicate(
-                        value: false,
-                        forProperty: MPMediaItemPropertyIsCloudItem
-                    )
                     query.addFilterPredicate(filterLocal)
                     if let item = query.items?.first, !art.contains(where: { $0.albumPersistentID == item.albumPersistentID }) {
                         art.append(item)

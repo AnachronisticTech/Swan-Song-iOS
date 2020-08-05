@@ -41,10 +41,6 @@ class ArtistLibraryViewController: SwappableViewController {
     /// Load artists from library
     func librarySetup() {
         let query = MPMediaQuery.artists()
-        let filterLocal = MPMediaPropertyPredicate(
-            value: false,
-            forProperty: MPMediaItemPropertyIsCloudItem
-        )
         query.addFilterPredicate(filterLocal)
         library = query.collections ?? []
         library.forEach { artist in

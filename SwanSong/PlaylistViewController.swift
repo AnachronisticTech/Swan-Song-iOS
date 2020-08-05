@@ -34,10 +34,6 @@ class PlaylistViewController: SwanSongViewController, UITableViewDelegate {
                 forProperty: MPMediaPlaylistPropertyPersistentID
             )
             query.addFilterPredicate(filterPlaylistID)
-            let filterLocal = MPMediaPropertyPredicate(
-                value: false,
-                forProperty: MPMediaItemPropertyIsCloudItem
-            )
             query.addFilterPredicate(filterLocal)
             self.playlistTitle = (query.collections?.first as? MPMediaPlaylist)?.title ?? ""
             self.tracks = query.items ?? []
@@ -206,10 +202,6 @@ extension PlaylistViewController {
                     forProperty: MPMediaItemPropertyPersistentID
                 )
                 query.addFilterPredicate(filterTrackID)
-                let filterLocal = MPMediaPropertyPredicate(
-                    value: false,
-                    forProperty: MPMediaItemPropertyIsCloudItem
-                )
                 query.addFilterPredicate(filterLocal)
                 tmp.append(contentsOf: query.items ?? [])
             }
