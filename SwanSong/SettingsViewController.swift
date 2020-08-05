@@ -144,22 +144,32 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
         if MPMediaLibrary.authorizationStatus() == .authorized {
             let alert = UIAlertController(
                 title: "Already Authorised",
-                message: "Swan Song is already authorised to access your iTunes media library.",
+                message: "SwanSong is already authorised to access your iTunes media library.",
                 preferredStyle: .alert)
             alert.addAction(UIAlertAction(
                 title: "Ok",
-                style: .cancel,
-                handler: nil)
-            )
-            DispatchQueue.main.async {
-                self.present(alert, animated: true)
-            }
+                style: .default
+            ))
+            present(alert, animated: true)
         } else if MPMediaLibrary.authorizationStatus() == .denied {
             guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: nil)
+                UIApplication.shared.open(settingsUrl)
             }
         }
+    }
+    
+    @IBAction func resetWarnings(_ sender: Any) {
+        let alert = UIAlertController(
+            title: "Warnings Reset",
+            message: "All warnings have been reset.",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(
+            title: "Ok",
+            style: .default) { _ in
+            UserDefaults.standard.set(false, forKey: "playlistModificationWarningHasBeenShown")
+        })
+        present(alert, animated: true)
     }
     
 }

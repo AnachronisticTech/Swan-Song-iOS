@@ -36,6 +36,20 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if !UserDefaults.standard.bool(forKey: "playlistModificationWarningHasBeenShown") {
+            let alert = UIAlertController(
+                title: "Modification Warning",
+                message: "Please be aware that, while SwanSong can read your system playlists, all modifications to playlists (such as reordering or deleting tracks, or deleting entire playlists), as well as creating new playlists are entirely local to SwanSong and will not propagate back to your system library.",
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "Ok", style: .default) { _ in
+                UserDefaults.standard.set(true, forKey: "playlistModificationWarningHasBeenShown")
+            })
+            DispatchQueue.main.async {
+                self.present(alert, animated: true)
+            }
+        }
+        
         listView.reloadData()
     }
     
