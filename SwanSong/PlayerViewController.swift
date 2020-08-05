@@ -24,6 +24,7 @@ class PlayerViewController: SwanSongViewController {
     @IBOutlet weak var repeatButton: UIButton!
     @IBOutlet weak var shuffleButton: UIButton!
     @IBOutlet weak var volumeSlider: MPVolumeView!
+    @IBOutlet weak var closeButtonHeight: NSLayoutConstraint!
     
     var timer = Timer()
     var nowPlaying: MPMediaItem?
@@ -50,11 +51,14 @@ class PlayerViewController: SwanSongViewController {
         super.viewDidLoad()
         
         /// Set view theme
-        if #available(iOS 13.0, *), let theme = UserDefaults.standard.value(forKey: "theme") as? String {
-            switch theme {
-                case "light": overrideUserInterfaceStyle = .light
-                case "dark" : overrideUserInterfaceStyle = .dark
-                default: overrideUserInterfaceStyle = .unspecified
+        if #available(iOS 13.0, *) {
+            closeButtonHeight.constant = 0
+            if let theme = UserDefaults.standard.value(forKey: "theme") as? String {
+                switch theme {
+                    case "light": overrideUserInterfaceStyle = .light
+                    case "dark" : overrideUserInterfaceStyle = .dark
+                    default: overrideUserInterfaceStyle = .unspecified
+                }
             }
         }
         
@@ -192,6 +196,10 @@ class PlayerViewController: SwanSongViewController {
         currentTime.textColor = adaptiveColor(.darkGray, .lightGray)
         remainingTime.textColor = adaptiveColor(.darkGray, .lightGray)
         trackInfo.textColor = adaptiveColor(.darkGray, .lightGray)
+    }
+    
+    @IBAction func dismissView(_ sender: Any) {
+        dismiss(animated: true)
     }
 }
 
