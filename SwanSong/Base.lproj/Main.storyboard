@@ -290,12 +290,41 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="V6U-li-v7b">
+                                        <rect key="frame" x="0.0" y="618" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="V6U-li-v7b" id="5Pn-qF-Fvb">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show player close button" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18A-sg-jDa">
+                                                    <rect key="frame" x="20" y="11.5" width="193" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TzA-G7-Ucm">
+                                                    <rect key="frame" x="345" y="6.5" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="setCloseButtonVisibility:" destination="jqk-Ld-bTH" eventType="valueChanged" id="9Pj-YJ-yGd"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="TzA-G7-Ucm" firstAttribute="centerY" secondItem="5Pn-qF-Fvb" secondAttribute="centerY" id="3mV-ro-nT2"/>
+                                                <constraint firstAttribute="trailing" secondItem="TzA-G7-Ucm" secondAttribute="trailing" constant="20" id="JpV-Vx-YZr"/>
+                                                <constraint firstItem="18A-sg-jDa" firstAttribute="centerY" secondItem="5Pn-qF-Fvb" secondAttribute="centerY" id="SY3-Uh-rbm"/>
+                                                <constraint firstItem="18A-sg-jDa" firstAttribute="leading" secondItem="5Pn-qF-Fvb" secondAttribute="leadingMargin" id="SyE-jX-ETT"/>
+                                                <constraint firstItem="TzA-G7-Ucm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="18A-sg-jDa" secondAttribute="trailing" constant="10" id="eu0-ji-ZXi"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Library Authorisation" id="F47-pD-Twm">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="mVN-2S-bd3">
-                                        <rect key="frame" x="0.0" y="674" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="718" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mVN-2S-bd3" id="FL7-tZ-2cB">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -321,7 +350,7 @@
                             <tableViewSection headerTitle="Reset Warnings" id="lkZ-S8-Urs">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="BTU-Au-Pfc">
-                                        <rect key="frame" x="0.0" y="773.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="817.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BTU-Au-Pfc" id="MkL-xn-08j">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -361,6 +390,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="changeThemeModeControl" destination="VgM-Wp-uyk" id="bMw-yv-mMR"/>
+                        <outlet property="closeButtonSwitch" destination="TzA-G7-Ucm" id="m1Z-I3-BHK"/>
                         <outlet property="darkModeLabel" destination="Xal-qD-H99" id="Ttc-bR-LMG"/>
                         <outlet property="darkModePicker" destination="Zl6-QK-maN" id="Axk-W8-qGO"/>
                         <outlet property="lightModeLabel" destination="GZC-Y5-1BD" id="Hfi-D2-4dj"/>

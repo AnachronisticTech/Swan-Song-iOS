@@ -52,7 +52,7 @@ class PlayerViewController: SwanSongViewController {
         
         /// Set view theme
         if #available(iOS 13.0, *) {
-            closeButtonHeight.constant = 0
+            closeButtonHeight.constant = UserDefaults.standard.bool(forKey: "playerCloseButtonIsVisible") ? 49 : 0
             if let theme = UserDefaults.standard.value(forKey: "theme") as? String {
                 switch theme {
                     case "light": overrideUserInterfaceStyle = .light
