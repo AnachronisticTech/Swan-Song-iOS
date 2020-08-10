@@ -77,6 +77,10 @@ class PlayerViewController: SwanSongViewController {
         currentTime.textColor = adaptiveColor(.darkGray, .lightGray)
         remainingTime.textColor = adaptiveColor(.darkGray, .lightGray)
         trackInfo.textColor = adaptiveColor(.darkGray, .lightGray)
+        shuffleButton.backgroundColor = Player.isShuffling ? adaptiveColor(lightTint, darkTint) : .clear
+        shuffleButton.setImage(UIImage(named: Player.isShuffling ? "shuffle_inverted" : "shuffle"), for: .normal)
+        repeatButton.backgroundColor = Player.isRepeating ? adaptiveColor(lightTint, darkTint) : .clear
+        repeatButton.setImage(UIImage(named: Player.isRepeating ? "repeat_inverted" : "repeat"), for: .normal)
         
         /// Set initial user interface elements and track details
         updateView()
@@ -116,11 +120,6 @@ class PlayerViewController: SwanSongViewController {
             scrubber.setValue(0, animated: false)
             playButton.setImage(UIImage(named: "play_fill"), for: .normal)
         }
-        
-        repeatButton.backgroundColor = Player.repeatState ? adaptiveColor(lightTint, darkTint) : .clear
-        repeatButton.setImage(UIImage(named: Player.repeatState ? "repeat_inverted" : "repeat"), for: .normal)
-        shuffleButton.backgroundColor = Player.shuffleState ? adaptiveColor(lightTint, darkTint) : .clear
-        shuffleButton.setImage(UIImage(named: Player.shuffleState ? "shuffle_inverted" : "shuffle"), for: .normal)
     }
     
     /// Set track details and user interface elements
@@ -159,7 +158,7 @@ class PlayerViewController: SwanSongViewController {
     
     @IBAction func `repeat`(_ sender: Any) {
         if case .NotPlaying = Player.state { return }
-        Player.repeatState = !Player.repeatState
+        Player.isRepeating = !Player.isRepeating
     }
     
     @IBAction func previousTrack(_ sender: Any) { Player.previous() }
@@ -176,7 +175,7 @@ class PlayerViewController: SwanSongViewController {
     
     @IBAction func shuffle(_ sender: Any) {
         if case .NotPlaying = Player.state { return }
-        Player.shuffleState = !Player.shuffleState
+        Player.isShuffling = !Player.isShuffling
     }
     
     /// Select colour based on UI theme or user preferece
@@ -209,4 +208,24 @@ extension PlayerViewController: AudioPlayerObserver {
     func audioPlayer(_ player: AudioPlayer, didPausePlaybackOf item: MPMediaItem) {}
     
     func audioPlayerDidStop(_ player: AudioPlayer) {}
+    
+    func audioPlayerIsShuffling(_ player: AudioPlayer) {
+        shuffleButton.backgroundColor = adaptiveColor(lightTint, darkTint)
+        shuffleButton.setImage(UIImage(named: "shuffle_inverted"), for: .normal)
+    }
+    
+    func audioPlayerIsNotShuffling(_ player: AudioPlayer) {
+        shuffleButton.backgroundColor = .clear
+        shuffleButton.setImage(UIImage(named: "shuffle"), for: .normal)
+    }
+    
+    func audioPlayerIsRepeating(_ player: AudioPlayer) {
+        repeatButton.backgroundColor = adaptiveColor(lightTint, darkTint)
+        repeatButton.setImage(UIImage(named: "repeat_inverted"), for: .normal)
+    }
+    
+    func audioPlayerIsNotRepeating(_ player: AudioPlayer) {
+        repeatButton.backgroundColor = .clear
+        repeatButton.setImage(UIImage(named: "repeat"), for: .normal)
+    }
 }

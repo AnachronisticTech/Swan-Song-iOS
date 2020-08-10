@@ -29,14 +29,20 @@ class AudioPlayer {
         set { player.currentPlaybackTime = newValue }
     }
     
-    var shuffleState: Bool {
+    var isShuffling: Bool {
         get { return player.shuffleMode == .songs }
-        set { player.shuffleMode = newValue ? .songs : .off }
+        set {
+            player.shuffleMode = newValue ? .songs : .off
+            shuffleStateDidChange()
+        }
     }
     
-    var repeatState: Bool {
+    var isRepeating: Bool {
         get { return player.repeatMode == .all }
-        set { player.repeatMode = newValue ? .all : .none }
+        set {
+            player.repeatMode = newValue ? .all : .none
+            repeatStateDidChange()
+        }
     }
     
     init() {
@@ -155,7 +161,6 @@ class AudioPlayer {
     }
     
     @objc private func playbackStateDidChange() {
-//        print("playback state changed
         if case .stopped = player.playbackState {
             state = .NotPlaying
         } else if case .paused = player.playbackState, case .Playing(let item) = state {
@@ -188,6 +193,40 @@ private extension AudioPlayer {
         }
     }
     
+    func shuffleStateDidChange() {
+        for (id, observation) in observations {
+            // If the observer is no longer in memory, we
+            // can clean up the observation for its ID
+            guard let observer = observation.observer else {
+                observations.removeValue(forKey: id)
+                continue
+            }
+
+            if isShuffling {
+                observer.audioPlayerIsShuffling(self)
+            } else {
+                observer.audioPlayerIsNotShuffling(self)
+            }
+        }
+    }
+    
+    func repeatStateDidChange() {
+        for (id, observation) in observations {
+            // If the observer is no longer in memory, we
+            // can clean up the observation for its ID
+            guard let observer = observation.observer else {
+                observations.removeValue(forKey: id)
+                continue
+            }
+
+            if isRepeating {
+                observer.audioPlayerIsRepeating(self)
+            } else {
+                observer.audioPlayerIsNotRepeating(self)
+            }
+        }
+    }
+    
     struct Observation {
         weak var observer: AudioPlayerObserver?
     }
@@ -211,6 +250,14 @@ protocol AudioPlayerObserver: class {
     func audioPlayer(_ player: AudioPlayer, didPausePlaybackOf item: MPMediaItem)
 
     func audioPlayerDidStop(_ player: AudioPlayer)
+
+    func audioPlayerIsShuffling(_ player: AudioPlayer)
+
+    func audioPlayerIsNotShuffling(_ player: AudioPlayer)
+
+    func audioPlayerIsRepeating(_ player: AudioPlayer)
+
+    func audioPlayerIsNotRepeating(_ player: AudioPlayer)
 }
 
 extension AudioPlayerObserver {
@@ -219,4 +266,12 @@ extension AudioPlayerObserver {
     func audioPlayer(_ player: AudioPlayer, didPausePlaybackOf item: MPMediaItem) {}
 
     func audioPlayerDidStop(_ player: AudioPlayer) {}
+
+    func audioPlayerIsShuffling(_ player: AudioPlayer) {}
+
+    func audioPlayerIsNotShuffling(_ player: AudioPlayer) {}
+
+    func audioPlayerIsRepeating(_ player: AudioPlayer) {}
+
+    func audioPlayerIsNotRepeating(_ player: AudioPlayer) {}
 }
