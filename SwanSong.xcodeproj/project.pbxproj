@@ -36,10 +36,22 @@
 		91B8026224BF578B00C4BC31 /* ArtistLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B8026124BF578B00C4BC31 /* ArtistLibraryViewController.swift */; };
 		91BF51F124D410BF00AB4992 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BF51F024D410BF00AB4992 /* Playlist.swift */; };
 		91E164F924A0C05B005B51AD /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E164F824A0C05B005B51AD /* PlaylistViewController.swift */; };
+		91EE63ED24E176C700BCC920 /* SwanSongUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE63EC24E176C700BCC920 /* SwanSongUITests.swift */; };
+		91EE63F524E176E700BCC920 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE63F424E176E700BCC920 /* SnapshotHelper.swift */; };
 		91EE846D24B398AF00122BA6 /* AlbumLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */; };
 		91F24864249FD302006884B6 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F24863249FD302006884B6 /* UserInterface.swift */; };
 		91F2F33C23998209008291E9 /* PlaylistLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F2F33B23998209008291E9 /* PlaylistLibraryViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		91EE63EF24E176C700BCC920 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 918ED5CF2397257500FB85A9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 918ED5D62397257500FB85A9;
+			remoteInfo = SwanSong;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		912B1E8F24B5CC09004BF44D /* GenreLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreLibraryViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +87,10 @@
 		91B8026124BF578B00C4BC31 /* ArtistLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistLibraryViewController.swift; sourceTree = "<group>"; };
 		91BF51F024D410BF00AB4992 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		91E164F824A0C05B005B51AD /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
+		91EE63EA24E176C700BCC920 /* SwanSongUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwanSongUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		91EE63EC24E176C700BCC920 /* SwanSongUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwanSongUITests.swift; sourceTree = "<group>"; };
+		91EE63EE24E176C700BCC920 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91EE63F424E176E700BCC920 /* SnapshotHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = ../fastlane/SnapshotHelper.swift; sourceTree = "<group>"; };
 		91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryViewController.swift; sourceTree = "<group>"; };
 		91F24863249FD302006884B6 /* UserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		91F2F33B23998209008291E9 /* PlaylistLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistLibraryViewController.swift; sourceTree = "<group>"; };
@@ -82,6 +98,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		918ED5D42397257500FB85A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91EE63E724E176C700BCC920 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -112,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				918ED5D92397257500FB85A9 /* SwanSong */,
+				91EE63EB24E176C700BCC920 /* SwanSongUITests */,
 				918ED5D82397257500FB85A9 /* Products */,
 				918ED5EC23972C1B00FB85A9 /* Frameworks */,
 			);
@@ -121,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				918ED5D72397257500FB85A9 /* SwanSong.app */,
+				91EE63EA24E176C700BCC920 /* SwanSongUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,6 +190,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		91EE63EB24E176C700BCC920 /* SwanSongUITests */ = {
+			isa = PBXGroup;
+			children = (
+				91EE63EC24E176C700BCC920 /* SwanSongUITests.swift */,
+				91EE63F424E176E700BCC920 /* SnapshotHelper.swift */,
+				91EE63EE24E176C700BCC920 /* Info.plist */,
+			);
+			path = SwanSongUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -185,18 +220,40 @@
 			productReference = 918ED5D72397257500FB85A9 /* SwanSong.app */;
 			productType = "com.apple.product-type.application";
 		};
+		91EE63E924E176C700BCC920 /* SwanSongUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91EE63F324E176C700BCC920 /* Build configuration list for PBXNativeTarget "SwanSongUITests" */;
+			buildPhases = (
+				91EE63E624E176C700BCC920 /* Sources */,
+				91EE63E724E176C700BCC920 /* Frameworks */,
+				91EE63E824E176C700BCC920 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				91EE63F024E176C700BCC920 /* PBXTargetDependency */,
+			);
+			name = SwanSongUITests;
+			productName = SwanSongUITests;
+			productReference = 91EE63EA24E176C700BCC920 /* SwanSongUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		918ED5CF2397257500FB85A9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Daniel Marriner";
 				TargetAttributes = {
 					918ED5D62397257500FB85A9 = {
 						CreatedOnToolsVersion = 10.2.1;
+					};
+					91EE63E924E176C700BCC920 = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = 918ED5D62397257500FB85A9;
 					};
 				};
 			};
@@ -214,6 +271,7 @@
 			projectRoot = "";
 			targets = (
 				918ED5D62397257500FB85A9 /* SwanSong */,
+				91EE63E924E176C700BCC920 /* SwanSongUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +294,13 @@
 				91B8021A24BA1BF600C4BC31 /* MultiArtDetailTableCellMedium.xib in Resources */,
 				91B8021E24BA287600C4BC31 /* NumberDetailTableCell.xib in Resources */,
 				912B1E9D24B91F4D004BF44D /* ArtDetailTableCellSmall.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91EE63E824E176C700BCC920 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +333,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		91EE63E624E176C700BCC920 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91EE63F524E176E700BCC920 /* SnapshotHelper.swift in Sources */,
+				91EE63ED24E176C700BCC920 /* SwanSongUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		91EE63F024E176C700BCC920 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 918ED5D62397257500FB85A9 /* SwanSong */;
+			targetProxy = 91EE63EF24E176C700BCC920 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		918ED5DE2397257500FB85A9 /* Main.storyboard */ = {
@@ -444,6 +526,46 @@
 			};
 			name = Release;
 		};
+		91EE63F124E176C700BCC920 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SDPTWQFVDC;
+				INFOPLIST_FILE = SwanSongUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "anachronistic-tech.SwanSongUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SwanSong;
+			};
+			name = Debug;
+		};
+		91EE63F224E176C700BCC920 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SDPTWQFVDC;
+				INFOPLIST_FILE = SwanSongUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "anachronistic-tech.SwanSongUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SwanSong;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -461,6 +583,15 @@
 			buildConfigurations = (
 				918ED5EA2397257600FB85A9 /* Debug */,
 				918ED5EB2397257600FB85A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91EE63F324E176C700BCC920 /* Build configuration list for PBXNativeTarget "SwanSongUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91EE63F124E176C700BCC920 /* Debug */,
+				91EE63F224E176C700BCC920 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
