@@ -19,10 +19,36 @@ class NumberDetailTableViewCell: DetailTableViewCell {
 
 class ArtDetailTableViewCell: DetailTableViewCell {
     @IBOutlet private weak var folderOverlay: UIView!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var editButtonHeight: NSLayoutConstraint!
+    @IBOutlet weak var editButtonWidth: NSLayoutConstraint!
+    
+    private var action: (() -> Void)? = nil
+    private var state = true
     
     var isFolderOverlayVisible = false {
         willSet {
             folderOverlay.isHidden = !newValue
+        }
+    }
+    
+    var showsEditControl: Bool = false {
+        willSet {
+            editButton.isUserInteractionEnabled = newValue
+            editButtonHeight.constant = newValue ? 30 : 0
+            editButtonWidth.constant = newValue ? 46 : 0
+        }
+    }
+    
+    func setEditAction(_ closure: @escaping () -> Void) {
+        action = closure
+    }
+    
+    @IBAction func editAction(_ sender: Any) {
+        if let action = action {
+            state = !state
+            editButton.setTitle(state ? "Edit" : "Done", for: .normal)
+            action()
         }
     }
 }

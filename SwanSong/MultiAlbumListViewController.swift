@@ -27,8 +27,11 @@ class MultiAlbumListViewController: SwanSongViewController, UITableViewDelegate 
         listView.register(UINib(nibName: "ArtDetailTableCellLarge", bundle: nil), forCellReuseIdentifier: "album")
         listView.register(UINib(nibName: "NumberDetailTableCell", bundle: nil), forCellReuseIdentifier: "track")
         
-        let filter = MPMediaPropertyPredicate(value: persistentID, forProperty: filterProperty!)
-        query!.addFilterPredicate(filter)
+        let filterID = MPMediaPropertyPredicate(
+            value: persistentID,
+            forProperty: filterProperty!
+        )
+        query!.addFilterPredicate(filterID)
         query!.groupingType = .album
         collections = query!.collections ?? []
         tracks = query!.items ?? []

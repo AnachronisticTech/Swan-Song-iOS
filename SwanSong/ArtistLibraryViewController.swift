@@ -40,7 +40,9 @@ class ArtistLibraryViewController: SwappableViewController {
     
     /// Load artists from library
     func librarySetup() {
-        library = MPMediaQuery.artists().collections ?? []
+        let query = MPMediaQuery.artists()
+        query.addFilterPredicate(filterLocal)
+        library = query.collections ?? []
         library.forEach { artist in
             let title = artist.items.first?.artist ?? ""
             var art = [MPMediaItem]()

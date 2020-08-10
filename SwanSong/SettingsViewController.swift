@@ -18,6 +18,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
     @IBOutlet weak var darkModePicker: UIPickerView!
     @IBOutlet weak var darkModeLabel: UILabel!
     var darkModePickerVisible = false
+    @IBOutlet weak var closeButtonSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +42,13 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
         darkModePicker.selectRow(TintColor.allCases.firstIndex(where: { $0.color == darkTint }) ?? 0, inComponent: 0, animated: false)
         darkModeLabel.text = TintColor.allCases.first(where: { $0.color == darkTint })?.rawValue ?? "Blue"
         
-        if #available(iOS 13.0, *) {} else {
+        if #available(iOS 13.0, *) {
+            closeButtonSwitch.isOn = UserDefaults.standard.bool(forKey: "playerCloseButtonIsVisible")
+        } else {
             changeThemeModeControl.isEnabled = false
             tableView.cellForRow(at: IndexPath(row: 3, section: 1))?.isUserInteractionEnabled = false
+            closeButtonSwitch.isEnabled = false
+            closeButtonSwitch.isOn = true
         }
     }
     
@@ -144,22 +149,36 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
         if MPMediaLibrary.authorizationStatus() == .authorized {
             let alert = UIAlertController(
                 title: "Already Authorised",
-                message: "Swan Song is already authorised to access your iTunes media library.",
+                message: "SwanSong is already authorised to access your iTunes media library.",
                 preferredStyle: .alert)
             alert.addAction(UIAlertAction(
                 title: "Ok",
-                style: .cancel,
-                handler: nil)
-            )
-            DispatchQueue.main.async {
-                self.present(alert, animated: true)
-            }
+                style: .default
+            ))
+            present(alert, animated: true)
         } else if MPMediaLibrary.authorizationStatus() == .denied {
             guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
             if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl, completionHandler: nil)
+                UIApplication.shared.open(settingsUrl)
             }
         }
+    }
+    
+    @IBAction func resetWarnings(_ sender: Any) {
+        let alert = UIAlertController(
+            title: "Warnings Reset",
+            message: "All warnings have been reset.",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(
+            title: "Ok",
+            style: .default) { _ in
+            UserDefaults.standard.set(false, forKey: "playlistModificationWarningHasBeenShown")
+        })
+        present(alert, animated: true)
+    }
+    
+    @IBAction func setCloseButtonVisibility(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "playerCloseButtonIsVisible")
     }
     
 }

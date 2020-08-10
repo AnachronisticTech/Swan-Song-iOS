@@ -38,6 +38,7 @@ class AlbumLibraryViewController: SwappableViewController {
     /// Load albums from library
     func librarySetup() {
         let query = MPMediaQuery.albums()
+        query.addFilterPredicate(filterLocal)
         collections = query.collections ?? []
         sections = query.collectionSections ?? []
         

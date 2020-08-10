@@ -8,12 +8,18 @@
 
 import UIKit
 import MediaPlayer
+import CoreData
 
 let Player = AudioPlayer()
 let Formatter = DateComponentsFormatter()
 
 var lightTint: UIColor = TintColor.Blue.color
 var darkTint : UIColor = TintColor.Blue.color
+
+let filterLocal = MPMediaPropertyPredicate(
+    value: false,
+    forProperty: MPMediaItemPropertyIsCloudItem
+)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -43,6 +49,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set("Blue", forKey: "dark")
         }
         
+        let query = MPMediaQuery.playlists()
+        query.addFilterPredicate(filterLocal)
+        let lists = (query.collections ?? []) as! [MPMediaPlaylist]
+        lists.forEach { save($0) }
+        
         return true
     }
 
@@ -66,6 +77,75 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    // MARK: - Core Data stack
+
+    lazy var persistentContainer: NSPersistentContainer = {
+        /*
+         The persistent container for the application. This implementation
+         creates and returns a container, having loaded the store for the
+         application to it. This property is optional since there are legitimate
+         error conditions that could cause the creation of the store to fail.
+        */
+        let container = NSPersistentContainer(name: "SwanSong")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                 
+                /*
+                 Typical reasons for an error here include:
+                 * The parent directory does not exist, cannot be created, or disallows writing.
+                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                 * The device is out of space.
+                 * The store could not be migrated to the current model version.
+                 Check the error message to determine what the actual problem was.
+                 */
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+
+    // MARK: - Core Data Saving support
+
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
+    func save(_ list: MPMediaPlaylist) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+        fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", Int64(bitPattern: list.persistentID))
+        if let results = try? managedContext.fetch(fetchRequest), results.count == 0 {
+            let entity = NSEntityDescription.entity(forEntityName: "Playlist", in: managedContext)!
+            let playlist = NSManagedObject(entity: entity, insertInto: managedContext)
+            playlist.setValue(Int64(bitPattern: list.persistentID), forKey: "persistentID")
+            playlist.setValue(list.title ?? "", forKey: "title")
+            playlist.setValue(false, forKey: "isLocalItem")
+            playlist.setValue(false, forKey: "isHidden")
+            playlist.setValue(list.isFolder, forKey: "isFolder")
+            playlist.setValue(list.value(forProperty: "parentPersistentID") as? Int, forKey: "parentPersistentID")
+            playlist.setValue(list.items.map({ Int64(bitPattern: $0.persistentID) }), forKey: "items")
+            playlist.setValue(list.folderItems.map({ Int64(bitPattern: $0.persistentID) }), forKey: "folderItems")
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not update and save. \(error)")
+            }
+        }
     }
 
 }
