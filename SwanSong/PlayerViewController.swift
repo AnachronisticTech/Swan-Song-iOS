@@ -219,29 +219,13 @@ class PlayerViewController: SwanSongViewController {
 }
 
 extension PlayerViewController: AudioPlayerObserver {
-    func audioPlayer(_ player: AudioPlayer, didStartPlaying item: MPMediaItem) {}
-    
-    func audioPlayer(_ player: AudioPlayer, didPausePlaybackOf item: MPMediaItem) {}
-    
-    func audioPlayerDidStop(_ player: AudioPlayer) {}
-    
-    func audioPlayerIsShuffling(_ player: AudioPlayer) {
-        shuffleButton.backgroundColor = adaptiveColor(lightTint, darkTint)
-        shuffleButton.setImage(UIImage(named: "shuffle_inverted"), for: .normal)
+    func audioPlayerDidChangeShuffleState(_ player: AudioPlayer, shuffleState state: Bool) {
+        shuffleButton.backgroundColor = state ? adaptiveColor(lightTint, darkTint) : .clear
+        shuffleButton.setImage(UIImage(named: state ? "shuffle_inverted" : "shuffle"), for: .normal)
     }
     
-    func audioPlayerIsNotShuffling(_ player: AudioPlayer) {
-        shuffleButton.backgroundColor = .clear
-        shuffleButton.setImage(UIImage(named: "shuffle"), for: .normal)
-    }
-    
-    func audioPlayerIsRepeating(_ player: AudioPlayer) {
-        repeatButton.backgroundColor = adaptiveColor(lightTint, darkTint)
-        repeatButton.setImage(UIImage(named: "repeat_inverted"), for: .normal)
-    }
-    
-    func audioPlayerIsNotRepeating(_ player: AudioPlayer) {
-        repeatButton.backgroundColor = .clear
-        repeatButton.setImage(UIImage(named: "repeat"), for: .normal)
+    func audioPlayerDidChangeRepeatState(_ player: AudioPlayer, repeatState state: Bool) {
+        repeatButton.backgroundColor = state ? adaptiveColor(lightTint, darkTint) : .clear
+        repeatButton.setImage(UIImage(named: state ? "repeat_inverted" : "repeat"), for: .normal)
     }
 }

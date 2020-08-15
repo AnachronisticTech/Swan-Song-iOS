@@ -202,11 +202,7 @@ private extension AudioPlayer {
                 continue
             }
 
-            if isShuffling {
-                observer.audioPlayerIsShuffling(self)
-            } else {
-                observer.audioPlayerIsNotShuffling(self)
-            }
+            observer.audioPlayerDidChangeShuffleState(self, shuffleState: isShuffling)
         }
     }
     
@@ -219,11 +215,7 @@ private extension AudioPlayer {
                 continue
             }
 
-            if isRepeating {
-                observer.audioPlayerIsRepeating(self)
-            } else {
-                observer.audioPlayerIsNotRepeating(self)
-            }
+            observer.audioPlayerDidChangeRepeatState(self, repeatState: isRepeating)
         }
     }
     
@@ -250,14 +242,10 @@ protocol AudioPlayerObserver: class {
     func audioPlayer(_ player: AudioPlayer, didPausePlaybackOf item: MPMediaItem)
 
     func audioPlayerDidStop(_ player: AudioPlayer)
-
-    func audioPlayerIsShuffling(_ player: AudioPlayer)
-
-    func audioPlayerIsNotShuffling(_ player: AudioPlayer)
-
-    func audioPlayerIsRepeating(_ player: AudioPlayer)
-
-    func audioPlayerIsNotRepeating(_ player: AudioPlayer)
+    
+    func audioPlayerDidChangeShuffleState(_ player: AudioPlayer, shuffleState state: Bool)
+    
+    func audioPlayerDidChangeRepeatState(_ player: AudioPlayer, repeatState state: Bool)
 }
 
 extension AudioPlayerObserver {
@@ -266,12 +254,8 @@ extension AudioPlayerObserver {
     func audioPlayer(_ player: AudioPlayer, didPausePlaybackOf item: MPMediaItem) {}
 
     func audioPlayerDidStop(_ player: AudioPlayer) {}
-
-    func audioPlayerIsShuffling(_ player: AudioPlayer) {}
-
-    func audioPlayerIsNotShuffling(_ player: AudioPlayer) {}
-
-    func audioPlayerIsRepeating(_ player: AudioPlayer) {}
-
-    func audioPlayerIsNotRepeating(_ player: AudioPlayer) {}
+    
+    func audioPlayerDidChangeShuffleState(_ player: AudioPlayer, shuffleState state: Bool) {}
+    
+    func audioPlayerDidChangeRepeatState(_ player: AudioPlayer, repeatState state: Bool) {}
 }
