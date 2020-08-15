@@ -28,10 +28,45 @@ class SwanSongUITests: XCTestCase {
         let app = XCUIApplication()
         setupSnapshot(app)
         app.launch()
-        snapshot("0Launch")
 
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        snapshot("0 Albums")
+//        let list = app.tables["albumList"]
+//        XCTAssert(list.exists, "Table does not exist")
+//        let cells = list.cells
+//        XCTAssert(cells.count > 0, "Table had zero rows")
+//        let cell = cells.element(boundBy: 0)
+//        XCTAssert(cell.exists, "First cell does not exist")
+//        cell.tap()
+        app.tables["albumList"].staticTexts["Angel (Original Television Soundtrack)"].tap()
+        snapshot("1 Album")
+
+        app.tabBars.buttons["Genres"].tap()
+        let itemButton = app.navigationBars["Genres"].buttons["Item"]
+        itemButton.tap()
+        snapshot("2 Genres")
+        itemButton.tap()
+//        let list2 = app.tables["genreList"]
+//        XCTAssert(list2.exists, "Table does not exist")
+//        let cells2 = list2.cells
+//        XCTAssert(cells2.count > 0, "Collection had zero cells")
+//        let cell2 = cells2.element(boundBy: 1)
+//        XCTAssert(cell2.exists, "Cell does not exist")
+//        cell2.tap()
+        app.tables["genreList"].staticTexts["Disco"].tap()
+        snapshot("3 Genre")
+
+        app.tabBars.buttons["Songs"].tap()
+        snapshot("4 Songs")
+        app.tables.staticTexts["Big Night"].tap()
+        snapshot("5 PlayerLight")
+        app.buttons["playButton"].tap()
+
+        app.tabBars.buttons["Settings"].tap()
+        app.tables/*@START_MENU_TOKEN@*/.buttons["Dark"]/*[[".cells",".segmentedControls.buttons[\"Dark\"]",".buttons[\"Dark\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.navigationBars["Settings"].buttons["Play"].tap()
+        snapshot("6 PlayerDark")
+        app.buttons["playButton"].tap()
+        app.tables/*@START_MENU_TOKEN@*/.buttons["Auto"]/*[[".cells",".segmentedControls.buttons[\"Auto\"]",".buttons[\"Auto\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
     }
 
     func testLaunchPerformance() throws {

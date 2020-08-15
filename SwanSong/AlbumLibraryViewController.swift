@@ -84,6 +84,7 @@ extension AlbumLibraryViewController: UITableViewDataSource {
         cell.title.text = collections[index].representativeItem?.albumTitle ?? ""
         cell.detail?.text = collections[index].representativeItem?.albumArtist ?? ""
         cell.artwork?.image = collections[index].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+        cell.isAccessibilityElement = true
         return cell
     }
 
@@ -102,19 +103,16 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionView.elementKindSectionHeader:
-            guard let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "header",
-                for: indexPath) as? CollectionViewHeader
-                else { fatalError("Invalid view type") }
-            
-            header.title.text = sections[indexPath.section].title
-            return header
-        default:
-            assert(false, "Invalid element kind")
-        }
+        guard kind == UICollectionView.elementKindSectionHeader else { fatalError("Invalid element kind") }
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: "header",
+            for: indexPath) as? CollectionViewHeader
+            else { fatalError("Invalid view type") }
+        
+        header.title.text = sections[indexPath.section].title
+        header.isAccessibilityElement = false
+        return header
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -136,6 +134,7 @@ extension AlbumLibraryViewController: UICollectionViewDataSource {
         cell.title?.text = collections[index].representativeItem?.albumTitle ?? ""
         cell.detail?.text = collections[index].representativeItem?.albumArtist ?? ""
         cell.artwork?.image = collections[index].representativeItem?.artwork?.image(at: CGSize(width: 80, height: 80))
+        cell.isAccessibilityElement = true
         return cell
     }
     

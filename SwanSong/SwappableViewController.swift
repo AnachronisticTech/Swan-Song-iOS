@@ -33,11 +33,16 @@ class SwappableViewController: SwanSongViewController, UITableViewDelegate, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        isAccessibilityElement = false
         
         listView.delegate = self
         listView.tableFooterView = UIView()
+        listView.accessibilityIdentifier = "\(identifier)List"
+        listView.isAccessibilityElement = true
         
         gridView.delegate = self
+        gridView.accessibilityIdentifier = "\(identifier)Grid"
+        gridView.isAccessibilityElement = true
         let layout = gridView.collectionViewLayout as? UICollectionViewFlowLayout
         layout?.sectionHeadersPinToVisibleBounds = true
         layout?.headerReferenceSize = CGSize(width: 0, height: 28)

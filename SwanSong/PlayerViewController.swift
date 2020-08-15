@@ -94,6 +94,17 @@ class PlayerViewController: SwanSongViewController {
             userInfo: nil,
             repeats: true
         )
+        
+        /// TESTING: Disable timer when in simulator
+        if isInSnapshotMode {
+            timer.invalidate()
+            if case .Playing(let item) = Player.state {
+                scrubber.value = 0.45
+                let time = TimeInterval(scrubber.value) * item.playbackDuration
+                currentTime.text = Formatter.string(from: time)
+                remainingTime.text = Formatter.string(from: item.playbackDuration - time)
+            }
+        }
     }
     
     /// Invalidate the timer when view disappears to avoid memory leaks
@@ -164,6 +175,11 @@ class PlayerViewController: SwanSongViewController {
     @IBAction func previousTrack(_ sender: Any) { Player.previous() }
     
     @IBAction func playPause(_ sender: Any) {
+        if isInSnapshotMode {
+            dismiss(animated: true)
+            return
+        }
+        
         if case .Playing = Player.state {
             Player.pause()
         } else if case .Paused = Player.state {

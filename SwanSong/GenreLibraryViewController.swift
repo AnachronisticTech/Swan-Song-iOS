@@ -102,6 +102,7 @@ extension GenreLibraryViewController: UITableViewDataSource {
             cell.title.text = data.0
             cell.detail?.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.isAccessibilityElement = true
             return cell
         } else {
             let cell = listView.dequeueReusableCell(withIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailTableViewCell
@@ -111,6 +112,7 @@ extension GenreLibraryViewController: UITableViewDataSource {
             cell.artwork2?.image = data.2[1].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             cell.artwork3?.image = data.2[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             cell.artwork4?.image = data.2[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.isAccessibilityElement = true
             return cell
         }
     }
@@ -131,19 +133,16 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionView.elementKindSectionHeader:
-            guard let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "header",
-                for: indexPath) as? CollectionViewHeader
-                else { fatalError("Invalid view type") }
-            
-            header.title.text = String(Array(Set(details.map { $0.0.first! })).sorted(by: <)[indexPath.section])
-            return header
-        default:
-            assert(false, "Invalid element kind")
-        }
+        guard kind == UICollectionView.elementKindSectionHeader else { fatalError("Invalid element kind") }
+        guard let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: "header",
+            for: indexPath) as? CollectionViewHeader
+            else { fatalError("Invalid view type") }
+        
+        header.title.text = String(Array(Set(details.map { $0.0.first! })).sorted(by: <)[indexPath.section])
+        header.isAccessibilityElement = false
+        return header
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -168,6 +167,7 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
             cell.title.text = data.0
             cell.detail.text = "\(data.1) track\(data.1 == 1 ? "" : "s")"
             cell.artwork?.image = data.2.first?.artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.isAccessibilityElement = true
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "genre_multi", for: indexPath) as! MultiArtDetailCollectionViewCell
@@ -177,6 +177,7 @@ extension GenreLibraryViewController: UICollectionViewDataSource {
             cell.artwork2?.image = data.2[1].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             cell.artwork3?.image = data.2[2].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
             cell.artwork4?.image = data.2[3].artwork?.image(at: CGSize(width: 80, height: 80)) ?? UIImage(named: "blank_artwork")
+            cell.isAccessibilityElement = true
             return cell
         }
     }

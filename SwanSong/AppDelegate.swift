@@ -21,6 +21,8 @@ let filterLocal = MPMediaPropertyPredicate(
     forProperty: MPMediaItemPropertyIsCloudItem
 )
 
+var isInSnapshotMode = false
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -53,6 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         query.addFilterPredicate(filterLocal)
         let lists = (query.collections ?? []) as! [MPMediaPlaylist]
         lists.forEach { save($0) }
+        
+        if UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT") { isInSnapshotMode = true }
         
         return true
     }

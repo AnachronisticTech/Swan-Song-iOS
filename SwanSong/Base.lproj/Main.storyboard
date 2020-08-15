@@ -644,6 +644,7 @@
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="1a7-Qr-Xcc" customClass="AudioTrack" customModule="SwanSong" customModuleProvider="target">
                                         <rect key="frame" x="48" y="5" width="288" height="31"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="audioScrubber"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Wkc-qb-ytX"/>
                                         </constraints>
@@ -710,6 +711,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5H-mr-dpo">
                                         <rect key="frame" x="167" y="0.0" width="50" height="50"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="playButton"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="S5H-mr-dpo" secondAttribute="height" multiplier="1:1" id="Z5H-nb-Uug"/>
                                         </constraints>
