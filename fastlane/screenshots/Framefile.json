@@ -1,0 +1,81 @@
+{
+    "device_frame_version": "latest",
+    "default": {
+      "keyword": {
+        "color": "#aa4dbc",
+        "font_size": 65
+      },
+      "title": {
+        "color": "#545454",
+        "font_size": 65
+      },
+      "background": "./background.jpg",
+      "padding": 50,
+      "show_complete_frame": true,
+      "stack_title" : true,
+      "title_below_image": true,
+      "frame": "SILVER",
+      "use_platform": "IOS"
+    },
+  
+    "data": [
+      {
+        "filter": "0 Albums",
+        "keyword": {
+          "text": "A classic list view"
+        },
+        "title": {
+          "text": "library experience"
+        },
+        "title_below_image": false
+      },
+      {
+        "filter": "2 Genres",
+        "keyword": {
+          "text": "Or a modern touch"
+        },
+        "title": {
+          "text": "with large artwork"
+        },
+        "title_below_image": false
+      },
+      {
+        "filter": "3 Genre",
+        "keyword": {
+          "text": "View tracks by artist,"
+        },
+        "title": {
+          "text": "genre, album, or playlist"
+        }
+      },
+      {
+        "filter": "4 Songs",
+        "keyword": {
+          "text": "All your local music"
+        },
+        "title": {
+          "text": "in one convenient place"
+        }
+      },
+      {
+        "filter": "5 PlayerLight",
+        "keyword": {
+          "text": "With a large player view,"
+        },
+        "title": {
+          "text": "customisable highlights,"
+        },
+        "title_below_image": false
+      },
+      {
+        "filter": "6 PlayerDark",
+        "keyword": {
+          "text": "And beautiful, app-wide"
+        },
+        "title": {
+          "text": "dark mode support"
+        },
+        "title_below_image": false
+      }
+    ]
+  }

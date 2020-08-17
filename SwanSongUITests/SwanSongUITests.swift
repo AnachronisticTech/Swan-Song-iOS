@@ -38,7 +38,7 @@ class SwanSongUITests: XCTestCase {
 //        XCTAssert(cell.exists, "First cell does not exist")
 //        cell.tap()
         app.tables["albumList"].staticTexts["Angel (Original Television Soundtrack)"].tap()
-        snapshot("1 Album")
+        // snapshot("1 Album")
 
         app.tabBars.buttons["Genres"].tap()
         let itemButton = app.navigationBars["Genres"].buttons["Item"]
