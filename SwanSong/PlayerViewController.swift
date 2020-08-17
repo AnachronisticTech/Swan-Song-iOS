@@ -107,6 +107,14 @@ class PlayerViewController: SwanSongViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let isShuffling = Player.isShuffling
+        Player.isShuffling = isShuffling
+        let isRepeating = Player.isRepeating
+        Player.isRepeating = isRepeating
+    }
+    
     /// Invalidate the timer when view disappears to avoid memory leaks
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -211,6 +219,11 @@ class PlayerViewController: SwanSongViewController {
         currentTime.textColor = adaptiveColor(.darkGray, .lightGray)
         remainingTime.textColor = adaptiveColor(.darkGray, .lightGray)
         trackInfo.textColor = adaptiveColor(.darkGray, .lightGray)
+        
+        let isShuffling = Player.isShuffling
+        Player.isShuffling = isShuffling
+        let isRepeating = Player.isRepeating
+        Player.isRepeating = isRepeating
     }
     
     @IBAction func dismissView(_ sender: Any) {
