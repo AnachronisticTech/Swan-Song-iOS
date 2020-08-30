@@ -55,6 +55,8 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
     
     /// Load playlists from library
     func librarySetup() {
+        savePlaylists()
+        
         if playlistFolderID != 0 {
             library = fetchLists(with: playlistFolderID, ofParent: true)!
         } else {

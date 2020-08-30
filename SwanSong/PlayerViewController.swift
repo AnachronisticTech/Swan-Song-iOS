@@ -109,6 +109,8 @@ class PlayerViewController: SwanSongViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        Player.refreshState()
         let isShuffling = Player.isShuffling
         Player.isShuffling = isShuffling
         let isRepeating = Player.isRepeating

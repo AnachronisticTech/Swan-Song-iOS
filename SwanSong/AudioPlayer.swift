@@ -79,6 +79,18 @@ class AudioPlayer {
         NotificationCenter.default.removeObserver(self)
     }
     
+    func refreshState() {
+        if let track = player.nowPlayingItem {
+            switch player.playbackState {
+            case .playing:
+                state = .Playing(track)
+            case .paused:
+                state = .Paused(track)
+            default: break
+            }
+        }
+    }
+    
     func play(_ queue: [MPMediaItem], skipping skip: Int = 0) {
         guard skip < queue.count, skip >= 0 else { return }
         let item = queue[skip]

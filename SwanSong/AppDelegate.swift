@@ -22,6 +22,7 @@ let filterLocal = MPMediaPropertyPredicate(
 )
 
 var isInSnapshotMode = false
+var playlistsWereLoaded = false
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -50,11 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             UserDefaults.standard.set("Blue", forKey: "dark")
         }
-        
-        let query = MPMediaQuery.playlists()
-        query.addFilterPredicate(filterLocal)
-        let lists = (query.collections ?? []) as! [MPMediaPlaylist]
-        lists.forEach { save($0) }
         
         if UserDefaults.standard.bool(forKey: "FASTLANE_SNAPSHOT") { isInSnapshotMode = true }
         
@@ -127,6 +123,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+
+}
+
+func savePlaylists() {
+    if playlistsWereLoaded { return }
     
     func save(_ list: MPMediaPlaylist) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
@@ -151,7 +152,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    let query = MPMediaQuery.playlists()
+    query.addFilterPredicate(filterLocal)
+    let lists = (query.collections ?? []) as! [MPMediaPlaylist]
+    lists.forEach { save($0) }
+    playlistsWereLoaded = true
 }
     
 func checkAuthorisation(_ viewController: UIViewController, then run: (() -> Void)? = nil) {
