@@ -27,7 +27,6 @@ class PlayerViewController: SwanSongViewController {
     @IBOutlet weak var closeButtonHeight: NSLayoutConstraint!
     
     var timer = Timer()
-    var nowPlaying: MPMediaItem?
     var isMovingScrubber = false
     
 //    override func viewWillAppear(_ animated: Bool) {
@@ -83,17 +82,8 @@ class PlayerViewController: SwanSongViewController {
         repeatButton.setImage(UIImage(named: Player.isRepeating ? "repeat_inverted" : "repeat"), for: .normal)
         
         /// Set initial user interface elements and track details
-        updateView()
-        
-        /// Set up view update timer
         timer.invalidate()
-        timer = Timer.scheduledTimer(
-            timeInterval: 0.1,
-            target: self,
-            selector: #selector(updateView),
-            userInfo: nil,
-            repeats: true
-        )
+        updateView()
         
         /// TESTING: Disable timer when in simulator
         if isInSnapshotMode {
@@ -109,12 +99,22 @@ class PlayerViewController: SwanSongViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+                
+//        Player.refreshState()
+//        let isShuffling = Player.isShuffling
+//        Player.isShuffling = isShuffling
+//        let isRepeating = Player.isRepeating
+//        Player.isRepeating = isRepeating
         
-        Player.refreshState()
-        let isShuffling = Player.isShuffling
-        Player.isShuffling = isShuffling
-        let isRepeating = Player.isRepeating
-        Player.isRepeating = isRepeating
+        /// Set up view update timer
+        timer.invalidate()
+        timer = Timer.scheduledTimer(
+            timeInterval: 0.1,
+            target: self,
+            selector: #selector(updateView),
+            userInfo: nil,
+            repeats: true
+        )
     }
     
     /// Invalidate the timer when view disappears to avoid memory leaks
@@ -132,7 +132,7 @@ class PlayerViewController: SwanSongViewController {
         case .Paused(let item):
             setViewContents(for: item)
             playButton.setImage(UIImage(named: "play_fill"), for: .normal)
-        case .NotPlaying: /// Shouldn't happen since `Player.play()` loops after end
+        case .NotPlaying:
             title = "Not Playing"
             currentTime.text = "00:00"
             remainingTime.text = "00:00"
@@ -234,12 +234,12 @@ class PlayerViewController: SwanSongViewController {
 }
 
 extension PlayerViewController: AudioPlayerObserver {
-    func audioPlayerDidChangeShuffleState(_ player: AudioPlayer, shuffleState state: Bool) {
+    func audioPlayer(_ player: AudioPlayer, didChangeShuffleStateTo state: Bool) {
         shuffleButton.backgroundColor = state ? adaptiveColor(lightTint, darkTint) : .clear
         shuffleButton.setImage(UIImage(named: state ? "shuffle_inverted" : "shuffle"), for: .normal)
     }
     
-    func audioPlayerDidChangeRepeatState(_ player: AudioPlayer, repeatState state: Bool) {
+    func audioPlayer(_ player: AudioPlayer, didChangeRepeatStateTo state: Bool) {
         repeatButton.backgroundColor = state ? adaptiveColor(lightTint, darkTint) : .clear
         repeatButton.setImage(UIImage(named: state ? "repeat_inverted" : "repeat"), for: .normal)
     }

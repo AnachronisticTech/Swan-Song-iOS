@@ -30,7 +30,19 @@ class AudioPlayer {
     }
     
     var isShuffling: Bool {
-        get { return player.shuffleMode == .songs }
+        get {
+            switch player.shuffleMode {
+                case .off:
+                    return false
+                case .songs:
+                    return true
+                case .default, .albums:
+                    fallthrough
+                @unknown default:
+                    player.shuffleMode = .songs
+                    return true
+            }
+        }
         set {
             player.shuffleMode = newValue ? .songs : .off
             shuffleStateDidChange()
@@ -38,7 +50,19 @@ class AudioPlayer {
     }
     
     var isRepeating: Bool {
-        get { return player.repeatMode == .all }
+        get {
+            switch player.repeatMode {
+                case .none:
+                    return false
+                case .all:
+                    return true
+                case .default, .one:
+                    fallthrough
+                @unknown default:
+                    player.repeatMode = .all
+                    return true
+            }
+        }
         set {
             player.repeatMode = newValue ? .all : .none
             repeatStateDidChange()
@@ -104,8 +128,12 @@ class AudioPlayer {
                 player.nowPlayingItem = queue[skip]
             }
         }
+        let shouldShuffle = isShuffling
+        let shouldRepeat = isRepeating
         player.play()
         state = .Playing(item)
+        isShuffling = shouldShuffle
+        isRepeating = shouldRepeat
     }
     
     func pause() {
@@ -169,6 +197,7 @@ class AudioPlayer {
             } else if case .stopped = player.playbackState {
                 state = .NotPlaying
             }
+            currentTime = 0
         }
     }
     
@@ -214,7 +243,7 @@ private extension AudioPlayer {
                 continue
             }
 
-            observer.audioPlayerDidChangeShuffleState(self, shuffleState: isShuffling)
+            observer.audioPlayer(self, didChangeShuffleStateTo: isShuffling)
         }
     }
     
@@ -227,7 +256,7 @@ private extension AudioPlayer {
                 continue
             }
 
-            observer.audioPlayerDidChangeRepeatState(self, repeatState: isRepeating)
+            observer.audioPlayer(self, didChangeRepeatStateTo: isRepeating)
         }
     }
     
@@ -255,9 +284,9 @@ protocol AudioPlayerObserver: class {
 
     func audioPlayerDidStop(_ player: AudioPlayer)
     
-    func audioPlayerDidChangeShuffleState(_ player: AudioPlayer, shuffleState state: Bool)
+    func audioPlayer(_ player: AudioPlayer, didChangeShuffleStateTo state: Bool)
     
-    func audioPlayerDidChangeRepeatState(_ player: AudioPlayer, repeatState state: Bool)
+    func audioPlayer(_ player: AudioPlayer, didChangeRepeatStateTo state: Bool)
 }
 
 extension AudioPlayerObserver {
@@ -267,7 +296,7 @@ extension AudioPlayerObserver {
 
     func audioPlayerDidStop(_ player: AudioPlayer) {}
     
-    func audioPlayerDidChangeShuffleState(_ player: AudioPlayer, shuffleState state: Bool) {}
+    func audioPlayer(_ player: AudioPlayer, didChangeShuffleStateTo state: Bool) {}
     
-    func audioPlayerDidChangeRepeatState(_ player: AudioPlayer, repeatState state: Bool) {}
+    func audioPlayer(_ player: AudioPlayer, didChangeRepeatStateTo state: Bool) {}
 }
