@@ -49,7 +49,8 @@ class PlaylistLibraryViewController: SwanSongViewController, UITableViewDelegate
                 self.present(alert, animated: true)
             }
         }
-        
+
+        librarySetup()
         listView.reloadData()
     }
     
@@ -208,7 +209,8 @@ extension PlaylistLibraryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let remove = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+        let text = library[indexPath.row].isLocalItem ? "Delete" : "Hide"
+        let remove = UIContextualAction(style: .destructive, title: text) { _, _, _ in
             self.deleteList(with: self.library[indexPath.row].persistentID)
             self.library.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .bottom)

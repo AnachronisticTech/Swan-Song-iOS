@@ -8,6 +8,7 @@
 
 import UIKit
 import MediaPlayer
+import CoreData
 
 class SettingsViewController: UITableViewController, UIPickerViewDelegate {
     
@@ -177,6 +178,30 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
         present(alert, animated: true)
     }
     
+    @IBAction func unhidePlaylists(_ sender: Any) {
+        print("unhiding playlists")
+        let alert = UIAlertController(
+            title: "Playlists un-hidden",
+            message: "All synced iTunes playlists will be made visible.",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(
+            title: "Ok",
+            style: .default) { _ in
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
+            fetchRequest.predicate = NSPredicate(format: "isHidden == %@", NSNumber(value: true))
+            if let lists = try? managedContext.fetch(fetchRequest) {
+                for list in lists {
+                    list.isHidden = false
+                }
+                try? managedContext.save()
+            }
+        })
+        present(alert, animated: true)
+    }
+
     @IBAction func setCloseButtonVisibility(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "playerCloseButtonIsVisible")
     }

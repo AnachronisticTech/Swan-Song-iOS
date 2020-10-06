@@ -56,7 +56,12 @@ extension PlaylistViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case 0: return tableView.isEditing ? 2 : 1
+            case 0:
+                if tableView.isEditing {
+                    return isListLocal() ? 2 : 3
+                } else {
+                    return 1
+                }
             case 2: return 1
             default: return tracks.count
         }
@@ -93,17 +98,25 @@ extension PlaylistViewController: UITableViewDataSource {
                     tableView.setEditing(!tableView.isEditing, animated: true)
                     cell.editButton.setTitle(tableView.isEditing ? "Done" : "Edit", for: .normal)
                     tableView.beginUpdates()
+                    let indexPaths = self.isListLocal() ? [IndexPath(row: 1, section: 0)] : [IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)]
                     if tableView.isEditing {
-                        tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .automatic)
+                        tableView.insertRows(at: indexPaths, with: .automatic)
                     } else {
-                        tableView.deleteRows(at: [IndexPath(row: 1, section: 0)], with: .fade)
+                        tableView.deleteRows(at: indexPaths, with: .fade)
                     }
                     tableView.endUpdates()
                 }
                 return cell
-            } else {
+            } else if indexPath.row == 1 {
                 let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
                 cell.textLabel?.text = "Add tracks"
+                let button = UIButton(type: .contactAdd)
+                button.isUserInteractionEnabled = false
+                cell.accessoryView = button
+                return cell
+            } else {
+                let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+                cell.textLabel?.text = "Reset iTunes Playlist"
                 let button = UIButton(type: .contactAdd)
                 button.isUserInteractionEnabled = false
                 cell.accessoryView = button
@@ -140,10 +153,26 @@ extension PlaylistViewController: UITableViewDataSource {
                 controller.popoverPresentationController?.sourceView = self.view
                 controller.delegate = self
                 present(controller, animated: true)
+            } else if indexPath == IndexPath(row: 2, section: 0) {
+                let alert = UIAlertController(title: "Reset Playlist", message: "This will action will reset the state of this playlist to match iTunes. This action cannot be undone.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                let action = UIAlertAction(title: "Reset", style: .default) { _ in
+                    let query = MPMediaQuery.playlists()
+                    let filterPlaylistID = MPMediaPropertyPredicate(
+                        value: self.playlistID,
+                        forProperty: MPMediaPlaylistPropertyPersistentID
+                    )
+                    query.addFilterPredicate(filterPlaylistID)
+                    query.addFilterPredicate(filterLocal)
+                    self.tracks = (query.collections?.first as? MPMediaPlaylist)?.items ?? []
+                    self.listView.reloadData()
+                }
+                alert.addAction(action)
+                present(alert, animated: true)
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return tableView.isEditing ? indexPath.section == 1 : false
     }
@@ -189,6 +218,13 @@ extension PlaylistViewController {
         let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
         fetchRequest.predicate = NSPredicate(format: "persistentID = %ld", playlistID)
         return try? managedContext.fetch(fetchRequest)
+    }
+
+    func isListLocal() -> Bool {
+        if let playlist = fetchLists()?.first {
+            return playlist.isLocalItem
+        }
+        return false
     }
     
     func checkForStoredList(else run: (() -> Void)?) {
