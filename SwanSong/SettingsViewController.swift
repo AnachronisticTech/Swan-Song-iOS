@@ -191,7 +191,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
             let managedContext = appDelegate.persistentContainer.viewContext
             let fetchRequest = NSFetchRequest<Playlist>(entityName: "Playlist")
-            fetchRequest.predicate = NSPredicate(format: "isHidden == %@", NSNumber(value: true))
+            fetchRequest.predicate = NSPredicate(format: "isHidden = %d", true)
             if let lists = try? managedContext.fetch(fetchRequest) {
                 for list in lists {
                     list.isHidden = false
