@@ -14,6 +14,16 @@ class AudioPlayer {
         case Playing(_ item: MPMediaItem)
         case Paused(_ item: MPMediaItem)
         case NotPlaying
+
+        enum Case { case Playing, Paused, NotPlaying }
+
+        var `case`: Case {
+            switch self {
+                case .Playing: return .Playing
+                case .Paused: return .Paused
+                case .NotPlaying: return .NotPlaying
+            }
+        }
     }
     
     public private(set) var state = State.NotPlaying {
@@ -204,9 +214,17 @@ class AudioPlayer {
     @objc private func playbackStateDidChange() {
         if case .stopped = player.playbackState {
             state = .NotPlaying
-        } else if case .paused = player.playbackState, case .Playing(let item) = state {
+        } else if case .paused = player.playbackState, state.case != .Paused {
+            guard let item = player.nowPlayingItem else {
+                state = .NotPlaying
+                return
+            }
             state = .Paused(item)
-        } else if case .playing = player.playbackState, case .Paused(let item) = state {
+        } else if case .playing = player.playbackState, state.case != .Playing {
+            guard let item = player.nowPlayingItem else {
+                state = .NotPlaying
+                return
+            }
             state = .Playing(item)
         }
     }
