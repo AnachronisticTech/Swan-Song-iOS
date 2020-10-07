@@ -112,7 +112,8 @@ class AudioPlayer {
         /// Remove listeners
         NotificationCenter.default.removeObserver(self)
     }
-    
+
+    @available(*, deprecated)
     func refreshState() {
         if let track = player.nowPlayingItem {
             switch player.playbackState {
@@ -175,6 +176,9 @@ class AudioPlayer {
             default: state = .NotPlaying
             }
         }
+        if case .Paused = state {
+            player.currentPlaybackTime = 0
+        }
     }
     
     func previous() {
@@ -185,11 +189,13 @@ class AudioPlayer {
             switch (state, toPrevious) {
             case (.Playing, true):
                 player.skipToPreviousItem()
+                player.currentPlaybackTime = 0
                 state = .Playing(track)
             case (.Playing, false):
                 player.skipToBeginning()
             case (.Paused, true):
                 player.skipToPreviousItem()
+                player.currentPlaybackTime = 0
                 state = .Paused(track)
             case (.Paused, false):
                 player.skipToBeginning()
@@ -207,7 +213,6 @@ class AudioPlayer {
             } else if case .stopped = player.playbackState {
                 state = .NotPlaying
             }
-            currentTime = 0
         }
     }
     

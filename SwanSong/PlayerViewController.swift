@@ -48,7 +48,7 @@ class PlayerViewController: SwanSongViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         /// Set view theme
         if #available(iOS 13.0, *) {
             closeButtonHeight.constant = UserDefaults.standard.bool(forKey: "playerCloseButtonIsVisible") ? 49 : 0
@@ -99,13 +99,7 @@ class PlayerViewController: SwanSongViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-                
-//        Player.refreshState()
-//        let isShuffling = Player.isShuffling
-//        Player.isShuffling = isShuffling
-//        let isRepeating = Player.isRepeating
-//        Player.isRepeating = isRepeating
-        
+
         /// Set up view update timer
         timer.invalidate()
         timer = Timer.scheduledTimer(
