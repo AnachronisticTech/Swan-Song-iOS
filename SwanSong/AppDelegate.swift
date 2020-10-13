@@ -33,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+//        deleteAll()
+        
         Formatter.allowedUnits = [.minute, .second]
         Formatter.unitsStyle = .positional
         Formatter.zeroFormattingBehavior = .pad
@@ -184,5 +186,19 @@ func checkAuthorisation(_ viewController: UIViewController, then run: (() -> Voi
         }
     }
     if let run = run { run() }
+}
+
+func deleteAll() {
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    let managedContext = appDelegate.persistentContainer.viewContext
+    let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Playlist")
+    let batchDelete = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+    do {
+        try managedContext.execute(batchDelete)
+        print("All records deleted")
+    } catch let error as NSError {
+        print("Could not delete. \(error)")
+    }
 }
 
