@@ -26,24 +26,20 @@ let filterLocal = MPMediaPropertyPredicate(
 struct SwanSong_SUIApp: App {
     let persistenceController = PersistenceController.shared
     let player = AudioPlayer()
+    let preferences = Preferences()
 
     @State var selectedTab = 0
+    @State var isPresentingPlayer = false
 
     var body: some Scene {
         WindowGroup {
             TabView(selection: $selectedTab) {
                 NavigationView {
-                    AlbumLibraryView()
+                    AlbumLibraryView(isPresentingPlayer: $isPresentingPlayer)
                         .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 }
                 .tabItem {
-                    ZStack {
-                        if selectedTab == 0 {
-                            Image(uiImage: UIImage(named: "albums_fill")!)
-                        } else {
-                            Image(uiImage: UIImage(named: "albums")!)
-                        }
-                    }
+                    Image(uiImage: UIImage(named: selectedTab == 0 ? "albums_fill" : "albums")!)
                     Text("Albums")
                 }
                 .tag(0)
@@ -58,7 +54,7 @@ struct SwanSong_SUIApp: App {
                 .tag(1)
 
                 NavigationView {
-                    UserInterfaceSUI()
+                    UserInterface()
                 }
                 .tabItem {
                     Image(systemSymbol: .musicNoteList)
@@ -93,7 +89,11 @@ struct SwanSong_SUIApp: App {
                 }
                 .tag(5)
             }
-            .environmentObject(player)
+            .sheet(isPresented: $isPresentingPlayer) {
+                PlayerView(isPresented: $isPresentingPlayer)
+                    .environmentObject(player)
+                    .environmentObject(preferences)
+            }
         }
     }
 }

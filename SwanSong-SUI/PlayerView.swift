@@ -13,9 +13,9 @@ import SFSafeSymbols
 struct PlayerView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var player: AudioPlayer
-    @Binding var showPlayer: Bool
+    @EnvironmentObject var preferences: Preferences
+    @Binding var isPresented: Bool
     @State var isCloseButtonVisible: Bool = false
-    @State var currentPlaybackPosition: TimeInterval = 0
 
     var body: some View {
         ZStack {
@@ -40,12 +40,12 @@ struct PlayerView: View {
                     HStack {
                         Spacer()
                         Button {
-                            self.showPlayer.toggle()
+                            self.isPresented = false
                         } label: {
                             Image(systemSymbol: .xCircleFill)
                                 .frame(width: 30, height: 30)
                                 .font(.system(size: 30))
-                                .foregroundColor(.black)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
                         .padding(.top)
                     }
@@ -60,11 +60,11 @@ struct PlayerView: View {
                 }
                 Spacer()
                 HStack {
-                    Text("00:00")
+                    Text(Formatter.string(from: player.elapsedTime)!)
                         .font(.system(size: 12))
                         .frame(minWidth: 35)
-                    AudioSlider(value: $currentPlaybackPosition)
-                    Text("00:00")
+                    AudioSlider(value: $player.elapsedProportion)
+                    Text(Formatter.string(from: player.remainingTime)!)
                         .font(.system(size: 12))
                         .frame(minWidth: 35)
                 }
@@ -94,7 +94,7 @@ struct PlayerView: View {
                                     .frame(width: 40, height: 40)
                                     .font(.system(size: 25))
                                     .foregroundColor(colorScheme == .dark ? .black : .white)
-                                    .background(Color.blue)
+                                    .background(Color(colorScheme == .dark ? preferences.darkTint.color : preferences.lightTint.color))
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                     .padding(5)
                             } else {
@@ -152,7 +152,7 @@ struct PlayerView: View {
                                     .frame(width: 40, height: 40)
                                     .font(.system(size: 25))
                                     .foregroundColor(colorScheme == .dark ? .black : .white)
-                                    .background(Color.blue)
+                                    .background(Color(colorScheme == .dark ? preferences.darkTint.color : preferences.lightTint.color))
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                     .padding(5)
                             } else {

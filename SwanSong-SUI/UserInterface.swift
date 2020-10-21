@@ -13,8 +13,42 @@ import VisualEffects
 import SFSafeSymbols
 import ASCollectionView
 
+class Preferences: ObservableObject {
+    @Environment(\.colorScheme) var colorScheme
+
+    enum TintColor: String, CaseIterable {
+        case Red, Orange, Yellow, Green, Teal, Blue, Purple, Pink
+
+        var color: UIColor {
+            switch self {
+            case .Red: return .systemRed
+            case .Orange: return .systemOrange
+            case .Yellow: return .systemYellow
+            case .Green: return .systemGreen
+            case .Teal: return .systemTeal
+            case .Blue: return .systemBlue
+            case .Purple: return .systemPurple
+            case .Pink: return .systemPink
+            }
+        }
+    }
+
+    var lightTint: TintColor = .Blue
+    var darkTint: TintColor = .Red
+
+    @Published var tint: TintColor = .Blue
+
+    init() {
+        // get tint preferences from user defaults
+//        tint = colorScheme == .dark ? darkTint : lightTint
+    }
+
+
+}
+
 struct AudioSlider: UIViewRepresentable {
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var preferences: Preferences
     @Binding var value: Double
 
     private class AudioTrack: UISlider {
@@ -33,15 +67,24 @@ struct AudioSlider: UIViewRepresentable {
         let control = AudioTrack()
         control.isContinuous = false
         control.setThumbImage(
-            UIImage(color: .systemBlue, size: CGSize(width: 1, height: 6)),
+            UIImage(
+                color: colorScheme == .dark ? preferences.darkTint.color : preferences.lightTint.color,
+                size: CGSize(width: 1, height: 6)
+            ),
             for: .normal
         )
         control.setMinimumTrackImage(
-            UIImage(color: .systemBlue, size: CGSize(width: 5, height: 3)),
+            UIImage(
+                color: colorScheme == .dark ? preferences.darkTint.color : preferences.lightTint.color,
+                size: CGSize(width: 5, height: 3)
+            ),
             for: .normal
         )
         control.setMaximumTrackImage(
-            UIImage(color: colorScheme == .dark ? .systemGray : .systemGray5, size: CGSize(width: 5, height: 3)),
+            UIImage(
+                color: colorScheme == .dark ? .systemGray : .systemGray5,
+                size: CGSize(width: 5, height: 3)
+            ),
             for: .normal
         )
 
@@ -233,7 +276,7 @@ struct UserInterface: View {
     }
 }
 
-struct UserInterfaceSUI_Previews: PreviewProvider {
+struct UserInterface_Previews: PreviewProvider {
     static var previews: some View {
         UserInterface()
     }

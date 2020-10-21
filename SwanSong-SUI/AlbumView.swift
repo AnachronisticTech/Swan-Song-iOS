@@ -10,7 +10,7 @@ import SwiftUI
 import MediaPlayer
 
 struct AlbumView: View {
-    @State var showingDetail = false
+    @Binding var isPresentingPlayer: Bool
     @State var persistentID: MPMediaEntityPersistentID? = nil
     var album: (representativeItem: MPMediaItem?, tracks: [MPMediaItem]) {
         let query = MPMediaQuery.albums()
@@ -47,12 +47,10 @@ struct AlbumView: View {
         .navigationBarTitle(album.representativeItem?.albumTitle ?? "No Title")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(
-            trailing: Button(action: {
-                withAnimation { self.showingDetail.toggle() }
-            }) { Image(systemSymbol: .playFill) }
+            trailing: Button {
+                withAnimation { self.isPresentingPlayer = true }
+            } label: { Image(systemSymbol: .playFill) }
+            .font(.system(size: 25))
         )
-        .sheet(isPresented: $showingDetail) {
-            PlayerView(showPlayer: $showingDetail)
-        }
     }
 }

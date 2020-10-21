@@ -27,7 +27,7 @@ class AudioPlayer: ObservableObject {
         }
     }
 
-    @Published var state = State.NotPlaying
+    @Published public private(set) var state = State.NotPlaying
     private var APstate = State.NotPlaying {
         didSet { stateDidChange() }
     }
@@ -39,7 +39,12 @@ class AudioPlayer: ObservableObject {
         set { player.currentPlaybackTime = newValue }
     }
 
-    @Published var isShuffling = false
+    private var timer = Timer()
+    @Published public var elapsedTime: TimeInterval = 0
+    @Published public var remainingTime: TimeInterval = 0
+    @Published public var elapsedProportion: Double = 0
+
+    @Published public private(set) var isShuffling = false
     var shuffleState: Bool {
         get {
             switch player.shuffleMode {
@@ -60,7 +65,7 @@ class AudioPlayer: ObservableObject {
         }
     }
 
-    @Published var isRepeating = false
+    @Published public private(set) var isRepeating = false
     var repeatState: Bool {
         get {
             switch player.repeatMode {
@@ -113,11 +118,35 @@ class AudioPlayer: ObservableObject {
             name: .MPMusicPlayerControllerPlaybackStateDidChange,
             object: nil
         )
+
+        /// Set up view update timer
+        timer.invalidate()
+        timer = Timer.scheduledTimer(
+            timeInterval: 0.1,
+            target: self,
+            selector: #selector(setTime),
+            userInfo: nil,
+            repeats: true
+        )
     }
 
     deinit {
         /// Remove listeners
         NotificationCenter.default.removeObserver(self)
+        timer.invalidate()
+    }
+
+    @objc func setTime() {
+        switch state {
+            case .Playing(let item), .Paused(let item):
+                elapsedTime = currentTime
+                remainingTime = item.playbackDuration - currentTime
+                elapsedProportion = currentTime / item.playbackDuration
+            case .NotPlaying:
+                elapsedTime = 0
+                remainingTime = 0
+                elapsedProportion = 0
+        }
     }
 
     func play(_ queue: [MPMediaItem], skipping skip: Int = 0) {

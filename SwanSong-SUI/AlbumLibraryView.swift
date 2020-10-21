@@ -12,7 +12,7 @@ import MediaPlayer
 
 struct AlbumLibraryView: View {
     @State var isInListMode = true
-    @State var showingDetail = false
+    @Binding var isPresentingPlayer: Bool
     var albums: (collections: [MPMediaItemCollection], sections: [MPMediaQuerySection]) {
         let query = MPMediaQuery.albums()
         return (query.collections ?? [], query.collectionSections ?? [])
@@ -26,7 +26,9 @@ struct AlbumLibraryView: View {
 //                    if isInListMode {
                     ForEach(range.lowerBound..<range.upperBound) { index in
                         let collection = albums.collections[index]
-                        NavigationLink(destination: AlbumView(persistentID: collection.representativeItem?.albumPersistentID)) {
+                        NavigationLink(destination: AlbumView(
+                            isPresentingPlayer: $isPresentingPlayer,
+                            persistentID: collection.representativeItem?.albumPersistentID)) {
                             ArtDetailListCell(
                                 title: collection.representativeItem?.albumTitle ?? "No Title",
                                 detail: collection.representativeItem?.albumArtist ?? "Unknown artist",
@@ -61,16 +63,15 @@ struct AlbumLibraryView: View {
         .navigationBarTitle("Albums")
         .navigationBarTitleDisplayMode(.large)
         .navigationBarItems(
-            leading: Button(action: {
+            leading: Button {
                 withAnimation { self.isInListMode.toggle() }
-            }) { Image(systemSymbol: .rectangleGrid2x2) },
-            trailing: Button(action: {
-                withAnimation { self.showingDetail.toggle() }
-            }) { Image(systemSymbol: .playFill) }
+            } label: { Image(systemSymbol: .rectangleGrid2x2) }
+            .font(.system(size: 25)),
+            trailing: Button {
+                withAnimation { self.isPresentingPlayer = true }
+            } label: { Image(systemSymbol: .playFill) }
+            .font(.system(size: 25))
         )
-        .sheet(isPresented: $showingDetail) {
-            PlayerView(showPlayer: $showingDetail)
-        }
     }
 }
 
