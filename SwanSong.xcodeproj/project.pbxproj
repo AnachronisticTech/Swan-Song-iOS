@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,9 @@
 		91510386239887D600B20515 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91510385239887D600B20515 /* PlayerViewController.swift */; };
 		9155990A24C4499000EFDE17 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9155990924C4499000EFDE17 /* SettingsViewController.swift */; };
 		9155990C24C44BB800EFDE17 /* SwanSongViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9155990B24C44BB800EFDE17 /* SwanSongViewController.swift */; };
+		9175753B253DB27D0074D1A2 /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9175753A253DB27D0074D1A2 /* AlbumView.swift */; };
+		9175754F253E5C000074D1A2 /* ASCollectionViewDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 9175754E253E5C000074D1A2 /* ASCollectionViewDynamic */; };
+		91757550253E5C000074D1A2 /* ASCollectionViewDynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9175754E253E5C000074D1A2 /* ASCollectionViewDynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9181AF2924D41DA400C0550D /* SwanSong.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9181AF2724D41DA400C0550D /* SwanSong.xcdatamodeld */; };
 		918ED5DB2397257500FB85A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918ED5DA2397257500FB85A9 /* AppDelegate.swift */; };
 		918ED5E02397257500FB85A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 918ED5DE2397257500FB85A9 /* Main.storyboard */; };
@@ -35,12 +38,27 @@
 		91B8022424BB033700C4BC31 /* SongLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B8022324BB033700C4BC31 /* SongLibraryViewController.swift */; };
 		91B8026224BF578B00C4BC31 /* ArtistLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B8026124BF578B00C4BC31 /* ArtistLibraryViewController.swift */; };
 		91BF51F124D410BF00AB4992 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BF51F024D410BF00AB4992 /* Playlist.swift */; };
+		91D1F6A8253CC9BD006B0641 /* SwanSong_SUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D1F6A7253CC9BD006B0641 /* SwanSong_SUIApp.swift */; };
+		91D1F6AA253CC9BD006B0641 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D1F6A9253CC9BD006B0641 /* ContentView.swift */; };
+		91D1F6AF253CC9BF006B0641 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91D1F6AE253CC9BF006B0641 /* Preview Assets.xcassets */; };
+		91D1F6B1253CC9BF006B0641 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D1F6B0253CC9BF006B0641 /* Persistence.swift */; };
+		91D1F6B4253CC9BF006B0641 /* SwanSong_SUI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 91D1F6B2253CC9BF006B0641 /* SwanSong_SUI.xcdatamodeld */; };
+		91D1F6C3253CCA0A006B0641 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9151038323987E4600B20515 /* Extensions.swift */; };
+		91D1F6C7253CCA1A006B0641 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91479AC82535EC7200F7530C /* PlayerView.swift */; };
+		91D1F6C8253CCA1A006B0641 /* UserInterfaceSUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ED81DE2536785A00B3AECD /* UserInterfaceSUI.swift */; };
+		91D1F6C9253CCA1A006B0641 /* AlbumLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DE0DB325377ADB00546C5C /* AlbumLibraryView.swift */; };
+		91D1F6D3253CCA8D006B0641 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 918ED5E12397257600FB85A9 /* Assets.xcassets */; };
+		91D1F6D7253CCAF9006B0641 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F24863249FD302006884B6 /* UserInterface.swift */; };
+		91D1F6DC253CCD54006B0641 /* VisualEffects in Frameworks */ = {isa = PBXBuildFile; productRef = 91D1F6DB253CCD54006B0641 /* VisualEffects */; };
+		91D1F6DE253CCD54006B0641 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 91D1F6DD253CCD54006B0641 /* SFSafeSymbols */; };
+		91D1F6E5253CFE1E006B0641 /* cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 91ED81D3253603DD00B3AECD /* cover.jpg */; };
 		91E164F924A0C05B005B51AD /* PlaylistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E164F824A0C05B005B51AD /* PlaylistViewController.swift */; };
 		91EE63ED24E176C700BCC920 /* SwanSongUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE63EC24E176C700BCC920 /* SwanSongUITests.swift */; };
 		91EE63F524E176E700BCC920 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE63F424E176E700BCC920 /* SnapshotHelper.swift */; };
 		91EE846D24B398AF00122BA6 /* AlbumLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */; };
 		91F24864249FD302006884B6 /* UserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F24863249FD302006884B6 /* UserInterface.swift */; };
 		91F2F33C23998209008291E9 /* PlaylistLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F2F33B23998209008291E9 /* PlaylistLibraryViewController.swift */; };
+		91FBD1BB253F325000F95FDA /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91FBD1BA253F325000F95FDA /* AudioPlayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +71,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		91757548253E5B1B0074D1A2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				91757550253E5C000074D1A2 /* ASCollectionViewDynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		912B1E8F24B5CC09004BF44D /* GenreLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreLibraryViewController.swift; sourceTree = "<group>"; };
 		912B1E9324B5D7C8004BF44D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -60,11 +92,13 @@
 		912B1E9A24B8C23F004BF44D /* ArtDetailTableCellMedium.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtDetailTableCellMedium.xib; sourceTree = "<group>"; };
 		912B1E9C24B91F4D004BF44D /* ArtDetailTableCellSmall.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArtDetailTableCellSmall.xib; sourceTree = "<group>"; };
 		912B1E9E24B920C9004BF44D /* ArtDetailCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArtDetailCollectionCell.xib; sourceTree = "<group>"; };
+		91479AC82535EC7200F7530C /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		9151037F2398034200B20515 /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		9151038323987E4600B20515 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		91510385239887D600B20515 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		9155990924C4499000EFDE17 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		9155990B24C44BB800EFDE17 /* SwanSongViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwanSongViewController.swift; sourceTree = "<group>"; };
+		9175753A253DB27D0074D1A2 /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
 		9181AF2824D41DA400C0550D /* SwanSong.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwanSong.xcdatamodel; sourceTree = "<group>"; };
 		9181AF4D24D4502600C0550D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		918ED5D72397257500FB85A9 /* SwanSong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwanSong.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,7 +120,17 @@
 		91B8022324BB033700C4BC31 /* SongLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongLibraryViewController.swift; sourceTree = "<group>"; };
 		91B8026124BF578B00C4BC31 /* ArtistLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistLibraryViewController.swift; sourceTree = "<group>"; };
 		91BF51F024D410BF00AB4992 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		91D1F6A5253CC9BD006B0641 /* SwanSong-SUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwanSong-SUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91D1F6A7253CC9BD006B0641 /* SwanSong_SUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwanSong_SUIApp.swift; sourceTree = "<group>"; };
+		91D1F6A9253CC9BD006B0641 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		91D1F6AE253CC9BF006B0641 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		91D1F6B0253CC9BF006B0641 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		91D1F6B3253CC9BF006B0641 /* SwanSong_SUI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwanSong_SUI.xcdatamodel; sourceTree = "<group>"; };
+		91D1F705253D1AD5006B0641 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91DE0DB325377ADB00546C5C /* AlbumLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryView.swift; sourceTree = "<group>"; };
 		91E164F824A0C05B005B51AD /* PlaylistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewController.swift; sourceTree = "<group>"; };
+		91ED81D3253603DD00B3AECD /* cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cover.jpg; sourceTree = "<group>"; };
+		91ED81DE2536785A00B3AECD /* UserInterfaceSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterfaceSUI.swift; sourceTree = "<group>"; };
 		91EE63EA24E176C700BCC920 /* SwanSongUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwanSongUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91EE63EC24E176C700BCC920 /* SwanSongUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwanSongUITests.swift; sourceTree = "<group>"; };
 		91EE63EE24E176C700BCC920 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -94,6 +138,7 @@
 		91EE846C24B398AF00122BA6 /* AlbumLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumLibraryViewController.swift; sourceTree = "<group>"; };
 		91F24863249FD302006884B6 /* UserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterface.swift; sourceTree = "<group>"; };
 		91F2F33B23998209008291E9 /* PlaylistLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistLibraryViewController.swift; sourceTree = "<group>"; };
+		91FBD1BA253F325000F95FDA /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AudioPlayer.swift; path = "SwanSong-SUI/AudioPlayer.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +146,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91D1F6A2253CC9BD006B0641 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91D1F6DE253CCD54006B0641 /* SFSafeSymbols in Frameworks */,
+				91D1F6DC253CCD54006B0641 /* VisualEffects in Frameworks */,
+				9175754F253E5C000074D1A2 /* ASCollectionViewDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				918ED5D92397257500FB85A9 /* SwanSong */,
+				91D1F6A6253CC9BD006B0641 /* SwanSong-SUI */,
 				91EE63EB24E176C700BCC920 /* SwanSongUITests */,
 				918ED5D82397257500FB85A9 /* Products */,
 				918ED5EC23972C1B00FB85A9 /* Frameworks */,
@@ -146,6 +202,7 @@
 			children = (
 				918ED5D72397257500FB85A9 /* SwanSong.app */,
 				91EE63EA24E176C700BCC920 /* SwanSongUITests.xctest */,
+				91D1F6A5253CC9BD006B0641 /* SwanSong-SUI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -190,6 +247,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		91D1F6A6253CC9BD006B0641 /* SwanSong-SUI */ = {
+			isa = PBXGroup;
+			children = (
+				91ED81D3253603DD00B3AECD /* cover.jpg */,
+				91D1F6A7253CC9BD006B0641 /* SwanSong_SUIApp.swift */,
+				91FBD1BA253F325000F95FDA /* AudioPlayer.swift */,
+				91D1F6A9253CC9BD006B0641 /* ContentView.swift */,
+				91ED81DE2536785A00B3AECD /* UserInterfaceSUI.swift */,
+				91DE0DB325377ADB00546C5C /* AlbumLibraryView.swift */,
+				9175753A253DB27D0074D1A2 /* AlbumView.swift */,
+				91479AC82535EC7200F7530C /* PlayerView.swift */,
+				91D1F6B0253CC9BF006B0641 /* Persistence.swift */,
+				91D1F6B2253CC9BF006B0641 /* SwanSong_SUI.xcdatamodeld */,
+				91D1F705253D1AD5006B0641 /* Info.plist */,
+				91D1F6AD253CC9BF006B0641 /* Preview Content */,
+			);
+			path = "SwanSong-SUI";
+			sourceTree = "<group>";
+		};
+		91D1F6AD253CC9BF006B0641 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				91D1F6AE253CC9BF006B0641 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		91EE63EB24E176C700BCC920 /* SwanSongUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,8 +300,33 @@
 			dependencies = (
 			);
 			name = SwanSong;
+			packageProductDependencies = (
+			);
 			productName = SwanSong;
 			productReference = 918ED5D72397257500FB85A9 /* SwanSong.app */;
+			productType = "com.apple.product-type.application";
+		};
+		91D1F6A4253CC9BD006B0641 /* SwanSong-SUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91D1F6B8253CC9BF006B0641 /* Build configuration list for PBXNativeTarget "SwanSong-SUI" */;
+			buildPhases = (
+				91D1F6A1253CC9BD006B0641 /* Sources */,
+				91D1F6A2253CC9BD006B0641 /* Frameworks */,
+				91D1F6A3253CC9BD006B0641 /* Resources */,
+				91757548253E5B1B0074D1A2 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SwanSong-SUI";
+			packageProductDependencies = (
+				91D1F6DB253CCD54006B0641 /* VisualEffects */,
+				91D1F6DD253CCD54006B0641 /* SFSafeSymbols */,
+				9175754E253E5C000074D1A2 /* ASCollectionViewDynamic */,
+			);
+			productName = "SwanSong-SUI";
+			productReference = 91D1F6A5253CC9BD006B0641 /* SwanSong-SUI.app */;
 			productType = "com.apple.product-type.application";
 		};
 		91EE63E924E176C700BCC920 /* SwanSongUITests */ = {
@@ -244,12 +353,15 @@
 		918ED5CF2397257500FB85A9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1160;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Daniel Marriner";
 				TargetAttributes = {
 					918ED5D62397257500FB85A9 = {
 						CreatedOnToolsVersion = 10.2.1;
+					};
+					91D1F6A4253CC9BD006B0641 = {
+						CreatedOnToolsVersion = 12.0.1;
 					};
 					91EE63E924E176C700BCC920 = {
 						CreatedOnToolsVersion = 11.6;
@@ -266,12 +378,18 @@
 				Base,
 			);
 			mainGroup = 918ED5CE2397257500FB85A9;
+			packageReferences = (
+				91ED81D72536245F00B3AECD /* XCRemoteSwiftPackageReference "VisualEffects" */,
+				91DE0DBC25377C7200546C5C /* XCRemoteSwiftPackageReference "SFSafeSymbols" */,
+				9175754D253E5C000074D1A2 /* XCRemoteSwiftPackageReference "ASCollectionView" */,
+			);
 			productRefGroup = 918ED5D82397257500FB85A9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				918ED5D62397257500FB85A9 /* SwanSong */,
 				91EE63E924E176C700BCC920 /* SwanSongUITests */,
+				91D1F6A4253CC9BD006B0641 /* SwanSong-SUI */,
 			);
 		};
 /* End PBXProject section */
@@ -294,6 +412,16 @@
 				91B8021A24BA1BF600C4BC31 /* MultiArtDetailTableCellMedium.xib in Resources */,
 				91B8021E24BA287600C4BC31 /* NumberDetailTableCell.xib in Resources */,
 				912B1E9D24B91F4D004BF44D /* ArtDetailTableCellSmall.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91D1F6A3253CC9BD006B0641 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91D1F6E5253CFE1E006B0641 /* cover.jpg in Resources */,
+				91D1F6D3253CCA8D006B0641 /* Assets.xcassets in Resources */,
+				91D1F6AF253CC9BF006B0641 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +458,24 @@
 				912B1E9024B5CC09004BF44D /* GenreLibraryViewController.swift in Sources */,
 				918ED5DB2397257500FB85A9 /* AppDelegate.swift in Sources */,
 				9155990A24C4499000EFDE17 /* SettingsViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91D1F6A1253CC9BD006B0641 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91D1F6C3253CCA0A006B0641 /* Extensions.swift in Sources */,
+				91D1F6B1253CC9BF006B0641 /* Persistence.swift in Sources */,
+				91FBD1BB253F325000F95FDA /* AudioPlayer.swift in Sources */,
+				91D1F6B4253CC9BF006B0641 /* SwanSong_SUI.xcdatamodeld in Sources */,
+				91D1F6C9253CCA1A006B0641 /* AlbumLibraryView.swift in Sources */,
+				91D1F6C7253CCA1A006B0641 /* PlayerView.swift in Sources */,
+				91D1F6AA253CC9BD006B0641 /* ContentView.swift in Sources */,
+				91D1F6A8253CC9BD006B0641 /* SwanSong_SUIApp.swift in Sources */,
+				91D1F6D7253CCAF9006B0641 /* UserInterface.swift in Sources */,
+				9175753B253DB27D0074D1A2 /* AlbumView.swift in Sources */,
+				91D1F6C8253CCA1A006B0641 /* UserInterfaceSUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +682,50 @@
 			};
 			name = Release;
 		};
+		91D1F6B6253CC9BF006B0641 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"SwanSong-SUI/Preview Content\"";
+				DEVELOPMENT_TEAM = SDPTWQFVDC;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "SwanSong-SUI/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "anachronistic-tech.SwanSong-SUI";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		91D1F6B7253CC9BF006B0641 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"SwanSong-SUI/Preview Content\"";
+				DEVELOPMENT_TEAM = SDPTWQFVDC;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "SwanSong-SUI/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "anachronistic-tech.SwanSong-SUI";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		91EE63F124E176C700BCC920 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -597,6 +787,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		91D1F6B8253CC9BF006B0641 /* Build configuration list for PBXNativeTarget "SwanSong-SUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91D1F6B6253CC9BF006B0641 /* Debug */,
+				91D1F6B7253CC9BF006B0641 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		91EE63F324E176C700BCC920 /* Build configuration list for PBXNativeTarget "SwanSongUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -608,6 +807,51 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		9175754D253E5C000074D1A2 /* XCRemoteSwiftPackageReference "ASCollectionView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apptekstudios/ASCollectionView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.1;
+			};
+		};
+		91DE0DBC25377C7200546C5C /* XCRemoteSwiftPackageReference "SFSafeSymbols" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/piknotech/SFSafeSymbols";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
+		91ED81D72536245F00B3AECD /* XCRemoteSwiftPackageReference "VisualEffects" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/VisualEffects";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9175754E253E5C000074D1A2 /* ASCollectionViewDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9175754D253E5C000074D1A2 /* XCRemoteSwiftPackageReference "ASCollectionView" */;
+			productName = ASCollectionViewDynamic;
+		};
+		91D1F6DB253CCD54006B0641 /* VisualEffects */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91ED81D72536245F00B3AECD /* XCRemoteSwiftPackageReference "VisualEffects" */;
+			productName = VisualEffects;
+		};
+		91D1F6DD253CCD54006B0641 /* SFSafeSymbols */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91DE0DBC25377C7200546C5C /* XCRemoteSwiftPackageReference "SFSafeSymbols" */;
+			productName = SFSafeSymbols;
+		};
+/* End XCSwiftPackageProductDependency section */
+
 /* Begin XCVersionGroup section */
 		9181AF2724D41DA400C0550D /* SwanSong.xcdatamodeld */ = {
 			isa = XCVersionGroup;
@@ -616,6 +860,16 @@
 			);
 			currentVersion = 9181AF2824D41DA400C0550D /* SwanSong.xcdatamodel */;
 			path = SwanSong.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		91D1F6B2253CC9BF006B0641 /* SwanSong_SUI.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				91D1F6B3253CC9BF006B0641 /* SwanSong_SUI.xcdatamodel */,
+			);
+			currentVersion = 91D1F6B3253CC9BF006B0641 /* SwanSong_SUI.xcdatamodel */;
+			path = SwanSong_SUI.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
