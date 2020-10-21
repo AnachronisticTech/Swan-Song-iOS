@@ -13,6 +13,7 @@ import MediaPlayer
 struct AlbumLibraryView: View {
     @State var isInListMode = true
     @Binding var isPresentingPlayer: Bool
+    @EnvironmentObject var player: AudioPlayer
     var albums: (collections: [MPMediaItemCollection], sections: [MPMediaQuerySection]) {
         let query = MPMediaQuery.albums()
         return (query.collections ?? [], query.collectionSections ?? [])
@@ -26,9 +27,13 @@ struct AlbumLibraryView: View {
 //                    if isInListMode {
                     ForEach(range.lowerBound..<range.upperBound) { index in
                         let collection = albums.collections[index]
-                        NavigationLink(destination: AlbumView(
-                            isPresentingPlayer: $isPresentingPlayer,
-                            persistentID: collection.representativeItem?.albumPersistentID)) {
+                        NavigationLink(
+                            destination: AlbumView(
+                                isPresentingPlayer: $isPresentingPlayer,
+                                persistentID: collection.representativeItem?.albumPersistentID
+                            )
+                            .environmentObject(player)
+                        ) {
                             ArtDetailListCell(
                                 title: collection.representativeItem?.albumTitle ?? "No Title",
                                 detail: collection.representativeItem?.albumArtist ?? "Unknown artist",

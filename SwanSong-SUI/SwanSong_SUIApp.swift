@@ -37,6 +37,7 @@ struct SwanSong_SUIApp: App {
                 NavigationView {
                     AlbumLibraryView(isPresentingPlayer: $isPresentingPlayer)
                         .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                        .environmentObject(player)
                 }
                 .tabItem {
                     Image(uiImage: UIImage(named: selectedTab == 0 ? "albums_fill" : "albums")!)

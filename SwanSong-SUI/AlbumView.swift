@@ -10,6 +10,7 @@ import SwiftUI
 import MediaPlayer
 
 struct AlbumView: View {
+    @EnvironmentObject var player: AudioPlayer
     @Binding var isPresentingPlayer: Bool
     @State var persistentID: MPMediaEntityPersistentID? = nil
     var album: (representativeItem: MPMediaItem?, tracks: [MPMediaItem]) {
@@ -32,12 +33,16 @@ struct AlbumView: View {
                     image: item.artwork?.image(at: CGSize(width: 80, height: 80))
                 )
             }
-            ForEach(album.tracks, id: \.self) { track in
+            ForEach(Array(album.tracks.enumerated()), id: \.offset) { (index, track) in
                 NumberDetailListCell(
                     title: track.title ?? "No Title",
                     detail: Formatter.string(from: track.playbackDuration)!,
                     number: track.albumTrackNumber
                 )
+                .onTapGesture {
+                    player.play(album.tracks, skipping: index)
+                    isPresentingPlayer = true
+                }
             }
             FooterListCell(
                 detail: "\(album.tracks.count) track\(album.tracks.count == 1 ? "" : "s") - \(Int((album.tracks.map({ $0.playbackDuration }).reduce(0, +) / 60).rounded(.up))) minutes"
