@@ -71,6 +71,18 @@ class DetailCollectionViewCell: UICollectionViewCell {
 
 class ArtDetailCollectionViewCell: DetailCollectionViewCell {
     @IBOutlet weak var artwork: UIImageView!
+
+    /// Code courtesy of Imanou Petit on StackOverflow
+    /// https://stackoverflow.com/questions/44187881/uicollectionview-full-width-cells-allow-autolayout-dynamic-height
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        let targetSize = CGSize(width: layoutAttributes.frame.width, height: 0)
+            layoutAttributes.frame.size = contentView.systemLayoutSizeFitting(
+                targetSize,
+                withHorizontalFittingPriority: .required,
+                verticalFittingPriority: .fittingSizeLevel
+            )
+        return layoutAttributes
+    }
 }
 
 class MultiArtDetailCollectionViewCell: DetailCollectionViewCell {

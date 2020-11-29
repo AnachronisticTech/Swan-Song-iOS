@@ -1,74 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EMt-J1-pHc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EMt-J1-pHc">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Albums-->
-        <scene sceneID="tne-QT-ifu">
+        <scene sceneID="fId-2y-HQH">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="AlbumLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <collectionViewController id="aVO-rl-VmM" customClass="AlbumLibraryViewConrtoller" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="l6x-h4-8tU">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lcJ-dQ-spR">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BuK-iq-pmd">
-                                    <size key="itemSize" width="300" height="366"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xPB-sH-VIu">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="xPB-sH-VIu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="AVa-Ed-tmV"/>
-                            <constraint firstItem="lcJ-dQ-spR" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="SL5-j6-8HR"/>
-                            <constraint firstItem="lcJ-dQ-spR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="TJh-Wm-Vld"/>
-                            <constraint firstItem="lcJ-dQ-spR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="W4W-TH-Vc7"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="lcJ-dQ-spR" secondAttribute="bottom" id="dkv-y2-Hm3"/>
-                            <constraint firstItem="xPB-sH-VIu" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="pvH-LK-8Sk"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xPB-sH-VIu" secondAttribute="bottom" id="sTp-aX-j0A"/>
-                            <constraint firstItem="xPB-sH-VIu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="unu-dy-NFr"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Albums" id="I8T-V7-IQd">
-                        <barButtonItem key="backBarButtonItem" title=" " id="yka-B5-KdO"/>
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="grid" id="0Qs-XI-ppg">
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kdJ-29-oiO">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells/>
+                        <connections>
+                            <outlet property="dataSource" destination="aVO-rl-VmM" id="oTn-ZX-fb9"/>
+                            <outlet property="delegate" destination="aVO-rl-VmM" id="AzI-nQ-Sha"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="Albums" id="fDf-kx-bCE">
+                        <barButtonItem key="leftBarButtonItem" image="grid" id="FHP-lO-yFw">
                             <connections>
-                                <action selector="swapView:" destination="BYZ-38-t0r" id="trb-qz-Er8"/>
+                                <action selector="swapView:" destination="aVO-rl-VmM" id="PJq-kp-AY4"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="vkY-Tb-uS4">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="7Tt-ne-GEj">
                             <connections>
-                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="vkY-Tb-uS4" id="c4Z-fO-OM1">
+                                <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="7Tt-ne-GEj" id="cJt-x1-RLC">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="gridView" destination="lcJ-dQ-spR" id="oUL-Sc-ere"/>
-                        <outlet property="listView" destination="xPB-sH-VIu" id="cVT-X4-WvD"/>
-                        <outlet property="swapViewButton" destination="0Qs-XI-ppg" id="Tw2-Cd-FPc"/>
-                        <segue destination="aPb-SA-dgo" kind="show" identifier="ToAlbum" id="fSq-x4-fKi"/>
+                        <outlet property="swapViewButton" destination="FHP-lO-yFw" id="tp4-cy-2Jb"/>
+                        <segue destination="aPb-SA-dgo" kind="show" identifier="ToAlbum" id="N19-LX-8dX"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TvW-6Q-XGz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2867" y="881"/>
         </scene>
@@ -579,7 +559,7 @@
                             <constraint firstItem="kHl-7a-hCT" firstAttribute="top" secondItem="k1p-NT-HqO" secondAttribute="top" id="yXW-Pm-j9J"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="qg8-fb-zWj">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="qg8-fb-zWj">
                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="5R9-sX-w4v">
                             <connections>
                                 <segue destination="PRO-MA-c3v" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="5R9-sX-w4v" id="muA-k6-9IW">
@@ -903,13 +883,13 @@
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" alpha="0.0" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Qte-dQ-Yxd">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" alpha="0.0" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Qte-dQ-Yxd">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="EcX-VQ-ihR"/>
+                        <segue destination="aVO-rl-VmM" kind="relationship" relationship="rootViewController" id="43o-Tk-g8Q"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RJ6-1k-YTt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1156,7 +1136,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="6f9-om-GWE"/>
+        <segue reference="cJt-x1-RLC"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>
