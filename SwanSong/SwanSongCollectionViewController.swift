@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class SwanSongCollectionViewController: UICollectionViewController {
+class SwanSongCollectionViewController: UICollectionViewController, SwanSongController {
     @IBOutlet weak var swapViewButton: UIBarButtonItem!
     
     var collections = [MPMediaItemCollection]()
@@ -86,11 +86,24 @@ class SwanSongCollectionViewController: UICollectionViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setTheme()
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToAlbum" {
             let destinationViewController = segue.destination as! AlbumViewController
             let albumID = collections[selected].representativeItem!.albumPersistentID
             destinationViewController.albumID = albumID
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if traitCollection.userInterfaceStyle == .dark {
+            (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
+        } else {
+            (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
         }
     }
 

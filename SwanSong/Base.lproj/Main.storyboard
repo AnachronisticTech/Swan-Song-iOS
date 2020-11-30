@@ -116,8 +116,8 @@
             <objects>
                 <navigationController id="hyM-uz-rh5" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" tag="5" title="Settings" image="gear" id="ENo-Zd-Cyo"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XNP-E9-zyO">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="XNP-E9-zyO">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -1146,7 +1146,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="Dqp-Up-JBN"/>
+        <segue reference="2Tr-gt-pHr"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>

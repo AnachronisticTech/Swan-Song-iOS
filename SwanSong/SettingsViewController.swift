@@ -10,7 +10,7 @@ import UIKit
 import MediaPlayer
 import CoreData
 
-class SettingsViewController: UITableViewController, UIPickerViewDelegate {
+class SettingsViewController: SwanSongTableViewController, UIPickerViewDelegate {
     
     @IBOutlet weak var changeThemeModeControl: UISegmentedControl!
     @IBOutlet weak var lightModePicker: UIPickerView!
@@ -23,11 +23,6 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.prefersLargeTitles = false
-        
-        setTheme()
         
         lightModePicker.isHidden = true
         lightModePicker.delegate = self
@@ -55,19 +50,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        setTheme()
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if traitCollection.userInterfaceStyle == .dark {
-            (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = darkTint
-        } else {
-            (UIApplication.shared.delegate as! AppDelegate).window?.tintColor = lightTint
-        }
-    }
-    
-    func setTheme() {
+
         if #available(iOS 13.0, *), let theme = UserDefaults.standard.value(forKey: "theme") as? String {
             switch theme {
             case "light":
@@ -84,6 +67,13 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
             changeThemeModeControl.isEnabled = false
         }
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 13.0, *) {
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: (UITraitCollection.current.userInterfaceStyle == .dark ? UIColor.white : UIColor.black)]
+        }
+    }
     
     @IBAction func changeThemeMode(_ sender: UISegmentedControl) {
         if #available(iOS 13.0, *) {
@@ -91,12 +81,15 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate {
             case 1:
                 UserDefaults.standard.set("light", forKey: "theme")
                 UIApplication.shared.windows.first!.rootViewController?.overrideUserInterfaceStyle = .light
+                navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
             case 2:
                 UserDefaults.standard.set("dark", forKey: "theme")
                 UIApplication.shared.windows.first!.rootViewController?.overrideUserInterfaceStyle = .dark
+                navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
             default:
                 UserDefaults.standard.set("auto", forKey: "theme")
                 UIApplication.shared.windows.first!.rootViewController?.overrideUserInterfaceStyle = .unspecified
+                navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: (UITraitCollection.current.userInterfaceStyle == .dark ? UIColor.white : UIColor.black)]
             }
             setTint()
         }

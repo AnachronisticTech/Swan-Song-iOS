@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class SongLibraryViewController: UITableViewController {
+class SongLibraryViewController: SwanSongTableViewController {
 
     var library = [MPMediaItem]()
     var collections = [MPMediaItemCollection]()
