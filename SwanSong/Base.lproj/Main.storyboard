@@ -428,12 +428,12 @@
                     <tabBarItem key="tabBarItem" tag="3" title="Songs" image="songs" id="dek-Mg-FkC">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KhR-CN-jEn">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="KhR-CN-jEn">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="t6f-8w-3Zq" kind="relationship" relationship="rootViewController" id="w6K-Ss-Ikc"/>
+                        <segue destination="iAV-kb-jNM" kind="relationship" relationship="rootViewController" id="x7y-TG-W9D"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ta-Ij-QQs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -441,41 +441,29 @@
             <point key="canvasLocation" x="2000" y="3704"/>
         </scene>
         <!--Songs-->
-        <scene sceneID="qdF-pJ-orz">
+        <scene sceneID="VfR-k6-rDL">
             <objects>
-                <viewController id="t6f-8w-3Zq" customClass="SongLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="xPV-RT-xd2">
+                <tableViewController id="iAV-kb-jNM" customClass="SongLibraryViewController" customModule="SwanSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="srj-Eo-Ryx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="i6R-ab-fxM">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </tableView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="e2J-bs-oJj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="i6R-ab-fxM" firstAttribute="leading" secondItem="e2J-bs-oJj" secondAttribute="leading" id="Inb-Nm-S0F"/>
-                            <constraint firstItem="i6R-ab-fxM" firstAttribute="top" secondItem="e2J-bs-oJj" secondAttribute="top" id="St8-Aa-MHk"/>
-                            <constraint firstItem="e2J-bs-oJj" firstAttribute="bottom" secondItem="i6R-ab-fxM" secondAttribute="bottom" id="XxN-4b-eEo"/>
-                            <constraint firstItem="e2J-bs-oJj" firstAttribute="trailing" secondItem="i6R-ab-fxM" secondAttribute="trailing" id="fPI-ik-CGZ"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Songs" id="XHv-OU-cDR">
-                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="zoy-d8-LSf">
+                        <connections>
+                            <outlet property="dataSource" destination="iAV-kb-jNM" id="WtX-fl-cS9"/>
+                            <outlet property="delegate" destination="iAV-kb-jNM" id="XLr-Vq-5js"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Songs" id="IOE-Qq-t3H">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="qYG-eK-oMk">
                             <connections>
-                                <segue destination="CfZ-TZ-jB1" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="zoy-d8-LSf" id="hZH-xM-9fL">
+                                <segue destination="CfZ-TZ-jB1" kind="popoverPresentation" identifier="ToPlayer" popoverAnchorBarButtonItem="qYG-eK-oMk" id="Dqp-Up-JBN">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="listView" destination="i6R-ab-fxM" id="2g0-R0-sRl"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZE6-dm-JbL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dnp-a8-Ktr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2867" y="3704"/>
         </scene>
@@ -1158,7 +1146,7 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
-        <segue reference="cUq-Ji-k2N"/>
+        <segue reference="Dqp-Up-JBN"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="albums" width="33.5" height="33.5"/>
