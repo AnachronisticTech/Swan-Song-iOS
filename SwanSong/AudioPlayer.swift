@@ -33,7 +33,7 @@ class AudioPlayer {
     private var observations = [ObjectIdentifier : Observation]()
     
     private var player = MPMusicPlayerApplicationController.systemMusicPlayer
-    
+
     var currentTime: TimeInterval {
         get { return player.currentPlaybackTime }
         set { player.currentPlaybackTime = newValue }
@@ -81,6 +81,7 @@ class AudioPlayer {
     
     init() {
         /// If a track is playing already, update `state` to reflect this
+        player.beginGeneratingPlaybackNotifications()
         if let track = player.nowPlayingItem {
             switch player.playbackState {
             case .playing:
@@ -111,6 +112,7 @@ class AudioPlayer {
     deinit {
         /// Remove listeners
         NotificationCenter.default.removeObserver(self)
+        player.endGeneratingPlaybackNotifications()
     }
 
     @available(*, deprecated)
@@ -141,7 +143,14 @@ class AudioPlayer {
         }
         let shouldShuffle = isShuffling
         let shouldRepeat = isRepeating
-        player.play()
+        player.stop()
+        player.prepareToPlay { error in
+            if let error = error as? MPError {
+                print("Error while preparing to play: \(error)")
+            } else {
+                self.player.play()
+            }
+        }
         state = .Playing(item)
         isShuffling = shouldShuffle
         isRepeating = shouldRepeat
