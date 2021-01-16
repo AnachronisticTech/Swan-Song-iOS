@@ -128,23 +128,28 @@ class AudioPlayer {
     
     func play(_ queue: [MPMediaItem], skipping skip: Int = 0) {
         guard skip < queue.count, skip >= 0 else { return }
-        let item = queue[skip]
+        let shouldShuffle = isShuffling
+        let shouldRepeat = isRepeating
+        player.shuffleMode = .off
+        player.stop()
         switch state {
         case .NotPlaying:
             player.setQueue(with: MPMediaItemCollection(items: queue))
             player.nowPlayingItem = queue[skip]
         case .Paused(let current), .Playing(let current):
-            if current != item {
+            if current != queue[skip] {
                 player.setQueue(with: MPMediaItemCollection(items: queue))
                 player.nowPlayingItem = queue[skip]
             }
         }
-        let shouldShuffle = isShuffling
-        let shouldRepeat = isRepeating
-        player.play()
-        state = .Playing(item)
-        isShuffling = shouldShuffle
-        isRepeating = shouldRepeat
+        player.prepareToPlay { [self] _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                player.play()
+                state = .Playing(queue[skip])
+                isShuffling = shouldShuffle
+                isRepeating = shouldRepeat
+            }
+        }
     }
     
     func pause() {
