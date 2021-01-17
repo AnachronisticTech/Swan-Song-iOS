@@ -32,7 +32,7 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SoL-Jy-ZbM" customClass="RoundedArtwork" customModule="SwanSong" customModuleProvider="target">
                         <rect key="frame" x="15" y="5" width="75" height="75"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="75" id="4qk-eP-i6N"/>
+                            <constraint firstAttribute="width" priority="999" constant="75" id="4qk-eP-i6N"/>
                             <constraint firstAttribute="height" priority="999" constant="75" id="LqJ-fg-ES3"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -45,15 +45,15 @@
                 <constraints>
                     <constraint firstItem="Ifu-08-5Lp" firstAttribute="top" secondItem="Kx3-Yz-QTB" secondAttribute="top" constant="10" id="M28-eO-5OB"/>
                     <constraint firstItem="SoL-Jy-ZbM" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Kx3-Yz-QTB" secondAttribute="top" constant="5" id="QSX-H5-5r2"/>
-                    <constraint firstAttribute="trailing" secondItem="Ifu-08-5Lp" secondAttribute="trailing" constant="20" id="QfV-Sm-qYY"/>
+                    <constraint firstAttribute="trailing" secondItem="Ifu-08-5Lp" secondAttribute="trailing" priority="999" constant="20" id="QfV-Sm-qYY"/>
                     <constraint firstItem="Lzo-VS-BJv" firstAttribute="top" secondItem="Ifu-08-5Lp" secondAttribute="bottom" constant="5" id="Z0d-qg-6SC"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SoL-Jy-ZbM" secondAttribute="bottom" constant="5" id="ZkO-JZ-4ua"/>
                     <constraint firstItem="SoL-Jy-ZbM" firstAttribute="centerY" secondItem="Kx3-Yz-QTB" secondAttribute="centerY" id="kUr-o2-a8Y"/>
-                    <constraint firstItem="SoL-Jy-ZbM" firstAttribute="leading" secondItem="Kx3-Yz-QTB" secondAttribute="leading" constant="15" id="mTb-ow-1RF"/>
-                    <constraint firstAttribute="trailing" secondItem="Lzo-VS-BJv" secondAttribute="trailing" constant="20" id="o1o-W9-cep"/>
-                    <constraint firstItem="Lzo-VS-BJv" firstAttribute="leading" secondItem="SoL-Jy-ZbM" secondAttribute="trailing" constant="8" id="oBP-ku-jYU"/>
+                    <constraint firstItem="SoL-Jy-ZbM" firstAttribute="leading" secondItem="Kx3-Yz-QTB" secondAttribute="leading" priority="999" constant="15" id="mTb-ow-1RF"/>
+                    <constraint firstAttribute="trailing" secondItem="Lzo-VS-BJv" secondAttribute="trailing" priority="999" constant="20" id="o1o-W9-cep"/>
+                    <constraint firstItem="Lzo-VS-BJv" firstAttribute="leading" secondItem="SoL-Jy-ZbM" secondAttribute="trailing" priority="999" constant="8" id="oBP-ku-jYU"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Lzo-VS-BJv" secondAttribute="bottom" constant="10" id="okt-eK-9Tf"/>
-                    <constraint firstItem="Ifu-08-5Lp" firstAttribute="leading" secondItem="SoL-Jy-ZbM" secondAttribute="trailing" constant="8" id="sX8-as-Sv4"/>
+                    <constraint firstItem="Ifu-08-5Lp" firstAttribute="leading" secondItem="SoL-Jy-ZbM" secondAttribute="trailing" priority="999" constant="8" id="sX8-as-Sv4"/>
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="235" height="67"/>

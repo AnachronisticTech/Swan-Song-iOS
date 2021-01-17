@@ -23,9 +23,10 @@ class SwanSongCollectionViewController: UICollectionViewController, SwanSongCont
 
     var isCollectionViewVisible = false {
         willSet {
-            collectionView.collectionViewLayout = newValue ? flowLayout : listLayout
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+            DispatchQueue.main.async { [self] in
+                collectionView.reloadData()
+                collectionView.setCollectionViewLayout(newValue ? flowLayout : listLayout, animated: false)
+                collectionView.collectionViewLayout.invalidateLayout()
             }
             UserDefaults.standard.set(newValue, forKey: "\(identifier)LibraryIsCollectionViewVisible")
             swapViewButton.image = UIImage(named: newValue ? "list" : "grid")
