@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		91172F2E25B9E9E9007D35FD /* LNPopupController in Frameworks */ = {isa = PBXBuildFile; productRef = 91172F2D25B9E9E9007D35FD /* LNPopupController */; };
+		91172F2F25B9E9E9007D35FD /* LNPopupController in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 91172F2D25B9E9E9007D35FD /* LNPopupController */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		912B1E9024B5CC09004BF44D /* GenreLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912B1E8F24B5CC09004BF44D /* GenreLibraryViewController.swift */; };
 		912B1E9424B5D7C8004BF44D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 912B1E9324B5D7C8004BF44D /* TabBarController.swift */; };
 		912B1E9824B8BEC5004BF44D /* ArtDetailTableCellLarge.xib in Resources */ = {isa = PBXBuildFile; fileRef = 912B1E9724B8BEC5004BF44D /* ArtDetailTableCellLarge.xib */; };
@@ -54,6 +56,20 @@
 			remoteInfo = SwanSong;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		91172F3025B9E9E9007D35FD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				91172F2F25B9E9E9007D35FD /* LNPopupController in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		912B1E8F24B5CC09004BF44D /* GenreLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreLibraryViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91172F2E25B9E9E9007D35FD /* LNPopupController in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,12 +233,16 @@
 				918ED5D32397257500FB85A9 /* Sources */,
 				918ED5D42397257500FB85A9 /* Frameworks */,
 				918ED5D52397257500FB85A9 /* Resources */,
+				91172F3025B9E9E9007D35FD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = SwanSong;
+			packageProductDependencies = (
+				91172F2D25B9E9E9007D35FD /* LNPopupController */,
+			);
 			productName = SwanSong;
 			productReference = 918ED5D72397257500FB85A9 /* SwanSong.app */;
 			productType = "com.apple.product-type.application";
@@ -272,6 +293,9 @@
 				Base,
 			);
 			mainGroup = 918ED5CE2397257500FB85A9;
+			packageReferences = (
+				91172F2C25B9E9E9007D35FD /* XCRemoteSwiftPackageReference "LNPopupController" */,
+			);
 			productRefGroup = 918ED5D82397257500FB85A9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -615,6 +639,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		91172F2C25B9E9E9007D35FD /* XCRemoteSwiftPackageReference "LNPopupController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LeoNatan/LNPopupController";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.27;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		91172F2D25B9E9E9007D35FD /* LNPopupController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91172F2C25B9E9E9007D35FD /* XCRemoteSwiftPackageReference "LNPopupController" */;
+			productName = LNPopupController;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9181AF2724D41DA400C0550D /* SwanSong.xcdatamodeld */ = {
